@@ -3,6 +3,7 @@ let angle = 0;
 let innerColorCycle = 0;
 let cubeAlpha = 0;
 const isBlackTheme = Math.random() < 0.5;
+let cubeVisible = false;
 
 new p5((p) => {
     function resizeCanvasToContainer() {
@@ -27,7 +28,7 @@ new p5((p) => {
 
     p.draw = function () {
         const bgColor = isBlackTheme ? 0 : 255;
-        if (cubeAlpha < 255) cubeAlpha += 2;
+        if (cubeVisible && cubeAlpha < 255) cubeAlpha += 2;
         p.background(bgColor); // Proper background color
 
         const camRadius = 850;
@@ -36,38 +37,41 @@ new p5((p) => {
         const camZ = p.sin(angle * 0.3) * camRadius;
         p.camera(camX, camY, camZ, 0, 0, 0, 0, 1, 0);
 
-        // Outer cube
-        p.push();
-        p.noFill();
-        p.stroke(isBlackTheme ? p.color(255,255,255,cubeAlpha) : p.color(0,0,0,cubeAlpha));
-        p.rotateX(angle * 0.5);
-        p.rotateY(angle);
-        p.box(360);
-        p.pop();
+        // Only draw cubes if cube is visible
+        if (cubeVisible) {
+            // Outer cube
+            p.push();
+            p.noFill();
+            p.stroke(isBlackTheme ? p.color(255,255,255,cubeAlpha) : p.color(0,0,0,cubeAlpha));
+            p.rotateX(angle * 0.5);
+            p.rotateY(angle);
+            p.box(360);
+            p.pop();
 
-        // Inner cube
-        p.push();
-        p.noFill();
-        p.rotateX(-angle*0.8);
-        p.rotateZ(angle*0.3);
-        innerColorCycle += 0.01;
-        if (innerColorCycle > p.TWO_PI) innerColorCycle = 0;
+            // Inner cube
+            p.push();
+            p.noFill();
+            p.rotateX(-angle*0.8);
+            p.rotateZ(angle*0.3);
+            innerColorCycle += 0.01;
+            if (innerColorCycle > p.TWO_PI) innerColorCycle = 0;
 
-        let rC,gC,bC;
-        const phase = innerColorCycle;
-        if (isBlackTheme) {
-            if (phase < p.TWO_PI/3){ const t = phase/(p.TWO_PI/3); rC=255; gC=255*(1-t); bC=255*(1-t); }
-            else if (phase<(2*p.TWO_PI/3)){ const t=(phase-p.TWO_PI/3)/(p.TWO_PI/3); rC=255*(1-t); gC=0; bC=255*t; }
-            else{ const t=(phase-2*p.TWO_PI/3)/(p.TWO_PI/3); rC=255*t; gC=255*t; bC=255; }
-        } else {
-            const yellow={r:255,g:248,b:34}, blue={r:34,g:136,b:255};
-            if (phase<p.TWO_PI/3){ const t=phase/(p.TWO_PI/3); rC=yellow.r*t; gC=yellow.g*t; bC=yellow.b*t; }
-            else if (phase<(2*p.TWO_PI/3)){ const t=(phase-p.TWO_PI/3)/(p.TWO_PI/3); rC=yellow.r+(blue.r-yellow.r)*t; gC=yellow.g+(blue.g-yellow.g)*t; bC=yellow.b+(blue.b-yellow.b)*t; }
-            else{ const t=(phase-2*p.TWO_PI/3)/(p.TWO_PI/3); rC=blue.r*(1-t); gC=blue.g*(1-t); bC=blue.b*(1-t); }
+            let rC,gC,bC;
+            const phase = innerColorCycle;
+            if (isBlackTheme) {
+                if (phase < p.TWO_PI/3){ const t = phase/(p.TWO_PI/3); rC=255; gC=255*(1-t); bC=255*(1-t); }
+                else if (phase<(2*p.TWO_PI/3)){ const t=(phase-p.TWO_PI/3)/(p.TWO_PI/3); rC=255*(1-t); gC=0; bC=255*t; }
+                else{ const t=(phase-2*p.TWO_PI/3)/(p.TWO_PI/3); rC=255*t; gC=255*t; bC=255; }
+            } else {
+                const yellow={r:255,g:248,b:34}, blue={r:34,g:136,b:255};
+                if (phase<p.TWO_PI/3){ const t=phase/(p.TWO_PI/3); rC=yellow.r*t; gC=yellow.g*t; bC=yellow.b*t; }
+                else if (phase<(2*p.TWO_PI/3)){ const t=(phase-p.TWO_PI/3)/(p.TWO_PI/3); rC=yellow.r+(blue.r-yellow.r)*t; gC=yellow.g+(blue.g-yellow.g)*t; bC=yellow.b+(blue.b-yellow.b)*t; }
+                else{ const t=(phase-2*p.TWO_PI/3)/(p.TWO_PI/3); rC=blue.r*(1-t); gC=blue.g*(1-t); bC=blue.b*(1-t); }
+            }
+            p.stroke(p.color(rC,gC,bC,cubeAlpha));
+            p.box(144);
+            p.pop();
         }
-        p.stroke(p.color(rC,gC,bC,cubeAlpha));
-        p.box(144);
-        p.pop();
 
         angle += 0.0065;
     };
@@ -167,24 +171,102 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Typing effect for hero title (optional enhancement)
-    const heroTitle = document.querySelector('.hero h1');
-    if (heroTitle) {
-        const text = heroTitle.innerHTML;
-        heroTitle.innerHTML = '';
+    // Staggered animation sequence
+    function startAnimationSequence() {
+        // 1. First, set up the three words to start completely hidden
+        const heroTitle = document.querySelector('.hero h1');
+        if (heroTitle) {
+            // Make container visible but keep words hidden initially
+            heroTitle.style.opacity = '1';
+            
+            const movingTexts = heroTitle.querySelectorAll('.moving-text');
+            movingTexts.forEach((text, index) => {
+                // Set initial state for all words - completely hidden
+                text.style.opacity = '0';
+                text.style.transform = 'translateX(-30px)';
+                text.style.transition = 'all 1.2s ease';
+            });
+        }
         
-        let i = 0;
-        const typeWriter = () => {
-            if (i < text.length) {
-                heroTitle.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
+        // 2. Then animate each word individually
+        setTimeout(() => {
+            const movingTexts = document.querySelectorAll('.moving-text');
+            movingTexts.forEach((text, index) => {
+                setTimeout(() => {
+                    text.style.opacity = '1';
+                    text.style.transform = 'translateX(0)';
+                }, 200 + (index * 1000)); // 1000ms delay between each word
+            });
+        }, 500);
+        
+        // 2. Show the description (Creative Technology & Complex Systems) second
+        setTimeout(() => {
+            const heroDescription = document.querySelector('.hero .description');
+            
+            if (heroDescription) {
+                heroDescription.style.opacity = '0';
+                heroDescription.style.transform = 'translateX(-20px)';
+                heroDescription.style.transition = 'all 1.2s ease';
+                
+                setTimeout(() => {
+                    heroDescription.style.opacity = '1';
+                    heroDescription.style.transform = 'translateX(0)';
+                }, 200);
             }
-        };
+        }, 4000); // After all three words are done
         
-        // Start typing effect after a delay
-        setTimeout(typeWriter, 1000);
+        // 3. Then show the subtitle (Certified by Santa Fe) and cube at the same time
+        setTimeout(() => {
+            const heroSubtitle = document.querySelector('.hero .subtitle');
+            
+            if (heroSubtitle) {
+                heroSubtitle.style.opacity = '0';
+                heroSubtitle.style.transform = 'translateX(-30px)';
+                heroSubtitle.style.transition = 'all 1.2s ease';
+                
+                setTimeout(() => {
+                    heroSubtitle.style.opacity = '1';
+                    heroSubtitle.style.transform = 'translateX(0)';
+                }, 200);
+            }
+            
+            // Show the cube at the same time
+            cubeVisible = true;
+        }, 5500); // After description appears
+        
+        // 4. Then show sections below
+        setTimeout(() => {
+            const sections = document.querySelectorAll('section:not(.hero)');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'all 1.2s ease';
+                
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 400);
+            });
+        }, 7000); // After cube and subtitle appear
+        
+        // 6. Finally show the rest of the content
+        setTimeout(() => {
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.8s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        }, 10000); // After sections appear
     }
+    
+    // Start the animation sequence
+    startAnimationSequence();
 });
 
 // Add some interactive elements
@@ -193,19 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const movingTexts = document.querySelectorAll('.moving-text');
     
     movingTexts.forEach((text, index) => {
-        // Add slight random delay to each text element
-        text.style.animationDelay = `${index * 0.2}s`;
-        
-        // Add hover effect
-        text.addEventListener('mouseenter', function() {
-            this.style.animationPlayState = 'paused';
-            this.style.transform = 'translateY(-15px) scale(1.05)';
-        });
-        
-        text.addEventListener('mouseleave', function() {
-            this.style.animationPlayState = 'running';
-            this.style.transform = 'translateY(0) scale(1)';
-        });
+        // Remove floating effects - keep text static
+        text.style.transform = 'none';
     });
     
     // Add subtle cursor trail effect (optional)
