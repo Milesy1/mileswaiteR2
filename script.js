@@ -188,40 +188,28 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // 2. Then animate each word individually
+        // 2. Then animate each word individually (faster timing)
         setTimeout(() => {
             const movingTexts = document.querySelectorAll('.moving-text');
             movingTexts.forEach((text, index) => {
                 setTimeout(() => {
                     text.style.opacity = '1';
                     text.style.transform = 'translateX(0)';
-                }, 200 + (index * 1000)); // 1000ms delay between each word
+                }, 200 + (index * 400)); // 400ms delay between each word (faster)
             });
         }, 500);
         
-        // 2. Show the description (Creative Technology & Complex Systems) second
+        // 3. Show the cube and subtitle (Creative Technology & Complex Systems) immediately after "Antifragile" appears
         setTimeout(() => {
-            const heroDescription = document.querySelector('.hero .description');
+            // Show the cube
+            cubeVisible = true;
             
-            if (heroDescription) {
-                heroDescription.style.opacity = '0';
-                heroDescription.style.transform = 'translateX(-20px)';
-                heroDescription.style.transition = 'all 1.2s ease';
-                
-                setTimeout(() => {
-                    heroDescription.style.opacity = '1';
-                    heroDescription.style.transform = 'translateX(0)';
-                }, 200);
-            }
-        }, 4000); // After all three words are done
-        
-        // 3. Then show the subtitle (Certified by Santa Fe) and cube at the same time
-        setTimeout(() => {
+            // Show the subtitle (Creative Technology & Complex Systems)
             const heroSubtitle = document.querySelector('.hero .subtitle');
             
             if (heroSubtitle) {
                 heroSubtitle.style.opacity = '0';
-                heroSubtitle.style.transform = 'translateX(-30px)';
+                heroSubtitle.style.transform = 'translateX(-20px)';
                 heroSubtitle.style.transition = 'all 1.2s ease';
                 
                 setTimeout(() => {
@@ -229,12 +217,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     heroSubtitle.style.transform = 'translateX(0)';
                 }, 200);
             }
-            
-            // Show the cube at the same time
-            cubeVisible = true;
-        }, 5500); // After description appears
+        }, 1500); // Immediately after "Antifragile" appears (500 + 2*400 + 200ms)
         
-        // 4. Then show sections below
+        // 4. Then show the description (Certified by Santa Fe) coming up from the bottom slowly
+        setTimeout(() => {
+            const heroDescription = document.querySelector('.hero .description');
+            
+            if (heroDescription) {
+                heroDescription.style.opacity = '0';
+                heroDescription.style.transform = 'translateY(100px)';
+                heroDescription.style.transition = 'all 2s ease';
+                
+                setTimeout(() => {
+                    heroDescription.style.opacity = '1';
+                    heroDescription.style.transform = 'translateY(0)';
+                }, 200);
+            }
+        }, 3000); // A bit later after cube and subtitle appear
+        
+        // 5. Then show sections below
         setTimeout(() => {
             const sections = document.querySelectorAll('section:not(.hero)');
             sections.forEach((section, index) => {
@@ -247,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     section.style.transform = 'translateY(0)';
                 }, index * 400);
             });
-        }, 7000); // After cube and subtitle appear
+        }, 5000); // After subtitle appears
         
         // 6. Finally show the rest of the content
         setTimeout(() => {
