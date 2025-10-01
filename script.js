@@ -27,7 +27,7 @@ new p5((p) => {
     };
 
     p.draw = function () {
-        const bgColor = isBlackTheme ? 0 : 255;
+        const bgColor = isBlackTheme ? 0 : 80; // Even lighter space-age grey (80) instead of white (255)
         if (cubeVisible && cubeAlpha < 255) cubeAlpha += 2;
         p.background(bgColor); // Proper background color
 
