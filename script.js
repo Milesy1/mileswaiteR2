@@ -135,16 +135,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Add hover effects to project cards
+    // Enhanced hover effects to project cards
     const projectCards = document.querySelectorAll('.project-card');
     
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px)';
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+            this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)';
         });
     });
     
@@ -160,13 +162,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Add click effects to project cards
+    // Enhanced click effects to project cards
     projectCards.forEach(card => {
         card.addEventListener('click', function() {
             // Add a subtle click animation
-            this.style.transform = 'scale(0.98)';
+            this.style.transform = 'translateY(-8px) scale(0.98)';
             setTimeout(() => {
-                this.style.transform = 'translateY(-8px)';
+                this.style.transform = 'translateY(-8px) scale(1.02)';
             }, 150);
         });
     });
@@ -272,12 +274,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add some interactive elements
 document.addEventListener('DOMContentLoaded', function() {
-    // Add random subtle animations to moving text
+    // Enhanced hover effects for moving text
     const movingTexts = document.querySelectorAll('.moving-text');
     
     movingTexts.forEach((text, index) => {
-        // Remove floating effects - keep text static
+        // Remove floating effects - keep text static initially
         text.style.transform = 'none';
+        
+        // Add enhanced hover effects
+        text.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+            this.style.color = '#6366f1';
+            this.style.textShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+        });
+        
+        text.addEventListener('mouseleave', function() {
+            this.style.transform = 'none';
+            this.style.color = '';
+            this.style.textShadow = '';
+        });
     });
     
     // Add subtle cursor trail effect (optional)
