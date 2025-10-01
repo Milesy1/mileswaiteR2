@@ -7,16 +7,16 @@ const isBlackTheme = Math.random() < 0.5;
 new p5((p) => {
     function resizeCanvasToContainer() {
         const container = document.getElementById('cube-container');
-        const size = Math.min(container.offsetWidth, container.offsetHeight, 400);
+        const size = Math.min(container.offsetWidth, container.offsetHeight, 300);
         p.resizeCanvas(size, size);
     }
 
     p.setup = function () {
         const container = document.getElementById('cube-container');
-        const size = Math.min(container.offsetWidth, container.offsetHeight, 400);
+        const size = Math.min(container.offsetWidth, container.offsetHeight, 300);
         p.createCanvas(size, size, p.WEBGL).parent(container);
         p.noFill();
-        p.strokeWeight(2);
+        p.strokeWeight(1.5);
     };
 
     p.windowResized = resizeCanvasToContainer;
@@ -28,7 +28,7 @@ new p5((p) => {
     p.draw = function () {
         const bgColor = isBlackTheme ? 0 : 255;
         if (cubeAlpha < 255) cubeAlpha += 2;
-        p.background(bgColor, 0); // Transparent background
+        p.background(bgColor); // Proper background color
 
         const camRadius = 850;
         const camX = p.cos(angle * 0.3) * camRadius;

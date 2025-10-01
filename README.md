@@ -54,3 +54,4 @@ A clean, minimalist portfolio website inspired by modern design principles and t
 ## License
 
 © 2025 Miles Waite. All Rights Reserved.
+
