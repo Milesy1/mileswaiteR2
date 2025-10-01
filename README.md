@@ -1,6 +1,6 @@
 # Miles Waite - Portfolio Website
 
-A clean, minimalist portfolio website inspired by modern design principles and the Lovably aesthetic.
+A clean, minimalist portfolio website inspired by modern design principles.
 
 ## Features
 
