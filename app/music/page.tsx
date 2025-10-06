@@ -23,8 +23,33 @@ export default function MusicPage() {
               {section}
             </h1>
             <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
-            <p className="text-lg sm:text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-              Explore my musical journey through original compositions, covers, and experimental soundscapes.
+            <p className="text-sm font-normal text-[#888] max-w-[500px] mx-auto leading-[1.4]">
+              <motion.span
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+                className="inline-block"
+              >
+                Robust.
+              </motion.span>
+              {' '}
+              <motion.span
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                className="inline-block"
+              >
+                Antifragile.
+              </motion.span>
+              {' '}
+              <motion.span
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
+                className="inline-block"
+              >
+                Emergent.
+              </motion.span>
             </p>
           </motion.div>
         </div>

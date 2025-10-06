@@ -22,7 +22,35 @@ export default function AboutPage() {
                   About
                 </h1>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-neutral-800 mb-6">
-                  Miles Waite
+                  Miles Waite{' '}
+                  <span className="text-sm font-normal text-[#888] ml-2">
+                    <motion.span
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+                      className="inline-block"
+                    >
+                      Robust.
+                    </motion.span>
+                    {' '}
+                    <motion.span
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                      className="inline-block"
+                    >
+                      Antifragile.
+                    </motion.span>
+                    {' '}
+                    <motion.span
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
+                      className="inline-block"
+                    >
+                      Emergent.
+                    </motion.span>
+                  </span>
                 </h2>
                 <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500"></div>
               </div>
