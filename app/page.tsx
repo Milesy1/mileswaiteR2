@@ -63,7 +63,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Simple Projects Preview - No Data Import Yet */}
+      {/* Simple Projects Preview */}
       <section className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -156,36 +156,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-20 lg:py-32 bg-neutral-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-neutral-900">
-              About Me
-            </h2>
-            <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
-            <p className="text-lg sm:text-xl text-neutral-600 leading-relaxed max-w-3xl mx-auto">
-              I'm Miles, a developer and music creator passionate about combining interactive design, 
-              3D visuals, and code to craft immersive experiences. My work spans across multiple 
-              disciplines, always pushing the boundaries of what's possible on the web.
-            </p>
-            <div className="pt-8">
-              <Link
-                href="/about"
-                className="btn-primary text-base px-8 py-4"
-              >
-                Learn More About Me
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

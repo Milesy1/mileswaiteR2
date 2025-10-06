@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CubeScene } from '@/components/CubeScene';
+import { CubeScene } from '../../components/CubeScene';
 
 export default function AboutPage() {
   return (
