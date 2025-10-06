@@ -37,14 +37,14 @@ export function Navigation() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 lg:h-20">
+      <nav className="w-full">
+        <div className="flex justify-between items-center h-16 lg:h-20 px-[10%] sm:px-[8%] lg:px-[5%]">
           {/* Logo */}
           <Link
             href="/"
-            className="text-2xl lg:text-3xl font-bold text-gradient hover:scale-105 transition-transform duration-200"
+            className="text-sm lg:text-base font-medium text-neutral-600 hover:text-primary-600 transition-colors duration-200"
           >
-            Miles
+            mileswaite.net
           </Link>
 
           {/* Desktop Navigation */}

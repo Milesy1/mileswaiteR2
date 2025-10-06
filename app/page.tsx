@@ -77,20 +77,6 @@ export default function HomePage() {
               systems, & automating company-wide processes.
             </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-              <Link
-                href="/projects"
-                className="btn-primary text-base px-8 py-4"
-              >
-                View Projects
-              </Link>
-              <Link
-                href="/about"
-                className="btn-secondary text-base px-8 py-4"
-              >
-                Learn More
-              </Link>
-            </div>
           </div>
         </div>
 
@@ -102,22 +88,8 @@ export default function HomePage() {
       </section>
 
       {/* Simple Projects Preview */}
-      <section className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-neutral-900 mb-6">
-              Featured Work
-            </h2>
-            <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-              A curated selection of my latest projects across different disciplines
-            </p>
-          </motion.div>
+      <section className="py-20 lg:py-32">
+        <div className="w-full px-[10%] sm:px-[8%] lg:px-[5%]">
 
           <div className="space-y-20">
             {['Projects', 'Music', 'Code'].map((section, sectionIndex) => (
@@ -136,7 +108,7 @@ export default function HomePage() {
                   <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+                <div className="grid grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                   {(() => {
                     const projects = getProjectsByCategory(section as 'Projects' | 'Music' | 'Code');
                     if (!projects || projects.length === 0) {
