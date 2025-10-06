@@ -1,0 +1,210 @@
+/*! tailwindcss v4.1.14 | MIT License | https://tailwindcss.com */
+@layer properties;
+.fixed {
+  position: fixed;
+}
+.relative {
+  position: relative;
+}
+.z-50 {
+  z-index: 50;
+}
+.mx-auto {
+  margin-inline: auto;
+}
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.w-full {
+  width: 100%;
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+.border-b {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+.text-center {
+  text-align: center;
+}
+.transition {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+  transition-timing-function: var(--tw-ease, ease);
+  transition-duration: var(--tw-duration, 0s);
+}
+.after\:absolute {
+  &::after {
+    content: var(--tw-content);
+    position: absolute;
+  }
+}
+.after\:h-\[2px\] {
+  &::after {
+    content: var(--tw-content);
+    height: 2px;
+  }
+}
+.after\:bg-\[\#6366f1\] {
+  &::after {
+    content: var(--tw-content);
+    background-color: #6366f1;
+  }
+}
+.after\:transition-all {
+  &::after {
+    content: var(--tw-content);
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, ease);
+    transition-duration: var(--tw-duration, 0s);
+  }
+}
+.after\:duration-300 {
+  &::after {
+    content: var(--tw-content);
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+  }
+}
+.hover\:after\:w-full {
+  &:hover {
+    @media (hover: hover) {
+      &::after {
+        content: var(--tw-content);
+        width: 100%;
+      }
+    }
+  }
+}
+body {
+  background-color: #ffffff;
+  color: #000000;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+a {
+  transition: color 0.3s;
+}
+a:hover {
+  color: #6366f1;
+}
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 300;
+  text-align: center;
+  margin-top: 2rem;
+  line-height: 1.25;
+}
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+}
+.hero-subtitle {
+  color: #4b5563;
+  margin-top: 1rem;
+  max-width: 36rem;
+  line-height: 1.625;
+  font-size: 0.875rem;
+  text-align: center;
+}
+@media (min-width: 640px) {
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+.about-text {
+  max-width: 42rem;
+  margin: 0 auto;
+  color: #374151;
+  line-height: 1.625;
+  text-align: center;
+}
+.project-card {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.project-card:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.project-card img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+.project-card h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.project-card p {
+  color: #4b5563;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-content {
+  syntax: "*";
+  initial-value: "";
+  inherits: false;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-border-style: solid;
+      --tw-content: "";
+      --tw-duration: initial;
+    }
+  }
+}
