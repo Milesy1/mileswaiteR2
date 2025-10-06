@@ -1,17 +1,40 @@
-# Miles Portfolio
+# Miles Portfolio - Modern Next.js Portfolio
 
-A modern, responsive portfolio website built with Next.js 14+ App Router and Tailwind CSS, featuring smooth animations, 3D graphics, and a clean, professional design inspired by modern web standards.
+A stunning, modern portfolio website built with Next.js 14+ App Router, Tailwind CSS, and cutting-edge web technologies. Features dynamic project pages, smooth animations, and a professional design inspired by the best contemporary portfolios.
 
-## 🚀 Features
+## 🚀 Live Demo
 
-- **Next.js 14+ App Router**: Latest Next.js features with App Router architecture
-- **Tailwind CSS**: Utility-first CSS framework with custom design system
-- **Framer Motion**: Smooth animations and micro-interactions
-- **Three.js Integration**: Interactive 3D graphics with React Three Fiber
-- **Responsive Design**: Mobile-first approach with perfect scaling
-- **SEO Optimized**: Proper metadata, Open Graph, and Twitter cards
-- **TypeScript**: Full type safety throughout the application
-- **Modern UI/UX**: Clean, minimal design with professional polish
+Visit the live portfolio: [https://mileswaiteR2.vercel.app](https://mileswaiteR2.vercel.app)
+
+## ✨ Features
+
+### 🎨 **Modern Design**
+- Clean, minimal layout with professional aesthetics
+- Responsive design that works perfectly on all devices
+- Smooth animations and micro-interactions using Framer Motion
+- Beautiful typography with Inter font family
+
+### 🏗️ **Technical Excellence**
+- **Next.js 14+ App Router** for optimal performance and SEO
+- **TypeScript** for full type safety
+- **Tailwind CSS** for utility-first styling
+- **Framer Motion** for smooth animations
+- **React Three Fiber** for 3D graphics
+- **Static Site Generation** for fast loading
+
+### 📱 **Dynamic Project System**
+- **12 Project Pages** across 3 categories (Projects, Music, Code)
+- **Modular Components** for easy customization
+- **Dynamic Routing** with clean URLs (`/projects/project-name`)
+- **Image Galleries** with lightbox functionality
+- **SEO Optimized** with dynamic metadata
+
+### 🎯 **User Experience**
+- **Fast Loading** with optimized images and code splitting
+- **Smooth Transitions** between pages
+- **Hover Effects** and interactive elements
+- **Mobile-First** responsive design
+- **Accessibility** compliant
 
 ## 🎨 Design System
 
@@ -67,8 +90,8 @@ The design is inspired by modern, clean aesthetics with:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd shadows
+git clone https://github.com/Milesy1/mileswaiteR2.git
+cd mileswaiteR2
 ```
 
 2. Install dependencies:
@@ -206,6 +229,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Contact
 
-Miles - [@your-twitter](https://twitter.com/your-twitter) - miles@example.com
+- **Portfolio**: [https://mileswaiteR2.vercel.app](https://mileswaiteR2.vercel.app)
+- **GitHub**: [@Milesy1](https://github.com/Milesy1)
+- **Repository**: [https://github.com/Milesy1/mileswaiteR2](https://github.com/Milesy1/mileswaiteR2)
 
-Project Link: [https://github.com/your-username/shadows](https://github.com/your-username/shadows)
+---
+
+⭐ **Star this repository** if you found it helpful!
