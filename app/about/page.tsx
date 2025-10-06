@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import AboutPage from './about';
 
 export const metadata: Metadata = {
-  title: 'About Me',
-  description: 'Learn more about Miles - a developer and music creator passionate about combining interactive design, 3D visuals, and code to craft immersive experiences.',
+  title: 'About',
+  description: 'Miles Waite - Certified by the Santa Fe Institute of Complex Science, with expertise in complex, adaptive systems and 20+ years experience in large-scale real-time systems.',
   openGraph: {
-    title: 'About Me | Miles Portfolio',
-    description: 'Learn more about Miles - a developer and music creator passionate about combining interactive design, 3D visuals, and code to craft immersive experiences.',
+    title: 'About | Miles Portfolio',
+    description: 'Miles Waite - Certified by the Santa Fe Institute of Complex Science, with expertise in complex, adaptive systems and 20+ years experience in large-scale real-time systems.',
   },
 };
 

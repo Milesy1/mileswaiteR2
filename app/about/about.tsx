@@ -19,26 +19,32 @@ export default function AboutPage() {
             >
               <div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-neutral-900 mb-6">
-                  About Me
+                  About
                 </h1>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-neutral-800 mb-6">
+                  Miles Waite
+                </h2>
                 <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500"></div>
               </div>
 
               <div className="space-y-6 text-lg text-neutral-600 leading-relaxed">
                 <p>
-                  Hi, I'm Miles, a developer and music enthusiast passionate about creating 
-                  immersive digital experiences. I specialize in building modern web applications, 
-                  interactive projects, and love experimenting with 3D graphics and animations on the web.
+                  Certified by the Santa Fe Institute of Complex Science, with expertise in complex, adaptive systems.
                 </p>
                 <p>
-                  This portfolio showcases my work across multiple disciplines - from music production 
-                  and creative coding to full-stack web development. Each project represents a unique 
-                  blend of technical expertise and creative vision.
+                  20+ years experience in designing, implementing & testing large-scale real-time complex systems, & automating company-wide processes.
                 </p>
                 <p>
-                  I believe in the power of technology to create meaningful connections and experiences. 
-                  Whether it's through music, code, or interactive design, I'm always exploring new ways 
-                  to push the boundaries of what's possible.
+                  Proven experience of combining TouchDesigner and Python to create immersive, interactive, and reliable experiences.
+                </p>
+                <p>
+                  Specialise in systems-thinking applied to creative tech, ensuring projects are visually compelling and technically robust.
+                </p>
+                <p>
+                  Experienced in hybrid roles bridging technical problem solving and experimental creative work.
+                </p>
+                <p className="text-xl font-medium text-neutral-800 pt-4">
+                  Emergent. Robust. Antifragile
                 </p>
               </div>
 
@@ -78,59 +84,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section className="py-20 lg:py-32 bg-neutral-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900">
-              My Philosophy
-            </h2>
-            <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
-            <p className="text-lg sm:text-xl text-neutral-600 leading-relaxed max-w-3xl mx-auto">
-              I believe that the best digital experiences are those that seamlessly blend form and function. 
-              Every project is an opportunity to learn, grow, and create something that resonates with people. 
-              Whether it's a piece of music, a web application, or an interactive installation, 
-              I strive to make technology feel human and accessible.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Contact CTA */}
-      <section className="py-20 lg:py-32">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900">
-              Let's Create Something Amazing
-            </h2>
-            <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-              I'm always interested in new opportunities and collaborations. 
-              Whether you have a project in mind or just want to chat about technology and creativity, 
-              I'd love to hear from you.
-            </p>
-            <div className="pt-8">
-              <a
-                href="mailto:miles@example.com"
-                className="btn-primary text-base px-8 py-4"
-              >
-                Get In Touch
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }
