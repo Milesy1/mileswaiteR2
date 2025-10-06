@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
+import { CubeScene } from '@/components/CubeScene';
 
 export default function HomePage() {
   return (
@@ -18,9 +19,9 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="mb-12"
           >
-            {/* Simple placeholder for 3D cube */}
-            <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center">
-              <div className="text-white text-6xl font-bold">M</div>
+            {/* 3D Rotating Cube */}
+            <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto">
+              <CubeScene />
             </div>
           </motion.div>
 

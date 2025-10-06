@@ -2,23 +2,49 @@
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
-import { Mesh } from 'three';
+import * as THREE from 'three';
 
-function RotatingCube() {
-  const meshRef = useRef<Mesh>(null);
+function RotatingCube({ size, color, position, reverse = false, colorCycle = false }: { size: number; color: string; position: [number, number, number]; reverse?: boolean; colorCycle?: boolean }) {
+  const meshRef = useRef<THREE.LineSegments>(null);
+  const materialRef = useRef<THREE.LineBasicMaterial>(null);
 
-  useFrame(() => {
+  useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.01;
-      meshRef.current.rotation.y += 0.01;
+      const rotationSpeed = reverse ? -0.02 : 0.01; // Slower outer cube rotation
+      meshRef.current.rotation.x += rotationSpeed;
+      meshRef.current.rotation.y += rotationSpeed;
+    }
+
+    // Color cycling for the red cube
+    if (colorCycle && materialRef.current) {
+      const time = state.clock.getElapsedTime();
+      const cycleSpeed = 0.3; // Speed of color change (much slower)
+      
+      // Create a smooth color transition between red, blue, yellow
+      const colors = [
+        new THREE.Color(1, 0, 0), // Red
+        new THREE.Color(0, 0, 1), // Blue  
+        new THREE.Color(1, 1, 0), // Yellow
+        new THREE.Color(1, 0, 0)  // Back to red
+      ];
+      
+      const progress = (time * cycleSpeed) % 3;
+      const index = Math.floor(progress);
+      const t = progress - index;
+      
+      const color1 = colors[index];
+      const color2 = colors[index + 1];
+      
+      const currentColor = new THREE.Color().lerpColors(color1, color2, t);
+      materialRef.current.color = currentColor;
     }
   });
 
   return (
-    <mesh ref={meshRef}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#0ea5e9" />
-    </mesh>
+    <lineSegments ref={meshRef} position={position}>
+      <edgesGeometry args={[new THREE.BoxGeometry(size, size, size)]} />
+      <lineBasicMaterial ref={materialRef} color={color} />
+    </lineSegments>
   );
 }
 
@@ -26,13 +52,12 @@ export function CubeScene() {
   return (
     <div className="w-full h-full">
       <Canvas
-        camera={{ position: [0, 0, 3], fov: 50 }}
+        camera={{ position: [0, 0, 6], fov: 50 }}
         className="w-full h-full"
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[3, 3, 3]} intensity={0.8} />
-        <pointLight position={[-3, -3, -3]} intensity={0.3} />
-        <RotatingCube />
+        {/* Large black cube with color-cycling cube inside */}
+        <RotatingCube size={3} color="#000000" position={[0, 0, 0]} />
+        <RotatingCube size={1.5} color="#ff0000" position={[0, 0, 0]} reverse={true} colorCycle={true} />
       </Canvas>
     </div>
   );
