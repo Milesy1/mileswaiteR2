@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
 import { CubeScene } from '@/components/CubeScene';
@@ -92,7 +93,8 @@ export default function HomePage() {
       <section className="py-20 lg:py-32">
         <div className="w-full px-[10%] sm:px-[8%] lg:px-[5%]">
 
-          <div className="space-y-20">
+          {/* Desktop Layout - Keep original */}
+          <div className="hidden md:block space-y-20">
             {['Projects', 'Music', 'Code'].map((section, sectionIndex) => (
               <motion.div
                 key={section}
@@ -163,6 +165,99 @@ export default function HomePage() {
                 )}
               </motion.div>
             ))}
+          </div>
+
+          {/* Mobile Layout - Single column with section headings */}
+          <div className="md:hidden space-y-12">
+            {['Projects', 'Music', 'Code'].map((section, sectionIndex) => {
+              const projects = getProjectsByCategory(section as 'Projects' | 'Music' | 'Code');
+              if (!projects || projects.length === 0) return null;
+              
+              return (
+                <motion.div
+                  key={section}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
+                  viewport={{ once: true }}
+                  className="space-y-6"
+                >
+                  {/* Section Heading */}
+                  <div className="text-center">
+                    <h3 className="text-2xl font-light text-neutral-900 mb-2">
+                      {section}
+                    </h3>
+                    <div className="w-16 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
+                  </div>
+
+                  {/* All projects in single column */}
+                  <div className="space-y-8">
+                    {projects.map((project, index) => (
+                      <motion.div
+                        key={project.title}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="group"
+                      >
+                        <Link 
+                          href={`/projects/${project.slug}`} 
+                          className="block"
+                          prefetch={true}
+                        >
+                          <div className="overflow-hidden">
+                            {/* Image Container - Match individual project page styling */}
+                            <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                              <Image
+                                src={project.image}
+                                alt={project.title}
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                sizes="100vw"
+                              />
+                            </div>
+
+                            {/* Title underneath - Match individual project page styling */}
+                            <div className="pt-4">
+                              <h3 className="text-lg font-medium text-neutral-900 group-hover:text-primary-600 transition-colors duration-200">
+                                {project.title}
+                              </h3>
+                              <p className="text-sm text-neutral-600 mt-1 leading-relaxed">
+                                {project.description}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* View All Link */}
+                  <div className="text-center pt-4">
+                    <Link
+                      href={`/${section.toLowerCase()}`}
+                      className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200"
+                    >
+                      View All {section}
+                      <svg
+                        className="ml-2 w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
