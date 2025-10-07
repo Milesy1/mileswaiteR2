@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { searchKnowledge } from '@/lib/search';
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,17 +25,60 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const systemPrompt = `You are an AI assistant for Miles Waite's portfolio website.
+    // Get the last user message
+    const lastUserMessage = messages[messages.length - 1].content;
+    
+    // SEARCH for relevant context using RAG
+    const context = searchKnowledge(lastUserMessage);
+    
+    // BUILD enhanced system prompt with relevant context
+    let systemPrompt = `You are an AI assistant for Miles Waite's portfolio website.
 
 ABOUT MILES:
-- Certified by Santa Fe Institute of Complex Science
-- Expert in complex, adaptive systems
-- 20+ years experience designing, implementing & testing large-scale real-time systems
-- Specializes in automating company-wide processes
-- Focus areas: Robust, Antifragile, Emergent systems
-- Tech stack: Next.js, Tailwind CSS, Three.js, TypeScript, Vercel
+${context.bio}
 
-Answer questions about Miles's work, expertise, and background professionally and accurately. Be helpful, concise, and knowledgeable.`;
+TECH STACK:
+Frontend: ${context.techStack.frontend.join(', ')}
+Backend: ${context.techStack.backend.join(', ')}
+Deployment: ${context.techStack.deployment.join(', ')}
+Specialties: ${context.techStack.specialties.join(', ')}
+`;
+
+    // Add relevant projects if found
+    if (context.projects.length > 0) {
+      systemPrompt += `\n\nRELEVANT PROJECTS:\n`;
+      context.projects.forEach(project => {
+        systemPrompt += `
+${project.title}:
+- Description: ${project.description}
+- Technologies: ${project.technologies.join(', ')}
+- Challenge: ${project.challenge}
+- Solution: ${project.solution}
+`;
+      });
+    }
+    
+    // Add relevant expertise if found
+    if (context.expertise.length > 0) {
+      systemPrompt += `\n\nRELEVANT EXPERTISE:\n`;
+      context.expertise.forEach(exp => {
+        systemPrompt += `
+${exp.area}:
+${exp.description}
+Examples: ${exp.examples.join(', ')}
+`;
+      });
+    }
+    
+    // Add philosophy
+    systemPrompt += `\n\nPHILOSOPHY & APPROACH:
+${context.philosophy.approach}
+
+Key Principles:
+${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
+`;
+
+    systemPrompt += `\n\nAnswer questions using the specific information provided above. Be conversational, helpful, and reference actual projects and expertise when relevant. Keep responses concise but informative.`;
 
     console.log('Making request to Groq API...');
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
