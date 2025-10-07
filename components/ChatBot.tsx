@@ -71,7 +71,7 @@ export function ChatBot() {
         <div className="h-96 overflow-y-auto p-4 space-y-4">
           {messages.length === 0 && (
             <div className="text-center text-neutral-400 py-8">
-              <p className="text-sm">Ask me anything about Miles's work and expertise!</p>
+              <p className="text-sm">Sensitive Dependence on Initial Conditions:</p>
             </div>
           )}
           
