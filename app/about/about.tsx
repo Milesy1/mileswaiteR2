@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { CubeScene } from '../../components/CubeScene';
+import { ChatBot } from '../../components/ChatBot';
 
 export default function AboutPage() {
   return (
@@ -109,6 +110,58 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary-50/50 to-transparent pointer-events-none"></div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* ChatBot Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-base font-light text-[#666] lowercase tracking-[0.1em] mb-4">
+              mileswaite.net
+            </h2>
+            <div className="text-lg text-neutral-600 max-w-2xl mx-auto">
+              <motion.span
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+                className="inline-block"
+              >
+                Robust.
+              </motion.span>
+              {' '}
+              <motion.span
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                className="inline-block"
+              >
+                Antifragile.
+              </motion.span>
+              {' '}
+              <motion.span
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
+                className="inline-block"
+              >
+                Emergent.
+              </motion.span>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <ChatBot />
+          </motion.div>
         </div>
       </section>
 

@@ -126,3 +126,4 @@ export function ProjectGallery({ gallery, title }: ProjectGalleryProps) {
     </section>
   );
 }
+
