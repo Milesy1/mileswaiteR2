@@ -20,7 +20,9 @@ export function ChatBot() {
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const sendMessage = async () => {
@@ -131,7 +133,7 @@ export function ChatBot() {
             </motion.div>
           )}
 
-          <div ref={messagesEndRef} />
+          {messages.length > 0 && <div ref={messagesEndRef} />}
         </div>
 
         {/* Input Container */}
@@ -142,7 +144,7 @@ export function ChatBot() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask about Miles's work, expertise, or background..."
+              placeholder="Retrieval-Augmented Generation"
               disabled={isLoading}
               className="flex-1 bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
             />
