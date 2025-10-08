@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { track } from '@vercel/analytics';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -35,6 +36,11 @@ export function ChatBot() {
     setIsLoading(true);
     setError(null);
 
+    // Track chat session start (first message)
+    if (messages.length === 0) {
+      track('chat_session_start');
+    }
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -51,9 +57,21 @@ export function ChatBot() {
       const data = await response.json();
       const aiMessage: Message = { role: 'assistant', content: data.message };
       setMessages([...newMessages, aiMessage]);
+      
+      // Track successful conversation turn
+      track('chat_conversation_turn', {
+        total_messages: newMessages.length + 1,
+        user_message_length: userMessage.content.length,
+        ai_response_length: aiMessage.content.length
+      });
     } catch (err) {
       setError('Sorry, I encountered an error. Please try again.');
       console.error('Chat error:', err);
+      
+      // Track client-side errors
+      track('chat_client_error', {
+        error: err instanceof Error ? err.message : 'unknown'
+      });
     } finally {
       setIsLoading(false);
     }

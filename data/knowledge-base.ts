@@ -1,11 +1,14 @@
 export const milesKnowledge = {
-  bio: "Miles Waite is certified by the Santa Fe Institute of Complex Science, with expertise in complex, adaptive systems. He has 20+ years of experience designing, implementing, and testing large-scale real-time complex systems, and automating company-wide processes. His work focuses on building robust, antifragile, and emergent systems.",
+  bio: "Miles Waite is a Business Analyst with 20+ years solving complex problems across energy trading, risk management, and AI/GenAI systems. He has a proven track record leading cross-functional teams, managing technical delivery, and driving operational excellence in mission-critical environments. Recently completed Santa Fe Institute courses in Complexity Science and Dynamical Systems (2025), applying these principles to AI architecture and knowledge management systems. Core expertise includes GenAI/RAG Architecture, Energy Trading & Risk Management Systems, and Team Leadership (managed teams up to 15 developers).",
   
   techStack: {
     frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js"],
-    backend: ["Node.js", "API Development"],
-    deployment: ["Vercel"],
-    specialties: ["Real-time systems", "3D visualization", "Complex systems modeling"]
+    backend: ["Node.js", "API Development", "PHP", "MySQL", "Apache", "Linux"],
+    deployment: ["Vercel", "Linux VM", "Multi-environment configuration"],
+    ai: ["RAG Architecture", "LLM Integration (Groq/Llama)", "Prompt Engineering", "Knowledge Management Systems"],
+    trading: ["OpenLink Endur", "Value at Risk (VaR)", "Monte Carlo Simulation", "Black-Scholes Modelling", "Scenario Analysis"],
+    ecommerce: ["Magento", "E-commerce platforms", "Inventory management", "Order processing"],
+    specialties: ["Real-time systems", "3D visualization", "Complex systems modeling", "Risk management", "Team leadership"]
   },
   
   projects: [
@@ -18,18 +21,52 @@ export const milesKnowledge = {
       keywords: ["portfolio", "next.js", "three.js", "ai", "chatbot", "3d", "visualization", "modern", "web development"]
     },
     {
-      title: "Emergent Geometry System (TouchDesigner)",
-      description: "A modular TouchDesigner system for audio-reactive visuals with emergent geometry generation. Working foundation with one sphere responding to MIDI drum hits where each hit generates random geometry parameters - no two hits look the same.",
-      technologies: ["TouchDesigner 2023.12480+", "Python", "MIDI", "TDAbleton", "Ableton Live"],
-      challenge: "To create dynamic, non-repeating visual outputs directly influenced by live audio input, demonstrating emergent behavior from simple rules. Building toward a self-organizing visual system where 20-30 diverse geometries exist in a pool with random selection and cooldown systems.",
-      solution: "Utilized TDAbleton for routing MIDI signals from Ableton Live into TouchDesigner. Implemented Python scripts for state management and dynamic parameter generation. Mapped specific MIDI notes (kick drum note 36 for sphere rows 2-20, snare note 37 for sphere cols 2-40) to control geometry parameters randomly within defined ranges. Architecture: TDAbleton → midi_ctrl → chopexec1 → midi_listener_DAT → parameter_mod_DAT → geometry.",
-      keywords: ["touchdesigner", "audio-reactive", "visuals", "midi", "python", "emergent geometry", "generative art", "real-time", "live performance", "complex systems", "tdableton", "ableton live", "modular", "self-organizing", "pattern learning"],
-      currentState: "Working foundation with one sphere responding to MIDI drum hits. Each hit generates random geometry parameters - no two hits look the same. Only triggers on note ON events (onOffToOn callback). Note OFF events are logged but don't trigger geometry changes. Velocity values are 0-1 (normalized by TDAbleton).",
-      parameterMapping: "Defined in parameter_mod_DAT as dictionary: MIDI_TARGETS = {'note_36': {'geo': '/path/to/sop', 'param': 'rows', 'min': 2, 'max': 20}, 'note_37': {'geo': '/path/to/sop', 'param': 'cols', 'min': 2, 'max': 40}}",
-      nextSteps: "Add more MIDI note mappings (38, 39, 40...), build geometry pool with diverse SOPs, implement random SOP selection, add cooldown tracking for recently-used geometries, develop pattern learning over time.",
-      developmentTimeline: "Built in approximately one week. Foundation is working, most features still to come.",
-      requirements: "TouchDesigner 2023.12480+, Ableton Live with TDAbleton plugin, MIDI controller or virtual MIDI routing",
-      installation: "Clone repository, open TouchDesigner project file, configure TDAbleton MIDI output to point to /project1/midi_ctrl/select1, set chopexec1 CHOPs parameter to /project1/midi_ctrl/select1, trigger notes 36 and 37 in Ableton"
+      title: "TouchDesigner Modular MIDI-to-SOP System",
+      description: "A comprehensive modular system for TouchDesigner that creates audio-reactive visuals with emergent geometry generation. Features a complete MIDI input handling system, persistent storage, parameter mapping, and SOP state management for live performance and generative art.",
+      technologies: ["TouchDesigner 2023.12480+", "Python", "MIDI", "TDAbleton", "Ableton Live", "JSON", "Table DAT"],
+      challenge: "Create a robust, modular system for live MIDI control of TouchDesigner SOPs with persistent state management, parameter mapping, and emergent behavior generation. The system must handle real-time MIDI input, maintain state across sessions, and provide intuitive UI controls for live performance.",
+      solution: "Built a 9-module system with persistent storage, MIDI input normalization, parameter mapping editor, SOP state control, and integration scripts. Architecture includes: MIDI In DAT → midi_input_handler_DAT → midi_listener_DAT → parameter_mod_DAT → SOP pool. Features JSON-based configuration, backup systems, and comprehensive error handling.",
+      keywords: ["touchdesigner", "midi", "python", "modular", "persistent storage", "parameter mapping", "sop control", "live performance", "generative art", "audio-reactive", "emergent behavior", "real-time", "json", "backup systems"],
+      systemArchitecture: "9-module system: 1) MIDI Note Selector, 2) SOP Mapping Selector, 3) Parameter Mapping Editor, 4) SOP State Control UI, 5) Persistent Storage System, 6) System Overview Panel, 7) Integration Script, 8) MIDI Input Handler, 9) Preset Manager",
+      dataFlow: "Raw MIDI → MIDI In DAT → midi_input_handler_DAT (normalization/filtering) → midi_listener_DAT → parameter_mod_DAT (mapping) → SOP pool (geometry generation)",
+      storageSystem: "JSON-based configuration with backup system. Files: midi_note_mappings.json, sop_mappings.json, parameter_mappings.json, sop_states.dat, system_settings.json. Auto-save every 5 seconds with timestamped backups.",
+      midiHandling: "Normalizes MIDI messages, filters by channel/type/velocity, routes by channel, handles CC-to-note translation, emergency throttling for MIDI storms, message buffering with pattern detection",
+      parameterMapping: "Visual editor for MIDI/CC → SOP parameter control with min/max ranges, chaos variation, smoothing factors. Supports multiple mappings per note, validation, and real-time preview",
+      sopStates: "Three states per SOP: ON (always visible + audio-reactive), OFF (MIDI-triggered only), MIDI-ONLY (no audio reactivity). Global controls for show all/hide all/reset all",
+      currentState: "Foundation working with basic MIDI note → SOP mapping. System supports persistent storage, parameter mapping, and SOP state management. Ready for expansion to full 9-module system",
+      nextSteps: "Implement remaining modules: System Overview Panel, Preset Manager, Testing & Validation Module. Add geometry pool with 20-30 diverse SOPs, random selection, cooldown systems, and pattern learning",
+      developmentTimeline: "Phase 1 (Foundation): Storage, MIDI Handler, Integration - Complete. Phase 2 (Core Features): Note Selector, SOP Mapper, Parameter Editor, State Control - In Progress. Phase 3 (Monitoring): Overview Panel, Preset Manager - Planned",
+      requirements: "TouchDesigner 2023.12480+, Python 3.x, MIDI controller or virtual MIDI routing, JSON file support, Table DAT operations",
+      installation: "Deploy 9-module system in TouchDesigner project. Configure MIDI device, set up file paths (/project1/config/, /project1/sop_pool/, /project1/logs/), initialize integration script on project load"
+    },
+    {
+      title: "Context-Aware RAG System with Dynamic Knowledge Management",
+      description: "Architected context-aware RAG (Retrieval-Augmented Generation) system transforming static portfolios into intelligent, interactive knowledge platforms for multiple clients. Features dynamic REST API, multi-context architecture, and measurable engagement tracking.",
+      technologies: ["TypeScript", "Next.js", "Groq (Llama 3.1 8B)", "RAG Architecture", "REST API Design", "Vercel", "Edge Functions"],
+      challenge: "Transform static portfolios into intelligent, interactive knowledge platforms that can handle diverse visitor information needs across multiple portfolio sections while maintaining optimal performance and user experience.",
+      solution: "Designed multi-context architecture with dynamic REST API enabling agile content management, deployed on Vercel with edge functions and incremental static regeneration. Implemented in-memory caching solution and scalable chat interface with expandable/popout modes.",
+      keywords: ["rag", "ai", "knowledge management", "portfolio", "interactive", "context-aware", "dynamic api", "vercel", "edge functions", "chat interface"],
+      businessImpact: "Reduced friction in technical communication through self-serve detailed project information, enabled iterative content strategy with quick project publishing, created measurable engagement opportunities through trackable AI interactions, demonstrated practical AI ROI through improved visitor experience",
+      performanceMetrics: "Sub-second response times, reduced manual inquiry responses, improved visitor experience, trackable AI interactions"
+    },
+    {
+      title: "E.ON Energy Trading Risk Modelling Platform",
+      description: "Led cross-functional team of 15 developers and requirements analysis for enterprise risk modelling platform serving 120+ traders and risk managers across commodity markets. Transformed risk reporting from next-day to within-day delivery.",
+      technologies: ["Value at Risk (VaR)", "Monte Carlo Simulation", "Black-Scholes Modelling", "Scenario Analysis", "Multi-environment configuration", "Risk management systems"],
+      challenge: "Deliver enterprise-grade risk modelling platform for 120+ traders and risk managers across commodity markets, replacing 100+ business-critical spreadsheets with automated, auditable systems.",
+      solution: "Led 15-developer team to build comprehensive risk platform with 25,000 Monte Carlo simulations, full model versioning, audit trails for compliance, and multi-environment deployment. Implemented automated workflows replacing manual spreadsheet processes.",
+      keywords: ["risk management", "energy trading", "monte carlo", "var", "black-scholes", "team leadership", "enterprise systems", "commodity markets", "compliance", "audit trails"],
+      businessImpact: "Transformed risk reporting from next-day to within-day delivery, decommissioned 100+ business-critical spreadsheets through automation, implemented full model versioning and audit trails for compliance, maximized cost efficiency through strategic technology reuse",
+      teamLeadership: "Direct management of 15 developers, coordination with 120+ business users and senior stakeholders, managed development team delivery across multiple deployment environments"
+    },
+    {
+      title: "Independent E-commerce Platform",
+      description: "Established and managed independent e-commerce business, applying business analysis and technical project management expertise to transform legacy systems into modern online retail platform with 250,000 inventory items.",
+      technologies: ["Magento", "PHP", "MySQL", "Apache", "Linux VM", "E-commerce platforms", "Inventory management", "Order processing"],
+      challenge: "Replace all existing in-house systems (order, purchase order, and accounting modules) with modern e-commerce platform while maintaining business continuity and improving operational efficiency.",
+      solution: "Delivered customized Magento implementation with bespoke database architecture, automated workflows, and modular design. Migrated 250,000 inventory items and consolidated legacy systems into unified platform.",
+      keywords: ["e-commerce", "magento", "php", "mysql", "inventory management", "order processing", "legacy migration", "business analysis", "project management"],
+      businessImpact: "Significantly increased revenue through 24/7 online stock accessibility, migrated 250,000 inventory items to bespoke database architecture, reduced operational costs through consolidation of legacy systems, improved order processing efficiency through automated workflows, considerable reduction in operational risk due to transparency of database design"
     }
   ],
   
@@ -63,6 +100,30 @@ export const milesKnowledge = {
       description: "Specialized expertise in TouchDesigner for creating modular audio-reactive visual systems. Builds systems where simple interaction rules lead to complex emergent behaviors, with focus on MIDI integration, Python state management, and self-organizing visual systems.",
       examples: ["Emergent Geometry system", "MIDI-triggered visual systems", "Modular TouchDesigner architectures", "Audio-reactive installations", "Pattern learning systems"],
       keywords: ["touchdesigner", "generative art", "audio-reactive", "midi", "python", "modular", "emergent", "self-organizing", "pattern learning", "tdableton", "visual systems"]
+    },
+    {
+      area: "Modular System Architecture",
+      description: "Expert in designing and implementing modular, persistent systems with comprehensive state management, backup systems, and real-time data processing. Specializes in building robust systems that maintain state across sessions and handle complex data flows.",
+      examples: ["9-module TouchDesigner system", "JSON-based configuration management", "MIDI input normalization and routing", "Parameter mapping with validation", "Persistent storage with backup systems"],
+      keywords: ["modular architecture", "persistent storage", "state management", "backup systems", "data normalization", "parameter mapping", "real-time processing", "system integration", "error handling", "configuration management"]
+    },
+    {
+      area: "Energy Trading & Risk Management",
+      description: "20+ years of experience in energy trading systems, risk management platforms, and commodity derivatives. Expert in Value at Risk (VaR), Monte Carlo simulation, Black-Scholes modelling, and scenario analysis. Led enterprise-scale implementations serving 120+ traders and risk managers.",
+      examples: ["E.ON Energy Trading risk platform", "OpenLink Endur implementation", "25,000 Monte Carlo simulations", "Weather derivatives and gas storage", "Structured commodity products", "Deal capture workflows"],
+      keywords: ["energy trading", "risk management", "var", "monte carlo", "black-scholes", "commodity derivatives", "endur", "weather derivatives", "gas storage", "scenario analysis", "deal capture"]
+    },
+    {
+      area: "Team Leadership & Project Management",
+      description: "Proven track record leading cross-functional teams up to 15 developers, managing technical delivery across multiple environments, and coordinating with 120+ business users and senior stakeholders. Expert in requirements analysis, stakeholder management, and change management.",
+      examples: ["Led 15-developer team at E.ON", "Coordinated 120+ business users", "Multi-environment delivery management", "Requirements analysis and stakeholder management", "Change management and process improvement"],
+      keywords: ["team leadership", "project management", "requirements analysis", "stakeholder management", "change management", "cross-functional teams", "technical delivery", "multi-environment", "process improvement"]
+    },
+    {
+      area: "Business Analysis & Systems Integration",
+      description: "Expert in business analysis, requirements gathering, process modelling, and systems integration. Specializes in transforming legacy systems into modern platforms, managing complex stakeholder relationships, and delivering measurable business impact.",
+      examples: ["Legacy system transformation", "Requirements catalogue management", "Process modelling and documentation", "Stakeholder coordination", "Business impact measurement", "Systems integration"],
+      keywords: ["business analysis", "requirements gathering", "process modelling", "systems integration", "legacy transformation", "stakeholder management", "business impact", "documentation", "process improvement"]
     }
   ],
   

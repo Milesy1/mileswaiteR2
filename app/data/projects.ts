@@ -19,7 +19,7 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     slug: 'interactive-web-app',
-    title: 'Interactive Web App',
+    title: 'Emergent Geometry',
     description: 'A modern web application built with React and Node.js, featuring real-time data visualization and user authentication.',
     longDescription: 'This comprehensive web application revolutionizes how users interact with complex datasets. Built with cutting-edge technologies, it provides an intuitive interface for data analysis, real-time collaboration, and seamless user experience across all devices.',
     image: 'https://picsum.photos/800/600?random=1',
@@ -41,7 +41,7 @@ export const projectsData: Project[] = [
   },
   {
     slug: 'mobile-dashboard',
-    title: 'Mobile Dashboard',
+    title: 'String Field Theories',
     description: 'Cross-platform mobile dashboard with intuitive UI design and seamless data synchronization across devices.',
     longDescription: 'A comprehensive mobile dashboard solution that provides users with instant access to critical business metrics, customizable widgets, and offline functionality. Designed with a mobile-first approach for optimal performance on all devices.',
     image: 'https://picsum.photos/800/600?random=2',
@@ -62,7 +62,7 @@ export const projectsData: Project[] = [
   },
   {
     slug: 'ecommerce-platform',
-    title: 'E-commerce Platform',
+    title: 'Ableton Live',
     description: 'Full-stack e-commerce solution with payment integration, inventory management, and customer analytics.',
     longDescription: 'A complete e-commerce platform designed for scalability and performance. Features include advanced inventory management, multi-payment gateway integration, customer analytics, and a comprehensive admin dashboard.',
     image: 'https://picsum.photos/800/600?random=3',
@@ -85,7 +85,7 @@ export const projectsData: Project[] = [
   },
   {
     slug: 'data-visualization-tool',
-    title: 'Data Visualization Tool',
+    title: 'Complex Systems',
     description: 'Interactive data visualization platform with custom charts, filters, and export capabilities.',
     longDescription: 'An advanced data visualization platform that transforms complex datasets into interactive, beautiful charts and graphs. Features include real-time updates, custom chart types, collaborative filtering, and multiple export formats.',
     image: 'https://picsum.photos/800/600?random=4',
