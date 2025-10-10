@@ -4,6 +4,7 @@ export interface Project {
   description: string;
   longDescription: string;
   image: string;
+  video?: string;
   gallery: string[];
   techStack: string[];
   liveUrl?: string;
@@ -18,16 +19,16 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
-    slug: 'interactive-web-app',
+    slug: 'emergent-geometry',
     title: 'Emergent Geometry',
     description: 'A modern web application built with React and Node.js, featuring real-time data visualization and user authentication.',
     longDescription: 'This comprehensive web application revolutionizes how users interact with complex datasets. Built with cutting-edge technologies, it provides an intuitive interface for data analysis, real-time collaboration, and seamless user experience across all devices.',
-    image: 'https://picsum.photos/800/600?random=1',
+    image: '/images/td.png',
     gallery: [
-      'https://picsum.photos/800/600?random=11',
-      'https://picsum.photos/800/600?random=12',
-      'https://picsum.photos/800/600?random=13',
-      'https://picsum.photos/800/600?random=14'
+      '/images/td1.png',
+      '/images/td2.png',
+      '/images/td3.png',
+      '/images/td4.png'
     ],
     techStack: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker'],
     liveUrl: 'https://example.com',
@@ -40,11 +41,11 @@ export const projectsData: Project[] = [
     results: ['40% increase in user engagement', '60% reduction in data analysis time', '95% user satisfaction rate']
   },
   {
-    slug: 'mobile-dashboard',
+    slug: 'string-field-theories',
     title: 'String Field Theories',
     description: 'Cross-platform mobile dashboard with intuitive UI design and seamless data synchronization across devices.',
     longDescription: 'A comprehensive mobile dashboard solution that provides users with instant access to critical business metrics, customizable widgets, and offline functionality. Designed with a mobile-first approach for optimal performance on all devices.',
-    image: 'https://picsum.photos/800/600?random=2',
+    image: '/images/string-field-theories.png',
     gallery: [
       'https://picsum.photos/800/600?random=21',
       'https://picsum.photos/800/600?random=22',
@@ -61,17 +62,16 @@ export const projectsData: Project[] = [
     results: ['50% increase in mobile engagement', '80% of users utilize offline features', '4.8/5 app store rating']
   },
   {
-    slug: 'ecommerce-platform',
+    slug: 'ableton-live',
     title: 'Ableton Live',
     description: 'Full-stack e-commerce solution with payment integration, inventory management, and customer analytics.',
     longDescription: 'A complete e-commerce platform designed for scalability and performance. Features include advanced inventory management, multi-payment gateway integration, customer analytics, and a comprehensive admin dashboard.',
-    image: 'https://picsum.photos/800/600?random=3',
+    image: '/images/ableton.png',
     gallery: [
-      'https://picsum.photos/800/600?random=31',
-      'https://picsum.photos/800/600?random=32',
-      'https://picsum.photos/800/600?random=33',
-      'https://picsum.photos/800/600?random=34',
-      'https://picsum.photos/800/600?random=35'
+      '/images/ableton1.png',
+      '/images/ableton2.png',
+      '/images/ableton3.png',
+      
     ],
     techStack: ['Next.js', 'Stripe', 'MongoDB', 'Tailwind CSS', 'Vercel'],
     liveUrl: 'https://shop.example.com',
@@ -84,15 +84,15 @@ export const projectsData: Project[] = [
     results: ['300% increase in online sales', '99.9% uptime', '50% reduction in cart abandonment']
   },
   {
-    slug: 'data-visualization-tool',
+    slug: 'complex-systems',
     title: 'Complex Systems',
     description: 'Interactive data visualization platform with custom charts, filters, and export capabilities.',
     longDescription: 'An advanced data visualization platform that transforms complex datasets into interactive, beautiful charts and graphs. Features include real-time updates, custom chart types, collaborative filtering, and multiple export formats.',
-    image: 'https://picsum.photos/800/600?random=4',
+    image: '/images/lorenz6.png',
     gallery: [
-      'https://picsum.photos/800/600?random=41',
-      'https://picsum.photos/800/600?random=42',
-      'https://picsum.photos/800/600?random=43'
+      '/images/complexsystems2.png',
+      '/images/complexsystems1.png',
+      '/images/complexsystems3.png'
     ],
     techStack: ['D3.js', 'React', 'Python', 'FastAPI', 'PostgreSQL'],
     liveUrl: 'https://viz.example.com',
@@ -105,14 +105,14 @@ export const projectsData: Project[] = [
     results: ['70% faster visualization creation', '90% user adoption rate', 'Support for 10+ chart types']
   },
   {
-    slug: 'ambient-soundscape',
-    title: 'Ambient Soundscape',
+    slug: 'modular',
+    title: 'Modular',
     description: 'Experimental ambient composition blending electronic textures with organic instrumentation.',
     longDescription: 'An immersive ambient soundscape that explores the intersection of digital and organic sounds. This composition features layered synthesizers, field recordings, and live instrumentation to create a meditative listening experience.',
-    image: 'https://picsum.photos/800/600?random=5',
+    image: '/images/modular.png',
     gallery: [
-      'https://picsum.photos/800/600?random=51',
-      'https://picsum.photos/800/600?random=52'
+      '/images/modular1.png',
+      '/images/modular2.png'
     ],
     techStack: ['Ableton Live', 'Max MSP', 'Field Recording', 'Synthesizers'],
     liveUrl: 'https://soundcloud.com/example/ambient-soundscape',
@@ -124,8 +124,8 @@ export const projectsData: Project[] = [
     results: ['10,000+ plays on SoundCloud', 'Featured in ambient playlist', 'Used in meditation apps']
   },
   {
-    slug: 'jazz-fusion-track',
-    title: 'Jazz Fusion Track',
+    slug: 'against-the-day',
+    title: 'Against The Day',
     description: 'Modern jazz fusion piece featuring complex rhythms and harmonic progressions.',
     longDescription: 'A contemporary jazz fusion composition that blends traditional jazz harmony with modern production techniques. Features complex time signatures, extended chord progressions, and improvisational sections.',
     image: 'https://picsum.photos/800/600?random=6',
@@ -144,8 +144,8 @@ export const projectsData: Project[] = [
     results: ['Featured on jazz radio', '5,000+ streams', 'Positive critical reception']
   },
   {
-    slug: 'electronic-beat',
-    title: 'Electronic Beat',
+    slug: 'new-city-dream',
+    title: 'New City Dream',
     description: 'Up-tempo electronic track with layered synthesizers and dynamic percussion elements.',
     longDescription: 'An energetic electronic dance track designed for clubs and festivals. Features driving basslines, evolving synth pads, and crisp percussion. The arrangement builds tension and releases with powerful drops, creating an engaging sonic journey.',
     image: 'https://picsum.photos/800/600?random=7',
@@ -164,8 +164,8 @@ export const projectsData: Project[] = [
     results: ['15,000+ plays', 'Used in DJ sets', 'Featured in electronic playlists']
   },
   {
-    slug: 'acoustic-ballad',
-    title: 'Acoustic Ballad',
+    slug: 'we-are-are-we',
+    title: 'We Are Are We',
     description: 'Intimate acoustic composition with fingerpicked guitar and heartfelt vocal melodies.',
     longDescription: 'A tender acoustic ballad featuring intricate fingerpicked guitar arrangements and soulful vocal melodies. The song tells a story of reflection and hope, with a minimalist production style that highlights the raw emotion of the performance.',
     image: 'https://picsum.photos/800/600?random=8',
@@ -184,8 +184,8 @@ export const projectsData: Project[] = [
     results: ['25,000+ views', 'Covered by other artists', 'Used in indie films']
   },
   {
-    slug: 'react-component-library',
-    title: 'React Component Library',
+    slug: 'td-python',
+    title: 'TD Python',
     description: 'Reusable React components with TypeScript, Storybook documentation, and comprehensive testing.',
     longDescription: 'A comprehensive React component library designed for modern web applications. Features TypeScript support, Storybook documentation, comprehensive testing suite, and accessibility compliance.',
     image: 'https://picsum.photos/800/600?random=9',
@@ -205,8 +205,8 @@ export const projectsData: Project[] = [
     results: ['50+ reusable components', '95% test coverage', 'Used by 10+ teams']
   },
   {
-    slug: 'api-microservice',
-    title: 'API Microservice',
+    slug: 'julia-1-11-6',
+    title: 'Julia 1.11.6',
     description: 'Scalable microservice architecture with authentication, rate limiting, and comprehensive logging.',
     longDescription: 'A production-ready microservice built with modern architecture patterns. Features include JWT authentication, rate limiting, comprehensive logging, health checks, and horizontal scaling capabilities.',
     image: 'https://picsum.photos/800/600?random=10',
@@ -225,8 +225,8 @@ export const projectsData: Project[] = [
     results: ['99.9% uptime', 'Sub-100ms response times', 'Handles 10,000+ requests/minute']
   },
   {
-    slug: 'machine-learning-pipeline',
-    title: 'Machine Learning Pipeline',
+    slug: 'retrieval-augmented-generation',
+    title: 'Retrieval-Augmented Generation',
     description: 'End-to-end ML pipeline for data preprocessing, model training, and deployment automation.',
     longDescription: 'A comprehensive machine learning pipeline that automates the entire ML workflow from data ingestion to model deployment. Features include automated feature engineering, model selection, hyperparameter tuning, and A/B testing capabilities.',
     image: 'https://picsum.photos/800/600?random=11',
@@ -246,8 +246,8 @@ export const projectsData: Project[] = [
     results: ['50% faster model development', '99% pipeline reliability', 'Automated A/B testing']
   },
   {
-    slug: 'devops-automation',
-    title: 'DevOps Automation',
+    slug: 'emergence',
+    title: 'Emergence',
     description: 'CI/CD pipeline with Docker containerization, automated testing, and cloud deployment.',
     longDescription: 'A comprehensive DevOps automation solution that streamlines the entire software delivery process. Features include automated CI/CD pipelines, infrastructure as code, monitoring, and security scanning.',
     image: 'https://picsum.photos/800/600?random=12',

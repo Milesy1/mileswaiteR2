@@ -76,6 +76,7 @@ export default function CodePage() {
                     title={project.title}
                     description={project.description}
                     image={project.image}
+                    video={project.video}
                     link={`/projects/${project.slug}`}
                   />
                 </motion.div>

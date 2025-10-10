@@ -133,6 +133,7 @@ export default function HomePage() {
                           title={item.title}
                           description={item.description}
                           image={item.image}
+                          video={item.video}
                           link={`/projects/${item.slug}`}
                         />
                       </motion.div>

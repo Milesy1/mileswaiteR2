@@ -8,10 +8,11 @@ interface ProjectCardProps {
   title: string;
   description: string;
   image: string;
+  video?: string;
   link: string;
 }
 
-export function ProjectCard({ title, description, image, link }: ProjectCardProps) {
+export function ProjectCard({ title, description, image, video, link }: ProjectCardProps) {
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -24,15 +25,27 @@ export function ProjectCard({ title, description, image, link }: ProjectCardProp
         prefetch={true}
       >
         <div className="overflow-hidden">
-          {/* Image Container */}
+          {/* Image/Video Container */}
           <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
-            <Image
-              src={image}
-              alt={title}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            />
+            {video ? (
+              <video
+                src={video}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={image}
+              />
+            ) : (
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              />
+            )}
           </div>
 
           {/* Title */}
