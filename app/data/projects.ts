@@ -66,12 +66,12 @@ export const projectsData: Project[] = [
     title: 'Ableton Live',
     description: 'Full-stack e-commerce solution with payment integration, inventory management, and customer analytics.',
     longDescription: 'A complete e-commerce platform designed for scalability and performance. Features include advanced inventory management, multi-payment gateway integration, customer analytics, and a comprehensive admin dashboard.',
-    image: '/images/ableton.png',
+    image: '/images/ableton1.png',
     gallery: [
       '/images/ableton1.png',
       '/images/ableton2.png',
       '/images/ableton3.png',
-      
+      '/images/ableton4.png'
     ],
     techStack: ['Next.js', 'Stripe', 'MongoDB', 'Tailwind CSS', 'Vercel'],
     liveUrl: 'https://shop.example.com',
@@ -128,7 +128,7 @@ export const projectsData: Project[] = [
     title: 'Against The Day',
     description: 'Modern jazz fusion piece featuring complex rhythms and harmonic progressions.',
     longDescription: 'A contemporary jazz fusion composition that blends traditional jazz harmony with modern production techniques. Features complex time signatures, extended chord progressions, and improvisational sections.',
-    image: 'https://picsum.photos/800/600?random=6',
+    image: '/images/light.png',
     gallery: [
       'https://picsum.photos/800/600?random=61',
       'https://picsum.photos/800/600?random=62',
@@ -148,7 +148,7 @@ export const projectsData: Project[] = [
     title: 'New City Dream',
     description: 'Up-tempo electronic track with layered synthesizers and dynamic percussion elements.',
     longDescription: 'An energetic electronic dance track designed for clubs and festivals. Features driving basslines, evolving synth pads, and crisp percussion. The arrangement builds tension and releases with powerful drops, creating an engaging sonic journey.',
-    image: 'https://picsum.photos/800/600?random=7',
+    image: '/images/new-city-dream.png',
     gallery: [
       'https://picsum.photos/800/600?random=71',
       'https://picsum.photos/800/600?random=72',
@@ -168,7 +168,7 @@ export const projectsData: Project[] = [
     title: 'We Are Are We',
     description: 'Intimate acoustic composition with fingerpicked guitar and heartfelt vocal melodies.',
     longDescription: 'A tender acoustic ballad featuring intricate fingerpicked guitar arrangements and soulful vocal melodies. The song tells a story of reflection and hope, with a minimalist production style that highlights the raw emotion of the performance.',
-    image: 'https://picsum.photos/800/600?random=8',
+    image: '/images/wearewe.png',
     gallery: [
       'https://picsum.photos/800/600?random=81',
       'https://picsum.photos/800/600?random=82',
