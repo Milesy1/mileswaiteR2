@@ -25,17 +25,7 @@ export function ChatBot() {
   };
 
   const handleInputFocus = () => {
-    // Only apply mobile keyboard fix on mobile devices
-    if (window.innerWidth < 768) {
-      // Mobile-specific behavior to handle keyboard overlay
-      setTimeout(() => {
-        inputRef.current?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
-        })
-      }, 300)
-    }
-    // Desktop: Do nothing - no scroll manipulation
+    // No scroll manipulation on any device - keep page still
   };
 
   useEffect(() => {
