@@ -88,6 +88,35 @@ export function ProjectOverview({
               </div>
             )}
           </div>
+
+          {/* Questions CTA */}
+          <div className="mt-16 pt-8 border-t border-neutral-200">
+            <div className="text-center space-y-4">
+              <p className="text-neutral-600">
+                Questions about this project?
+              </p>
+              <a 
+                href="/about#chatbot" 
+                className="inline-flex items-center px-6 py-3 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors duration-200 text-sm font-medium min-h-[44px] touch-manipulation"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/about#chatbot';
+                  // Scroll to chatbot after page loads
+                  setTimeout(() => {
+                    const chatbotElement = document.getElementById('chatbot');
+                    if (chatbotElement) {
+                      chatbotElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }, 100);
+                }}
+              >
+                Chat with Miles
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
