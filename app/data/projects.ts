@@ -47,9 +47,9 @@ export const projectsData: Project[] = [
     longDescription: 'A comprehensive mobile dashboard solution that provides users with instant access to critical business metrics, customizable widgets, and offline functionality. Designed with a mobile-first approach for optimal performance on all devices.',
     image: '/images/string-field-theories.png',
     gallery: [
-      'https://picsum.photos/800/600?random=21',
-      'https://picsum.photos/800/600?random=22',
-      'https://picsum.photos/800/600?random=23'
+      '/images/sft1.png',
+      '/images/sft2.png',
+      '/images/sft3.png'
     ],
     techStack: ['React Native', 'Expo', 'Firebase', 'Redux', 'TypeScript'],
     liveUrl: 'https://apps.apple.com/example',
@@ -188,7 +188,7 @@ export const projectsData: Project[] = [
     title: 'TD Python',
     description: 'Reusable React components with TypeScript, Storybook documentation, and comprehensive testing.',
     longDescription: 'A comprehensive React component library designed for modern web applications. Features TypeScript support, Storybook documentation, comprehensive testing suite, and accessibility compliance.',
-    image: 'https://picsum.photos/800/600?random=9',
+    image: '/images/python.png',
     gallery: [
       'https://picsum.photos/800/600?random=91',
       'https://picsum.photos/800/600?random=92',
@@ -209,7 +209,7 @@ export const projectsData: Project[] = [
     title: 'Julia 1.11.6',
     description: 'Scalable microservice architecture with authentication, rate limiting, and comprehensive logging.',
     longDescription: 'A production-ready microservice built with modern architecture patterns. Features include JWT authentication, rate limiting, comprehensive logging, health checks, and horizontal scaling capabilities.',
-    image: 'https://picsum.photos/800/600?random=10',
+    image: '/images/julia.png',
     gallery: [
       'https://picsum.photos/800/600?random=101',
       'https://picsum.photos/800/600?random=102'
@@ -229,11 +229,11 @@ export const projectsData: Project[] = [
     title: 'Retrieval-Augmented Generation',
     description: 'End-to-end ML pipeline for data preprocessing, model training, and deployment automation.',
     longDescription: 'A comprehensive machine learning pipeline that automates the entire ML workflow from data ingestion to model deployment. Features include automated feature engineering, model selection, hyperparameter tuning, and A/B testing capabilities.',
-    image: 'https://picsum.photos/800/600?random=11',
+    image: '/images/rag1.png',
     gallery: [
-      'https://picsum.photos/800/600?random=111',
-      'https://picsum.photos/800/600?random=112',
-      'https://picsum.photos/800/600?random=113'
+      '/images/rag4.png',
+      '/images/rag2.png',
+      '/images/rag6.png'
     ],
     techStack: ['Python', 'TensorFlow', 'scikit-learn', 'Pandas', 'Docker', 'Kubernetes'],
     liveUrl: 'https://ml.example.com',
@@ -250,11 +250,11 @@ export const projectsData: Project[] = [
     title: 'Emergence',
     description: 'CI/CD pipeline with Docker containerization, automated testing, and cloud deployment.',
     longDescription: 'A comprehensive DevOps automation solution that streamlines the entire software delivery process. Features include automated CI/CD pipelines, infrastructure as code, monitoring, and security scanning.',
-    image: 'https://picsum.photos/800/600?random=12',
+    image: '/images/emergence.png',
     gallery: [
-      'https://picsum.photos/800/600?random=121',
-      'https://picsum.photos/800/600?random=122',
-      'https://picsum.photos/800/600?random=123'
+      '/images/emergence1.png',
+      '/images/emergence2.png',
+      '/images/emergence3.png'
     ],
     techStack: ['Jenkins', 'Docker', 'Kubernetes', 'Terraform', 'AWS', 'GitLab CI'],
     liveUrl: 'https://devops.example.com',
