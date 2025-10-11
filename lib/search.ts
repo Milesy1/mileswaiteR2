@@ -6,6 +6,7 @@ interface SearchResult {
   projects: typeof milesKnowledge.projects
   expertise: typeof milesKnowledge.expertise
   philosophy: typeof milesKnowledge.philosophy
+  musicInspirations: typeof milesKnowledge.musicInspirations
   relevanceScore: number
 }
 
@@ -25,8 +26,14 @@ export function searchKnowledge(query: string): SearchResult {
     return keywords.some(keyword => searchText.includes(keyword))
   })
   
+  // Search music inspirations
+  const relevantMusicInspirations = milesKnowledge.musicInspirations.filter(inspiration => {
+    const searchText = `${inspiration.name} ${inspiration.description} ${inspiration.genres.join(' ')} ${inspiration.instruments.join(' ')} ${inspiration.keyWorks.join(' ')} ${inspiration.influence} ${inspiration.keywords.join(' ')}`.toLowerCase()
+    return keywords.some(keyword => searchText.includes(keyword))
+  })
+  
   // Calculate relevance score
-  const relevanceScore = relevantProjects.length + relevantExpertise.length
+  const relevanceScore = relevantProjects.length + relevantExpertise.length + relevantMusicInspirations.length
   
   return {
     bio: milesKnowledge.bio,

@@ -135,5 +135,48 @@ export const milesKnowledge = {
       "Build systems that learn and improve",
       "Favor simplicity in components, complexity in interactions"
     ]
-  }
+  },
+
+  musicInspirations: [
+    {
+      name: "Brian Eno",
+      description: "British musician, songwriter, record producer, visual artist, sound designer, and political activist. Pioneer of ambient music and generative music systems. Known for his work with Roxy Music and as a producer for U2, Talking Heads, and David Bowie.",
+      genres: ["Ambient", "Electronic", "Minimalism", "Pop", "Rock"],
+      instruments: ["Keyboards", "Synthesizers", "Vocals", "Bass", "Guitar"],
+      keyWorks: ["Music for Airports", "Discreet Music", "Another Green World", "Before and After Science", "The Microsoft Sound"],
+      influence: "Revolutionary approach to generative music and ambient soundscapes. Created systems that produce music through simple rules and processes, influencing the development of ambient music and generative art. His concept of 'music as environment' directly relates to complex systems thinking.",
+      keywords: ["ambient music", "generative music", "electronic", "minimalism", "sound design", "producer", "roxy music", "music for airports", "discreet music", "microsoft sound", "systems thinking", "environmental music"],
+      relevance: "Eno's generative music approach mirrors Miles's work in complex adaptive systems - creating emergent behaviors from simple rules. His ambient music philosophy of 'music as environment' aligns with Miles's expertise in designing systems that adapt and respond to their context."
+    },
+    {
+      name: "Harold Budd",
+      description: "American ambient/avant-garde composer and poet. Known for his minimalist piano works and collaborations with Brian Eno. His music emphasizes space, silence, and the beauty of simple harmonic progressions.",
+      genres: ["Ambient", "Minimalism", "Contemporary Classical", "Avant-garde"],
+      instruments: ["Piano", "Synthesizers", "Keyboards"],
+      keyWorks: ["The Pavilion of Dreams", "The Pearl (with Eno)", "The Serpent (in Quicksilver)", "Lovely Thunder", "The White Arcades"],
+      influence: "Master of space and silence in music. His approach to minimal piano works demonstrates how simple elements can create profound emotional experiences. Influenced the development of ambient music through his emphasis on texture, atmosphere, and subtle harmonic movement.",
+      keywords: ["ambient", "minimalism", "piano", "silence", "space", "harmony", "texture", "atmosphere", "collaboration", "brian eno", "the pearl", "pavilion of dreams", "contemporary classical"],
+      relevance: "Budd's mastery of space and silence in music reflects Miles's expertise in designing systems with elegant simplicity. His collaborative approach and emphasis on atmospheric elements connect to Miles's work in creating immersive, adaptive systems."
+    },
+    {
+      name: "Richard Devine",
+      description: "American electronic musician, sound designer, and software developer known for his experimental electronic music and sound design work. Pioneers the use of modular synthesizers and complex audio programming.",
+      genres: ["Experimental Electronic", "IDM", "Glitch", "Ambient", "Industrial"],
+      instruments: ["Modular Synthesizers", "Software", "Field Recordings", "Custom Audio Tools"],
+      keyWorks: ["Lipswitch", "Aleamapper", "Risp", "Asect:Dsect", "Sort/Lapse"],
+      influence: "Pioneer in experimental electronic music and modular synthesis. His work demonstrates how complex audio systems can be built from modular components, creating intricate soundscapes through systematic exploration of audio synthesis and processing.",
+      keywords: ["experimental electronic", "modular synthesis", "sound design", "software development", "idm", "glitch", "ambient", "industrial", "audio programming", "complex systems", "synthesis"],
+      relevance: "Devine's modular approach to electronic music directly parallels Miles's work with modular system architecture in TouchDesigner. His systematic exploration of audio synthesis and complex sound design relates to Miles's expertise in building complex systems from simple, modular components."
+    },
+    {
+      name: "Nick McCabe",
+      description: "English guitarist best known as the lead guitarist and co-founder of The Verve. Known for his innovative use of effects pedals, atmospheric guitar work, and ability to create vast sonic landscapes through layered guitar textures.",
+      genres: ["Alternative Rock", "Shoegaze", "Psychedelic Rock", "Britpop"],
+      instruments: ["Electric Guitar", "Effects Pedals", "Guitar Synthesizers"],
+      keyWorks: ["The Verve - A Storm in Heaven", "The Verve - A Northern Soul", "The Verve - Urban Hymns", "The Verve - Forth"],
+      influence: "Revolutionary guitarist who created immersive sonic landscapes through innovative use of effects and layered textures. His approach to guitar work demonstrates how multiple simple elements can combine to create complex, emotionally powerful music.",
+      keywords: ["guitar", "effects pedals", "atmospheric", "texture", "layering", "the verve", "shoegaze", "alternative rock", "sonic landscapes", "innovation", "britpop"],
+      relevance: "McCabe's innovative approach to creating complex sonic textures from simple guitar elements reflects Miles's expertise in emergent systems design. His mastery of layered, atmospheric sound creation connects to Miles's work in building systems that exhibit complex behaviors from simple interactions."
+    }
+  ]
 }
