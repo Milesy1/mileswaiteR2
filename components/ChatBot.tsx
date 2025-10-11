@@ -24,14 +24,15 @@ export function ChatBot() {
   const handleInputFocus = () => {
     // Only apply mobile keyboard fix on mobile devices
     if (window.innerWidth < 768) {
-      window.scrollTo(0, 0) // Reset scroll first
+      // Mobile-specific behavior to handle keyboard overlay
       setTimeout(() => {
         inputRef.current?.scrollIntoView({ 
           behavior: 'smooth', 
           block: 'start' 
         })
-      }, 500)
+      }, 300)
     }
+    // Desktop: Do nothing - no scroll manipulation
   };
 
   useEffect(() => {
