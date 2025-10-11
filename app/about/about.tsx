@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { CubeScene } from '../../components/CubeScene';
 import { ChatBot } from '../../components/ChatBot';
+import { BackToProjectLink } from '../../components/BackToProjectLink';
 
 export default function AboutPage() {
   return (
@@ -161,6 +162,16 @@ export default function AboutPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <ChatBot />
+          </motion.div>
+
+          {/* Back to Project Link */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mt-8"
+          >
+            <BackToProjectLink />
           </motion.div>
         </div>
       </section>

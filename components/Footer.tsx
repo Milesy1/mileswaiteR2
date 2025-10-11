@@ -5,8 +5,8 @@ export function Footer() {
 
   return (
     <footer className="bg-neutral-50 border-t border-neutral-200">
-      <div className="w-full px-[10%] sm:px-[8%] lg:px-[5%] py-12">
-        <div className="flex flex-col md:flex-row justify-between gap-8">
+      <div className="w-full px-[10%] sm:px-[8%] lg:px-[5%] py-4">
+        <div className="flex flex-col md:flex-row justify-between gap-4">
           {/* Left Section - Brand */}
           <div className="space-y-4">
             <h3 className="text-sm lg:text-base font-medium text-neutral-600">mileswaite.net</h3>

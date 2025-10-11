@@ -30,7 +30,7 @@ export function ProjectOverview({
           className="space-y-16"
         >
           {/* Project Description */}
-          <div className="space-y-6">
+          <div className="space-y-6" data-section="project-overview">
             <h2 className="text-3xl sm:text-4xl font-light text-neutral-900">
               Project Overview
             </h2>
