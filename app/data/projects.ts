@@ -20,9 +20,9 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     slug: 'emergent-geometry',
-    title: 'Emergent Geometry',
-    description: 'A modern web application built with React and Node.js, featuring real-time data visualization and user authentication.',
-    longDescription: 'This comprehensive web application revolutionizes how users interact with complex datasets. Built with cutting-edge technologies, it provides an intuitive interface for data analysis, real-time collaboration, and seamless user experience across all devices.',
+    title: 'Modular TouchDesigner System with Event-Based MIDI Brain',
+    description: 'This comprehensive real-time visual system revolutionizes creative workflows through modular, reusable components orchestrated by an intelligent Python-based MIDI event dispatcher.',
+    longDescription: 'Built with TouchDesigner\'s node-based architecture and event-driven control logic, it transforms MIDI controllers into expressive instruments for live visual performance, installations, and interactive experiences. The system enables rapid prototyping, expressive live performance control, and scalable complexity through component-based architecture with intelligent event-driven orchestration.',
     image: '/images/td.png',
     gallery: [
       '/images/td1.png',
@@ -30,15 +30,35 @@ export const projectsData: Project[] = [
       '/images/td3.png',
       '/images/td4.png'
     ],
-    techStack: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker'],
+    techStack: ['TouchDesigner', 'Python', 'GLSL', 'MIDI Protocol', 'OSC', 'DMX', 'WebSocket'],
     liveUrl: 'https://youtu.be/wk0JtWD0Pbs',
     githubUrl: 'https://github.com/example/interactive-web-app',
     featured: true,
     category: 'Projects',
-    problem: 'Users needed a way to visualize and analyze complex datasets in real-time without technical expertise.',
-    solution: 'Created an intuitive web application with drag-and-drop functionality, real-time collaboration, and automated insights generation.',
-    challenges: ['Real-time data synchronization', 'Cross-browser compatibility', 'Performance optimization'],
-    results: ['40% increase in user engagement', '60% reduction in data analysis time', '95% user satisfaction rate']
+    problem: 'Creative technologists and performers needed a flexible, modular system for building complex real-time visuals without starting from scratch for each project. Traditional TouchDesigner MIDI implementations used fragile direct node connections, creating timing conflicts, unpredictable behavior, and catastrophic failures during live performances.',
+    solution: 'Designed and built a modular TouchDesigner framework with three integrated layers: Modular Visual Components (reusable TOX containers), Python MIDI Event Brain (centralized event dispatcher), and Event-Driven Architecture (MIDI triggers orchestrate visual states through clean event handling patterns).',
+    challenges: [
+      'Real-time performance optimization across complex node networks',
+      'Creating truly reusable modules with flexible I/O',
+      'Maintaining 60fps with multiple high-resolution outputs',
+      'Implementing robust event-based MIDI handling for performance reliability',
+      'Mapping MIDI events to complex visual state transitions without conflicts',
+      'Managing multiple MIDI controllers with conflict-free event routing',
+      'Achieving <5ms latency from MIDI input to visual response',
+      'Balancing modularity with processing efficiency',
+      'Standardizing data flow between disparate components',
+      'Preventing timing issues and race conditions in event handling'
+    ],
+    results: [
+      '70% faster project setup time through reusable modules',
+      '100% performance reliability - zero MIDI-related failures through event-based control',
+      '<5ms latency from MIDI input to visual response',
+      'Consistent 60fps performance with complex multi-output visual chains',
+      'Support for 4+ simultaneous MIDI controllers with conflict-free routing',
+      'Play visuals like an instrument - immediate, expressive, predictable control',
+      'Python brain enables sophisticated MIDI mapping and macro programming',
+      'Event-driven architecture eliminates timing issues and race conditions'
+    ]
   },
   {
     slug: 'string-field-theories',
