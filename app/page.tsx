@@ -79,6 +79,32 @@ export default function HomePage() {
               systems, & automating company-wide processes.
             </motion.p>
 
+            {/* Call to Action */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 3.8, ease: "easeOut" }}
+              className="mt-8"
+            >
+              <a 
+                href="/about#chatbot" 
+                className="inline-block text-lg font-medium text-primary-600 hover:text-primary-700 transition-colors duration-200"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/about#chatbot';
+                  // Scroll to chatbot after page loads
+                  setTimeout(() => {
+                    const chatbotElement = document.getElementById('chatbot');
+                    if (chatbotElement) {
+                      chatbotElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }, 100);
+                }}
+              >
+                Chat with Miles
+              </a>
+            </motion.div>
+
           </div>
         </div>
 
