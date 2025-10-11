@@ -128,11 +128,11 @@ export const projectsData: Project[] = [
     title: 'Against The Day',
     description: 'Modern jazz fusion piece featuring complex rhythms and harmonic progressions.',
     longDescription: 'A contemporary jazz fusion composition that blends traditional jazz harmony with modern production techniques. Features complex time signatures, extended chord progressions, and improvisational sections.',
-    image: '/images/light.png',
+    image: '/images/atd.png',
     gallery: [
-      'https://picsum.photos/800/600?random=61',
-      'https://picsum.photos/800/600?random=62',
-      'https://picsum.photos/800/600?random=63'
+      '/images/atd2.png',
+      '/images/atd4.png',
+      '/images/atd3.png'
     ],
     techStack: ['Logic Pro', 'Jazz Theory', 'Live Recording', 'MIDI'],
     liveUrl: 'https://spotify.com/example/jazz-fusion',
@@ -148,11 +148,11 @@ export const projectsData: Project[] = [
     title: 'New City Dream',
     description: 'Up-tempo electronic track with layered synthesizers and dynamic percussion elements.',
     longDescription: 'An energetic electronic dance track designed for clubs and festivals. Features driving basslines, evolving synth pads, and crisp percussion. The arrangement builds tension and releases with powerful drops, creating an engaging sonic journey.',
-    image: '/images/new-city-dream.png',
+    image: '/images/ncd.png',
     gallery: [
-      'https://picsum.photos/800/600?random=71',
-      'https://picsum.photos/800/600?random=72',
-      'https://picsum.photos/800/600?random=73'
+      '/images/ncd6.png',
+      '/images/new-city-dream.png',
+      '/images/ncd2.png'
     ],
     techStack: ['FL Studio', 'Serum', 'Kontakt', 'Drum Programming'],
     liveUrl: 'https://soundcloud.com/example/electronic-beat',
@@ -168,11 +168,11 @@ export const projectsData: Project[] = [
     title: 'We Are Are We',
     description: 'Intimate acoustic composition with fingerpicked guitar and heartfelt vocal melodies.',
     longDescription: 'A tender acoustic ballad featuring intricate fingerpicked guitar arrangements and soulful vocal melodies. The song tells a story of reflection and hope, with a minimalist production style that highlights the raw emotion of the performance.',
-    image: '/images/wearewe.png',
+    image: '/images/waw2.png',
     gallery: [
-      'https://picsum.photos/800/600?random=81',
-      'https://picsum.photos/800/600?random=82',
-      'https://picsum.photos/800/600?random=83'
+      '/images/wt2.png',
+      '/images/waw.png',
+      '/images/waw1.png'
     ],
     techStack: ['Guitar', 'Vocals', 'Microphone Techniques', 'Audio Engineering'],
     liveUrl: 'https://youtube.com/example/acoustic-ballad',
