@@ -22,12 +22,13 @@ export function ChatBot() {
   };
 
   const handleInputFocus = () => {
+    window.scrollTo(0, 0) // Reset scroll first
     setTimeout(() => {
       inputRef.current?.scrollIntoView({ 
         behavior: 'smooth', 
-        block: 'center' 
+        block: 'start' 
       })
-    }, 300)
+    }, 500)
   };
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export function ChatBot() {
     <div className="w-full max-w-4xl mx-auto">
       <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
         {/* Messages Container */}
-        <div className="h-96 overflow-y-auto p-4 pb-32 md:pb-4 space-y-4">
+        <div className="h-96 overflow-y-auto p-4 pb-40 md:pb-4 space-y-4">
           {messages.length === 0 && (
             <div className="text-center text-neutral-400 py-8">
               <p className="text-sm">Sensitive Dependence on Initial Conditions:</p>
