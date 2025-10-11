@@ -31,7 +31,7 @@ export const projectsData: Project[] = [
       '/images/td4.png'
     ],
     techStack: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker'],
-    liveUrl: 'https://example.com',
+    liveUrl: 'https://youtu.be/wk0JtWD0Pbs',
     githubUrl: 'https://github.com/example/interactive-web-app',
     featured: true,
     category: 'Projects',
@@ -52,7 +52,7 @@ export const projectsData: Project[] = [
       '/images/sft3.png'
     ],
     techStack: ['React Native', 'Expo', 'Firebase', 'Redux', 'TypeScript'],
-    liveUrl: 'https://apps.apple.com/example',
+    liveUrl: 'https://www.youtube.com/watch?v=frX36FzDP_s',
     githubUrl: 'https://github.com/example/mobile-dashboard',
     featured: true,
     category: 'Projects',
@@ -155,7 +155,7 @@ export const projectsData: Project[] = [
       '/images/ncd2.png'
     ],
     techStack: ['FL Studio', 'Serum', 'Kontakt', 'Drum Programming'],
-    liveUrl: 'https://soundcloud.com/example/electronic-beat',
+    liveUrl: 'https://www.youtube.com/watch?v=1e0LL0alEIo',
     featured: true,
     category: 'Music',
     problem: 'Creating an electronic track that works both in clubs and for casual listening.',
