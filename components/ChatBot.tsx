@@ -22,13 +22,16 @@ export function ChatBot() {
   };
 
   const handleInputFocus = () => {
-    window.scrollTo(0, 0) // Reset scroll first
-    setTimeout(() => {
-      inputRef.current?.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-      })
-    }, 500)
+    // Only apply mobile keyboard fix on mobile devices
+    if (window.innerWidth < 768) {
+      window.scrollTo(0, 0) // Reset scroll first
+      setTimeout(() => {
+        inputRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        })
+      }, 500)
+    }
   };
 
   useEffect(() => {
@@ -36,6 +39,7 @@ export function ChatBot() {
       scrollToBottom();
     }
   }, [messages]);
+
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -177,7 +181,8 @@ export function ChatBot() {
               onFocus={handleInputFocus}
               placeholder="Retrieval-Augmented Generation"
               disabled={isLoading}
-              className="flex-1 bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 text-base text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontSize: '16px' }}
             />
             <button
               onClick={sendMessage}
