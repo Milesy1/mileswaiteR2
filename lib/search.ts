@@ -41,6 +41,7 @@ export function searchKnowledge(query: string): SearchResult {
     projects: relevantProjects,
     expertise: relevantExpertise,
     philosophy: milesKnowledge.philosophy,
+    musicInspirations: relevantMusicInspirations,
     relevanceScore
   }
 }
