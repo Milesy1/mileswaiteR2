@@ -18,10 +18,7 @@ export function ChatBot() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
-    // Only auto-scroll on mobile, desktop stays still
-    if (window.innerWidth < 768) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
+    // No auto-scroll on any device - keep page still
   };
 
   const handleInputFocus = () => {
