@@ -40,6 +40,14 @@ export const milesKnowledge = {
       installation: "Deploy 9-module system in TouchDesigner project. Configure MIDI device, set up file paths (/project1/config/, /project1/sop_pool/, /project1/logs/), initialize integration script on project load"
     },
     {
+      title: "Modular TouchDesigner System with Event-Based MIDI Brain",
+      description: "Real-time visual performance system with Python-based MIDI event dispatcher, modular architecture, and event-driven state management. Enables expressive live control with <5ms latency.",
+      technologies: ["TouchDesigner", "Python", "MIDI", "GLSL", "Event-Driven Architecture", "State Machines"],
+      challenge: "Traditional TouchDesigner MIDI implementations used fragile direct connections causing timing conflicts and failures during live performances. Needed centralised event management, reliable triggering, and expressive real-time control.",
+      solution: "Built a Python MIDI event brain that centralises all controller input, routes events intelligently through observer patterns and priority queues, and triggers modular visual components via event-driven architecture. Achieves <5ms latency with 100% reliability.",
+      keywords: ["touchdesigner", "midi", "event-driven", "python", "real-time", "live performance", "modular", "state machine", "visual system", "controller", "vj", "generative", "interactive"]
+    },
+    {
       title: "Context-Aware RAG System with Dynamic Knowledge Management",
       description: "Architected context-aware RAG (Retrieval-Augmented Generation) system transforming static portfolios into intelligent, interactive knowledge platforms for multiple clients. Features dynamic REST API, multi-context architecture, and measurable engagement tracking.",
       technologies: ["TypeScript", "Next.js", "Groq (Llama 3.1 8B)", "RAG Architecture", "REST API Design", "Vercel", "Edge Functions"],

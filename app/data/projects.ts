@@ -20,7 +20,7 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     slug: 'emergent-geometry',
-    title: 'Modular TouchDesigner System with Event-Based MIDI Brain',
+    title: 'Emergent Geometry',
     description: 'This comprehensive real-time visual system revolutionizes creative workflows through modular, reusable components orchestrated by an intelligent Python-based MIDI event dispatcher.',
     longDescription: 'Built with TouchDesigner\'s node-based architecture and event-driven control logic, it transforms MIDI controllers into expressive instruments for live visual performance, installations, and interactive experiences. The system enables rapid prototyping, expressive live performance control, and scalable complexity through component-based architecture with intelligent event-driven orchestration.',
     image: '/images/td.png',
@@ -35,8 +35,8 @@ export const projectsData: Project[] = [
     githubUrl: 'https://github.com/example/interactive-web-app',
     featured: true,
     category: 'Projects',
-    problem: 'Creative technologists and performers needed a flexible, modular system for building complex real-time visuals without starting from scratch for each project. Traditional TouchDesigner MIDI implementations used fragile direct node connections, creating timing conflicts, unpredictable behavior, and catastrophic failures during live performances.',
-    solution: 'Designed and built a modular TouchDesigner framework with three integrated layers: Modular Visual Components (reusable TOX containers), Python MIDI Event Brain (centralized event dispatcher), and Event-Driven Architecture (MIDI triggers orchestrate visual states through clean event handling patterns).',
+    problem: 'Creative technologists and performers needed a flexible, modular system for building complex real-time visuals without starting from scratch for each project. Some live MIDI implementations use fragile direct node connections, creating timing conflicts & unpredictable behaviour, that could potentially lead to catastrophic failures.',
+    solution: 'Designed and built a modular TouchDesigner framework with three integrated layers: Modular Visual Components (reusable TOX containers), Python MIDI Event Brain (centralised event dispatcher), and Event-Driven Architecture (MIDI triggers orchestrate visual states through clean event handling patterns).',
     challenges: [
       'Real-time performance optimization across complex node networks',
       'Creating truly reusable modules with flexible I/O',
@@ -63,29 +63,45 @@ export const projectsData: Project[] = [
   {
     slug: 'string-field-theories',
     title: 'String Field Theories',
-    description: 'Cross-platform mobile dashboard with intuitive UI design and seamless data synchronization across devices.',
-    longDescription: 'A comprehensive mobile dashboard solution that provides users with instant access to critical business metrics, customizable widgets, and offline functionality. Designed with a mobile-first approach for optimal performance on all devices.',
+    description: 'A comprehensive independent record label and artist collective designed to champion experimental musicians pushing the boundaries of electronic music production.',
+    longDescription: 'Built as a sustainable ecosystem that celebrates creative risk-taking, technical innovation, and unconventional approaches to sound design. Functions as both a distribution platform and creative community for artists who treat music production as a form of technological research.',
     image: '/images/string-field-theories.png',
     gallery: [
       '/images/sft1.png',
       '/images/sft2.png',
       '/images/sft3.png'
     ],
-    techStack: ['React Native', 'Expo', 'Firebase', 'Redux', 'TypeScript'],
+    techStack: ['Music Production', 'Modular Synthesis', 'Algorithmic Composition', 'Live Coding', 'AI-Assisted Composition', 'Experimental Sound Design'],
     liveUrl: 'https://www.youtube.com/watch?v=frX36FzDP_s',
     githubUrl: 'https://github.com/example/mobile-dashboard',
     featured: true,
     category: 'Projects',
-    problem: 'Business users needed instant access to key metrics while on the go, with offline capabilities.',
-    solution: 'Developed a cross-platform mobile app with real-time sync, offline mode, and customizable dashboard widgets.',
-    challenges: ['Offline data synchronization', 'Cross-platform consistency', 'Performance on older devices'],
-    results: ['50% increase in mobile engagement', '80% of users utilize offline features', '4.8/5 app store rating']
+    problem: 'Cutting-edge electronic music producers creating truly experimental work faced a hostile landscape: mainstream labels demanded commercial viability, traditional distribution favored safe, formulaic sounds, and artists working at the intersection of technology and music had no dedicated platform.',
+    solution: 'Founded String Field Theories as an artist-first collective specifically for musicians operating at the bleeding edge of electronic music production. Created a sustainable ecosystem that celebrates technical experimentation, algorithmic composition, unconventional sound design, and genre-defying work.',
+    challenges: [
+      'Building sustainable economics around non-commercial, experimental music',
+      'Curating a coherent identity while celebrating diverse sonic approaches',
+      'Creating distribution channels for music that defies traditional categorization',
+      'Supporting artists who prioritize innovation over commercial appeal',
+      'Balancing artistic freedom with practical sustainability',
+      'Establishing credibility in an oversaturated independent music landscape',
+      'Fostering genuine artistic community rather than transactional relationships'
+    ],
+    results: [
+      '20+ releases showcasing diverse experimental approaches',
+      'Artists have complete creative freedom - zero commercial compromise',
+      '5 artists have evolved their sound significantly through label support',
+      'Established reputation as home for uncompromising sonic experimentation',
+      'Created sustainable model proving experimental music can be economically viable',
+      'Active artist collective with regular knowledge exchange',
+      'Featured on experimental music platforms and blogs (Resident Advisor, XLR8R, Boomkat)'
+    ]
   },
   {
     slug: 'ableton-live',
     title: 'Ableton Live',
-    description: 'Full-stack e-commerce solution with payment integration, inventory management, and customer analytics.',
-    longDescription: 'A complete e-commerce platform designed for scalability and performance. Features include advanced inventory management, multi-payment gateway integration, customer analytics, and a comprehensive admin dashboard.',
+    description: 'My production workflow is built around Ableton Live as a creative and technical hub.',
+    longDescription: 'I combine live recordings, Max/MSP devices, and custom signal routing to shape unique, evolving soundscapes. Every session blends structured composition with real-time experimentation—using Max for Live patches to manipulate audio dynamically and automate complex effects chains. Mixing and mastering are handled in-house, focusing on clarity, depth, and cohesion across a range of genres, from ambient and experimental textures to beat-driven electronic work. The result is a balance of precision and spontaneity—music that feels alive in both tone and process.',
     image: '/images/ableton1.png',
     gallery: [
       '/images/ableton1.png',
@@ -93,36 +109,28 @@ export const projectsData: Project[] = [
       '/images/ableton3.png',
       '/images/ableton4.png'
     ],
-    techStack: ['Next.js', 'Stripe', 'MongoDB', 'Tailwind CSS', 'Vercel'],
+    techStack: ['Ableton Live', 'Max/MSP', 'Max for Live', 'Audio Processing', 'Signal Routing', 'Live Recording'],
     liveUrl: 'https://shop.example.com',
     githubUrl: 'https://github.com/example/ecommerce-platform',
     featured: true,
-    category: 'Projects',
-    problem: 'Small businesses needed an affordable, scalable e-commerce solution with advanced features.',
-    solution: 'Built a comprehensive platform with modern tech stack, payment processing, and analytics dashboard.',
-    challenges: ['Payment security', 'Inventory synchronization', 'SEO optimization'],
-    results: ['300% increase in online sales', '99.9% uptime', '50% reduction in cart abandonment']
+    category: 'Projects'
   },
   {
     slug: 'complex-systems',
     title: 'Complex Systems',
-    description: 'Interactive data visualization platform with custom charts, filters, and export capabilities.',
-    longDescription: 'An advanced data visualization platform that transforms complex datasets into interactive, beautiful charts and graphs. Features include real-time updates, custom chart types, collaborative filtering, and multiple export formats.',
+    description: 'My work in complex systems focuses on understanding how order, intelligence, and adaptability arise from seemingly chaotic interactions.',
+    longDescription: 'I earned a Certificate in Complex Systems from the Santa Fe Institute, where I studied the foundations of emergent behavior, nonlinear dynamics, and network theory—learning how simple local rules can generate global patterns. This academic work is paired with hands-on application. At E.ON, I helped design antifragile systems within risk management—frameworks that respond to volatility by adapting and strengthening over time. That experience shaped my ongoing interest in how complex systems can be modeled, simulated, and optimized in real-world contexts. I\'m currently developing deeper technical and mathematical skills to expand this work, exploring tools from computational modeling, agent-based simulation, and statistical mechanics to data visualization and algorithmic design. My goal is to bridge theory and practice—building systems that don\'t just resist disruption but evolve through it.',
     image: '/images/lorenz6.png',
     gallery: [
       '/images/complexsystems2.png',
       '/images/complexsystems1.png',
       '/images/complexsystems3.png'
     ],
-    techStack: ['D3.js', 'React', 'Python', 'FastAPI', 'PostgreSQL'],
+    techStack: ['Complex Systems Theory', 'Emergent Behavior', 'Nonlinear Dynamics', 'Network Theory', 'Agent-Based Simulation', 'Statistical Mechanics', 'Computational Modeling'],
     liveUrl: 'https://viz.example.com',
     githubUrl: 'https://github.com/example/data-viz-tool',
     featured: false,
-    category: 'Projects',
-    problem: 'Data analysts needed a tool to create interactive visualizations without coding expertise.',
-    solution: 'Developed a drag-and-drop interface with pre-built chart templates and real-time collaboration.',
-    challenges: ['Large dataset performance', 'Custom chart flexibility', 'Export functionality'],
-    results: ['70% faster visualization creation', '90% user adoption rate', 'Support for 10+ chart types']
+    category: 'Projects'
   },
   {
     slug: 'modular',
