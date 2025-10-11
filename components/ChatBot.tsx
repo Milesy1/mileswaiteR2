@@ -15,9 +15,19 @@ export function ChatBot() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleInputFocus = () => {
+    setTimeout(() => {
+      inputRef.current?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      })
+    }, 300)
   };
 
   useEffect(() => {
@@ -88,7 +98,7 @@ export function ChatBot() {
     <div className="w-full max-w-4xl mx-auto">
       <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
         {/* Messages Container */}
-        <div className="h-96 overflow-y-auto p-4 space-y-4">
+        <div className="h-96 overflow-y-auto p-4 pb-32 md:pb-4 space-y-4">
           {messages.length === 0 && (
             <div className="text-center text-neutral-400 py-8">
               <p className="text-sm">Sensitive Dependence on Initial Conditions:</p>
@@ -158,10 +168,12 @@ export function ChatBot() {
         <div className="border-t border-neutral-800 p-4">
           <div className="flex space-x-2">
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
+              onFocus={handleInputFocus}
               placeholder="Retrieval-Augmented Generation"
               disabled={isLoading}
               className="flex-1 bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
