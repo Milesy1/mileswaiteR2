@@ -1,11 +1,50 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import RotatingCylinderLinesR3F from '../../components/RotatingCylinderLinesR3F';
 import { ChatBot } from '../../components/ChatBot';
 import { BackToProjectLink } from '../../components/BackToProjectLink';
 
 export default function AboutPage() {
+  useEffect(() => {
+    // Handle chatbot hash navigation
+    if (window.location.hash === '#chatbot') {
+      setTimeout(() => {
+        const chatbotElement = document.getElementById('chatbot');
+        if (chatbotElement) {
+          // Get the input field within the chatbot
+          const inputElement = chatbotElement.querySelector('input');
+          
+          if (inputElement) {
+            // Scroll to the input field, accounting for mobile keyboard
+            inputElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center',
+              inline: 'nearest'
+            });
+            
+            // Additional mobile adjustments
+            setTimeout(() => {
+              const viewportHeight = window.innerHeight;
+              const isMobile = viewportHeight < 768;
+              
+              if (isMobile) {
+                // Scroll up more on mobile to account for keyboard
+                window.scrollBy(0, -150);
+              }
+            }, 300);
+          } else {
+            // Fallback to scrolling to the chatbot section
+            chatbotElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            });
+          }
+        }
+      }, 100); // Small delay to ensure page is loaded
+    }
+  }, []);
   return (
     <div className="pt-16 lg:pt-20">
       {/* Hero Section */}

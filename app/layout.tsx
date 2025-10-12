@@ -12,6 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mileswaite.net'),
   title: {
     default: 'mileswaite.net',
     template: '%s | mileswaite.net',
@@ -29,10 +30,11 @@ export const metadata: Metadata = {
     siteName: 'mileswaite.net',
     images: [
       {
-        url: '/og-image.jpg', // You'll need to add this image
+        url: '/op-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Miles Portfolio - Creative Technology & Complex Systems',
+        type: 'image/jpeg',
       },
     ],
   },
@@ -41,6 +43,7 @@ export const metadata: Metadata = {
     title: 'Miles Portfolio - Creative Technology & Complex Systems',
     description: 'Modern portfolio showcasing music, code, and creative projects. Built with Next.js 14+ App Router and Tailwind CSS.',
     creator: '@miles',
+    images: ['/op-image.jpg'],
   },
   robots: {
     index: true,

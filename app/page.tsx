@@ -4,12 +4,15 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
 import { CubeScene } from '@/components/CubeScene';
 import RotatingCylinderLinesR3F from '@/components/RotatingCylinderLinesR3F';
 
 export default function HomePage() {
+  const router = useRouter();
+  
   // Ensure page starts at top when navigating to homepage
   useEffect(() => {
     // Use requestAnimationFrame to ensure this runs after any layout shifts
@@ -17,6 +20,12 @@ export default function HomePage() {
       window.scrollTo(0, 0);
     });
   }, []);
+  
+  const handleChatClick = () => {
+    // Use Next.js Link for proper navigation instead of router.push
+    // This ensures the page loads properly on mobile
+    window.location.href = '/about#chatbot';
+  };
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -96,23 +105,12 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 3.8, ease: "easeOut" }}
               className="mt-8"
             >
-              <a 
-                href="/about#chatbot" 
-                className="inline-block text-lg font-medium text-primary-600 hover:text-primary-700 transition-colors duration-200"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.href = '/about#chatbot';
-                  // Scroll to chatbot after page loads
-                  setTimeout(() => {
-                    const chatbotElement = document.getElementById('chatbot');
-                    if (chatbotElement) {
-                      chatbotElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 100);
-                }}
+              <button 
+                onClick={handleChatClick}
+                className="inline-block text-lg font-medium text-primary-600 hover:text-primary-700 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
               >
                 Chat with Miles
-              </a>
+              </button>
             </motion.div>
 
           </div>
