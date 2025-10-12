@@ -15,14 +15,14 @@ export default function RotatingCylinderLines({
   className = '' 
 }: RotatingCylinderLinesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<THREE.Scene>();
-  const rendererRef = useRef<THREE.WebGLRenderer>();
-  const animationIdRef = useRef<number>();
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const animationIdRef = useRef<number | null>(null);
   const segmentsRef = useRef<{
     outer: Array<{ line: THREE.Line; speed: number }>;
     inner: Array<{ line: THREE.Line; speed: number }>;
     outerMost: Array<{ line: THREE.Line; speed: number }>;
-  }>();
+  } | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -63,7 +63,7 @@ export default function RotatingCylinderLines({
     const linesPerSquare = 7;
 
     // Random seed for consistent randomness
-    Math.seedrandom = function(seed: number) {
+    const randomSeed = (seed: number) => {
       const x = Math.sin(seed) * 10000;
       return x - Math.floor(x);
     };
@@ -81,8 +81,7 @@ export default function RotatingCylinderLines({
       
       for (let col = 0; col < columns; col++) {
         // Random chance to skip this entire column segment (about 40% chance to remove)
-        const randomSeed = row * 100 + col;
-        const randomValue = (Math.sin(randomSeed) * 10000) % 1;
+        const randomValue = randomSeed(row * 100 + col);
         if (randomValue < 0.4) continue;
         
         const startAngle = (col / columns) * Math.PI * 2 - anglePerSquare / 2;
@@ -127,8 +126,7 @@ export default function RotatingCylinderLines({
       
       for (let col = 0; col < columns; col++) {
         // Random chance to skip this entire column segment (about 40% chance to remove)
-        const randomSeed = row * 200 + col + 1000; // Different seed for inner cylinder
-        const randomValue = (Math.sin(randomSeed) * 10000) % 1;
+        const randomValue = randomSeed(row * 200 + col + 1000); // Different seed for inner cylinder
         if (randomValue < 0.4) continue;
         
         const startAngle = (col / columns) * Math.PI * 2 - anglePerSquare / 2;
@@ -173,8 +171,7 @@ export default function RotatingCylinderLines({
       
       for (let col = 0; col < columns; col++) {
         // Random chance to skip this entire column segment (about 40% chance to remove)
-        const randomSeed = row * 300 + col + 2000; // Different seed for outer-most cylinder
-        const randomValue = (Math.sin(randomSeed) * 10000) % 1;
+        const randomValue = randomSeed(row * 300 + col + 2000); // Different seed for outer-most cylinder
         if (randomValue < 0.4) continue;
         
         const startAngle = (col / columns) * Math.PI * 2 - anglePerSquare / 2;

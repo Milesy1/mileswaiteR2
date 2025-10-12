@@ -23,15 +23,23 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://miles-portfolio.vercel.app',
-    title: 'Miles Portfolio',
-    description: 'Modern portfolio showcasing music, code, and creative projects.',
-    siteName: 'Miles Portfolio',
+    url: 'https://mileswaite.net',
+    title: 'Miles Portfolio - Creative Technology & Complex Systems',
+    description: 'Modern portfolio showcasing music, code, and creative projects. Built with Next.js 14+ App Router and Tailwind CSS.',
+    siteName: 'mileswaite.net',
+    images: [
+      {
+        url: '/og-image.jpg', // You'll need to add this image
+        width: 1200,
+        height: 630,
+        alt: 'Miles Portfolio - Creative Technology & Complex Systems',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Miles Portfolio',
-    description: 'Modern portfolio showcasing music, code, and creative projects.',
+    title: 'Miles Portfolio - Creative Technology & Complex Systems',
+    description: 'Modern portfolio showcasing music, code, and creative projects. Built with Next.js 14+ App Router and Tailwind CSS.',
     creator: '@miles',
   },
   robots: {

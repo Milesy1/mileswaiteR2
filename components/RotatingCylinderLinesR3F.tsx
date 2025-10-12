@@ -15,7 +15,7 @@ interface CylinderSegmentProps {
 }
 
 function CylinderSegment({ radius, color, speed, reverse = false, startAngle, endAngle, y }: CylinderSegmentProps) {
-  const lineRef = useRef<THREE.Line>(null);
+  const lineRef = useRef<THREE.Line>(null!);
 
   const points = useMemo(() => {
     const points = [];
@@ -36,7 +36,7 @@ function CylinderSegment({ radius, color, speed, reverse = false, startAngle, en
   });
 
   return (
-    <line ref={lineRef}>
+    <line ref={lineRef as any}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -45,7 +45,7 @@ function CylinderSegment({ radius, color, speed, reverse = false, startAngle, en
           itemSize={3}
         />
       </bufferGeometry>
-      <lineBasicMaterial color={color} linewidth={2} />
+      <lineBasicMaterial color={color} />
     </line>
   );
 }

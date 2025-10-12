@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
-import RotatingCylinderLinesR3F from '@/components/RotatingCylinderLinesR3F';
+import { CubeScene } from '@/components/CubeScene';
 
 export default function HomePage() {
   // Ensure page starts at top when navigating to homepage
@@ -29,9 +29,9 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="mb-12"
           >
-            {/* 3D Rotating Cylinder Lines */}
+            {/* 3D Rotating Cubes */}
             <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto">
-              <RotatingCylinderLinesR3F />
+              <CubeScene />
             </div>
           </motion.div>
 

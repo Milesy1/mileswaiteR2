@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Generator - Miles Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1200px;
+            height: 630px;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+        
+        .title {
+            font-size: 48px;
+            font-weight: 300;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            margin: 0 0 30px 0;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .url {
+            font-size: 20px;
+            font-weight: 500;
+            opacity: 0.8;
+            letter-spacing: 0.05em;
+        }
+        
+        .animation-preview {
+            position: absolute;
+            top: 50%;
+            right: 100px;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 200px;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        
+        .cylinder {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .cylinder-ring {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            animation: rotate 15s linear infinite reverse;
+        }
+        
+        .ring-1 {
+            width: 60px;
+            height: 60px;
+            top: 70px;
+            left: 70px;
+            border-color: #ff0000;
+            animation-duration: 10s;
+        }
+        
+        .ring-2 {
+            width: 100px;
+            height: 100px;
+            top: 50px;
+            left: 50px;
+            border-color: #00ff00;
+            animation-duration: 12s;
+        }
+        
+        .ring-3 {
+            width: 140px;
+            height: 140px;
+            top: 30px;
+            left: 30px;
+            border-color: #ffffff;
+            animation-duration: 18s;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(30, 58, 138, 0.1) 0%, rgba(49, 46, 129, 0.1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="overlay"></div>
+        
+        <div class="content">
+            <h1 class="title">Miles Waite</h1>
+            <p class="subtitle">Creative Technology & Complex Systems</p>
+            <p class="url">mileswaite.net</p>
+        </div>
+        
+        <div class="animation-preview">
+            <div class="cylinder">
+                <div class="cylinder-ring ring-1"></div>
+                <div class="cylinder-ring ring-2"></div>
+                <div class="cylinder-ring ring-3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

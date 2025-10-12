@@ -10,7 +10,7 @@ interface GenerativeArtProps {
 
 export default function GenerativeArt({ width = 400, height = 400, className = '' }: GenerativeArtProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const timeRef = useRef(0);
 
   useEffect(() => {
