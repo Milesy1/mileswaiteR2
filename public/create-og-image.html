@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create OG Image</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .instructions {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .canvas-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        canvas {
+            border: 2px solid #555;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h2>How to create your OG image:</h2>
+        <ol>
+            <li>Go to your homepage: <a href="http://localhost:3001" target="_blank">http://localhost:3001</a></li>
+            <li>Wait for the cylinder animation to load</li>
+            <li>Take a screenshot of just the cylinder animation area</li>
+            <li>Save it as <code>public/og-image.jpg</code></li>
+        </ol>
+        <p><strong>Or use the canvas below to create a simple version:</strong></p>
+    </div>
+    
+    <div class="canvas-container">
+        <canvas id="ogCanvas" width="1200" height="630"></canvas>
+        <div style="text-align: center; margin-top: 10px;">
+            <button onclick="generateOGImage()">Generate OG Image</button>
+            <button onclick="downloadImage()">Download as og-image.jpg</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('ogCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function generateOGImage() {
+            // Clear canvas
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 1200, 630);
+            
+            // Draw cylinder representation
+            const centerX = 600;
+            const centerY = 315;
+            const radius = 150;
+            
+            // Draw multiple rings to represent the cylinder
+            const rings = [
+                { radius: 150, color: '#ff0000', alpha: 0.8 },
+                { radius: 120, color: '#00ff00', alpha: 0.8 },
+                { radius: 90, color: '#ffffff', alpha: 0.9 },
+                { radius: 60, color: '#ff0000', alpha: 0.7 },
+                { radius: 30, color: '#00ff00', alpha: 0.7 }
+            ];
+            
+            rings.forEach((ring, index) => {
+                ctx.strokeStyle = ring.color;
+                ctx.globalAlpha = ring.alpha;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                
+                // Create a segmented circle (like your cylinder segments)
+                const segments = 12;
+                const segmentAngle = (Math.PI * 2) / segments;
+                
+                for (let i = 0; i < segments; i++) {
+                    // Randomly skip some segments
+                    if (Math.random() < 0.3) continue;
+                    
+                    const startAngle = i * segmentAngle;
+                    const endAngle = startAngle + segmentAngle * 0.8;
+                    
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, ring.radius, startAngle, endAngle);
+                    ctx.stroke();
+                }
+            });
+            
+            // Add text
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Miles Waite', centerX, centerY + 250);
+            
+            ctx.font = '24px Arial';
+            ctx.fillText('Robust • Antifragile • Emergent', centerX, centerY + 290);
+            
+            ctx.font = '18px Arial';
+            ctx.fillStyle = '#cccccc';
+            ctx.fillText('Creative Technology & Complex Systems', centerX, centerY + 320);
+        }
+        
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'og-image.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+        
+        // Generate initial image
+        generateOGImage();
+    </script>
+</body>
+</html>

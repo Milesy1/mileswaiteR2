@@ -39,6 +39,12 @@ export default function RotatingCylinderLines({
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    // Ensure the canvas has the correct size immediately
+    renderer.domElement.style.width = `${width}px`;
+    renderer.domElement.style.height = `${height}px`;
+    renderer.domElement.style.display = 'block';
+    
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -292,7 +298,12 @@ export default function RotatingCylinderLines({
     <div 
       ref={containerRef} 
       className={`w-full h-full ${className}`}
-      style={{ width: '100%', height: '100%' }}
+      style={{ 
+        width: '100%', 
+        height: '100%',
+        minHeight: '256px', // Ensure minimum height to prevent layout shift
+        display: 'block'
+      }}
     />
   );
 }

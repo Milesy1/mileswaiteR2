@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CubeScene } from '../../components/CubeScene';
+import RotatingCylinderLinesR3F from '../../components/RotatingCylinderLinesR3F';
 import { ChatBot } from '../../components/ChatBot';
 import { BackToProjectLink } from '../../components/BackToProjectLink';
 
@@ -105,8 +105,8 @@ export default function AboutPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="w-full h-[500px] lg:h-[600px]">
-                <CubeScene />
+              <div className="w-full h-[600px] lg:h-[700px]">
+                <RotatingCylinderLinesR3F />
               </div>
             </motion.div>
           </div>

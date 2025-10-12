@@ -15,7 +15,7 @@ interface CylinderSegmentProps {
 }
 
 function CylinderSegment({ radius, color, speed, reverse = false, startAngle, endAngle, y }: CylinderSegmentProps) {
-  const lineRef = useRef<THREE.Line>(null!);
+  const groupRef = useRef<THREE.Group>(null!);
 
   const points = useMemo(() => {
     const points = [];
@@ -30,23 +30,25 @@ function CylinderSegment({ radius, color, speed, reverse = false, startAngle, en
   }, [radius, startAngle, endAngle, y]);
 
   useFrame(() => {
-    if (lineRef.current) {
-      lineRef.current.rotation.y += reverse ? -speed : speed;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += reverse ? -speed : speed;
     }
   });
 
   return (
-    <line ref={lineRef as any}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={points.length}
-          array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial color={color} />
-    </line>
+    <group ref={groupRef}>
+      <line>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={points.length}
+            array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial color={color} />
+      </line>
+    </group>
   );
 }
 
