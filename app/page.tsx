@@ -3,11 +3,20 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
-import { CubeScene } from '@/components/CubeScene';
+import RotatingCylinderLinesR3F from '@/components/RotatingCylinderLinesR3F';
 
 export default function HomePage() {
+  // Ensure page starts at top when navigating to homepage
+  useEffect(() => {
+    // Use requestAnimationFrame to ensure this runs after any layout shifts
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+  }, []);
+
   return (
     <div className="pt-16 lg:pt-20">
       {/* Hero Section */}
@@ -15,14 +24,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto text-center">
           {/* 1. Hero Animation - Fades in first */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="mb-12"
           >
-            {/* 3D Rotating Cube */}
+            {/* 3D Rotating Cylinder Lines */}
             <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto">
-              <CubeScene />
+              <RotatingCylinderLinesR3F />
             </div>
           </motion.div>
 
