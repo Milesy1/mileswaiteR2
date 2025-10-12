@@ -7,6 +7,8 @@ interface SearchResult {
   expertise: typeof milesKnowledge.expertise
   philosophy: typeof milesKnowledge.philosophy
   musicInspirations: typeof milesKnowledge.musicInspirations
+  complexSystemsTheorists: typeof milesKnowledge.complexSystemsTheorists
+  emergenceConcepts: typeof milesKnowledge.emergenceConcepts
   relevanceScore: number
 }
 
@@ -32,8 +34,20 @@ export function searchKnowledge(query: string): SearchResult {
     return keywords.some(keyword => searchText.includes(keyword))
   })
   
+  // Search complex systems theorists
+  const relevantComplexSystemsTheorists = milesKnowledge.complexSystemsTheorists.filter(theorist => {
+    const searchText = `${theorist.name} ${theorist.description} ${theorist.keyContributions.join(' ')} ${theorist.institutions.join(' ')} ${theorist.publications.join(' ')} ${theorist.relevance} ${theorist.keywords.join(' ')}`.toLowerCase()
+    return keywords.some(keyword => searchText.includes(keyword))
+  })
+  
+  // Search emergence concepts
+  const relevantEmergenceConcepts = milesKnowledge.emergenceConcepts.filter(concept => {
+    const searchText = `${concept.name} ${concept.description} ${concept.types.join(' ')} ${concept.examples.join(' ')} ${concept.characteristics.join(' ')} ${concept.relevance} ${concept.keywords.join(' ')}`.toLowerCase()
+    return keywords.some(keyword => searchText.includes(keyword))
+  })
+  
   // Calculate relevance score
-  const relevanceScore = relevantProjects.length + relevantExpertise.length + relevantMusicInspirations.length
+  const relevanceScore = relevantProjects.length + relevantExpertise.length + relevantMusicInspirations.length + relevantComplexSystemsTheorists.length + relevantEmergenceConcepts.length
   
   return {
     bio: milesKnowledge.bio,
@@ -42,6 +56,8 @@ export function searchKnowledge(query: string): SearchResult {
     expertise: relevantExpertise,
     philosophy: milesKnowledge.philosophy,
     musicInspirations: relevantMusicInspirations,
+    complexSystemsTheorists: relevantComplexSystemsTheorists,
+    emergenceConcepts: relevantEmergenceConcepts,
     relevanceScore
   }
 }

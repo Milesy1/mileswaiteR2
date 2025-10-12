@@ -121,6 +121,48 @@ Examples: ${exp.examples.join(', ')}
       });
     }
     
+    // Add relevant complex systems theorists if found
+    if (context.complexSystemsTheorists.length > 0) {
+      systemPrompt += `\n\nRELEVANT COMPLEX SYSTEMS THEORISTS:\n`;
+      context.complexSystemsTheorists.forEach(theorist => {
+        systemPrompt += `
+${theorist.name}:
+${theorist.description}
+Key Contributions: ${theorist.keyContributions.join(', ')}
+Institutions: ${theorist.institutions.join(', ')}
+Publications: ${theorist.publications.join(', ')}
+Relevance to Miles's work: ${theorist.relevance}
+`;
+      });
+      
+      // Track which theorists are being discussed
+      track('chat_theorist_discussion', {
+        theorists_count: context.complexSystemsTheorists.length,
+        query: lastUserMessage.substring(0, 100)
+      });
+    }
+    
+    // Add relevant emergence concepts if found
+    if (context.emergenceConcepts.length > 0) {
+      systemPrompt += `\n\nRELEVANT EMERGENCE CONCEPTS:\n`;
+      context.emergenceConcepts.forEach(concept => {
+        systemPrompt += `
+${concept.name}:
+${concept.description}
+Types: ${concept.types.join(', ')}
+Examples: ${concept.examples.join(', ')}
+Characteristics: ${concept.characteristics.join(', ')}
+Relevance to Miles's work: ${concept.relevance}
+`;
+      });
+      
+      // Track which emergence concepts are being discussed
+      track('chat_emergence_discussion', {
+        emergence_concepts_count: context.emergenceConcepts.length,
+        query: lastUserMessage.substring(0, 100)
+      });
+    }
+    
     // Add philosophy
     systemPrompt += `\n\nPHILOSOPHY & APPROACH:
 ${context.philosophy.approach}
@@ -174,7 +216,9 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
       response_length: aiMessage.length,
       context_relevance: context.relevanceScore,
       projects_found: context.projects.length,
-      expertise_found: context.expertise.length
+      expertise_found: context.expertise.length,
+      theorists_found: context.complexSystemsTheorists.length,
+      emergence_concepts_found: context.emergenceConcepts.length
     });
 
     return NextResponse.json({ message: aiMessage });

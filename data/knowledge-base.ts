@@ -81,9 +81,9 @@ export const milesKnowledge = {
   expertise: [
     {
       area: "Complex Adaptive Systems",
-      description: "Expert in designing systems that exhibit emergent behavior, self-organization, and adaptation. Certified by Santa Fe Institute of Complex Science.",
-      examples: ["Large-scale distributed systems", "Real-time monitoring", "Adaptive algorithms"],
-      keywords: ["complex systems", "emergence", "adaptation", "self-organization", "santa fe institute"]
+      description: "Expert in designing systems that exhibit emergent behavior, self-organization, and adaptation. Certified by Santa Fe Institute of Complex Science. Deep understanding of self-organized criticality theory pioneered by Per Bak and the Bak-Tang-Wiesenfeld sandpile model. Specializes in emergence - the phenomenon where complex patterns and behaviors arise from simple local interactions without central coordination.",
+      examples: ["Large-scale distributed systems", "Real-time monitoring", "Adaptive algorithms", "Self-organized criticality systems", "Bak-Tang-Wiesenfeld sandpile models", "Emergent geometry generation", "Pattern formation", "Collective behavior systems"],
+      keywords: ["complex systems", "emergence", "adaptation", "self-organization", "santa fe institute", "self-organized criticality", "per bak", "bak-tang-wiesenfeld", "sandpile model", "phase transitions", "critical states", "emergent behavior", "pattern formation", "collective intelligence", "swarm behavior", "unpredictable phenomena"]
     },
     {
       area: "Antifragile System Design",
@@ -144,6 +144,53 @@ export const milesKnowledge = {
       "Favor simplicity in components, complexity in interactions"
     ]
   },
+
+  complexSystemsTheorists: [
+    {
+      name: "Per Bak",
+      description: "Danish theoretical physicist (1948-2002) who coauthored the 1987 paper that coined 'self-organized criticality' - a framework explaining how complex systems naturally evolve to a critical state where small changes can trigger large-scale events.",
+      keyContributions: [
+        "Self-organized criticality theory",
+        "Bak-Tang-Wiesenfeld sandpile model", 
+        "1/f noise explanation",
+        "Phase transition research"
+      ],
+      institutions: ["Brookhaven National Laboratory", "Santa Fe Institute", "Niels Bohr Institute", "Imperial College London"],
+      publications: [
+        "Self-organized criticality: an explanation of 1/f noise (1987)",
+        "How Nature Works: The Science of Self-Organized Criticality (1996)"
+      ],
+      relevance: "Bak's work on self-organized criticality directly relates to Miles's expertise in complex systems and emergence. The sandpile model demonstrates how simple local rules can lead to complex global behaviors - a principle applied in Miles's TouchDesigner systems and modular architectures. Bak's research at the Santa Fe Institute aligns with Miles's own complex systems education.",
+      keywords: ["self-organized criticality", "sandpile model", "1/f noise", "phase transitions", "santa fe institute", "complex systems", "emergence", "critical states", "avalanches", "power laws", "self-organization"]
+    }
+  ],
+
+  emergenceConcepts: [
+    {
+      name: "Emergence",
+      description: "The phenomenon where complex patterns and behaviors arise from simple local interactions without central coordination. Emergence is characterized by unpredictability - the whole exhibits properties that cannot be predicted from the individual components alone.",
+      types: [
+        "Strong emergence: Properties that cannot be reduced to or predicted from lower levels",
+        "Weak emergence: Properties that arise from lower levels but may be predictable in principle"
+      ],
+      examples: [
+        "Snowflake formation - complex symmetrical patterns from simple crystallization rules",
+        "Termite cathedral mounds - elaborate structures from simple local building behaviors", 
+        "Flocking behavior - coordinated group movement from individual following rules",
+        "Consciousness - mental states emerging from neural activity",
+        "Market dynamics - economic patterns from individual trading decisions"
+      ],
+      characteristics: [
+        "Unpredictable phenomena in complex systems",
+        "Irreducible properties that cannot be explained by component parts alone",
+        "Spontaneous order and self-organization",
+        "Novel behaviors that emerge from interactions",
+        "Scale-dependent properties that appear at higher levels"
+      ],
+      relevance: "Emergence is central to Miles's work in complex systems and TouchDesigner visual systems. His modular MIDI-to-SOP system demonstrates emergence - simple MIDI input rules generate complex, unpredictable visual behaviors. The rotating cylinder animations show emergent patterns from basic geometric transformations. Miles's expertise in designing systems for emergence aligns with his Santa Fe Institute complex systems education.",
+      keywords: ["emergence", "emergent behavior", "complex systems", "self-organization", "spontaneous order", "unpredictable phenomena", "irreducible properties", "scale-dependent", "pattern formation", "collective behavior", "system properties", "holistic behavior", "emergent properties", "bottom-up organization"]
+    }
+  ],
 
   musicInspirations: [
     {
