@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
 
     const groqApiKey = process.env.GROQ_API_KEY;
     console.log('API Key exists:', !!groqApiKey);
+    console.log('API Key value:', groqApiKey ? groqApiKey.substring(0, 10) + '...' : 'null');
+    console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('GROQ') || key.includes('AXIOM')));
     if (!groqApiKey) {
       console.log('No API key found');
       return NextResponse.json(
@@ -27,7 +29,36 @@ export async function POST(request: NextRequest) {
     }
 
     // Get the last user message
-    const lastUserMessage = messages[messages.length - 1].content;
+    const lastUserMessage = messages[messages.length - 1]?.content;
+    
+    // Log to Axiom (async - won't slow down response)
+    if (process.env.AXIOM_TOKEN && process.env.AXIOM_DATASET) {
+      console.log('Logging to Axiom:', process.env.AXIOM_DATASET);
+      fetch(`https://api.axiom.co/v1/datasets/${process.env.AXIOM_DATASET}/ingest`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.AXIOM_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify([{
+          _time: new Date().toISOString(),
+          page: 'unknown',
+          project: 'none',
+          question: lastUserMessage,
+          type: 'chatbot_question'
+        }])
+      }).then(response => {
+        console.log('Axiom response status:', response.status);
+        return response.text();
+      }).then(data => {
+        console.log('Axiom response:', data);
+      }).catch(err => console.error('Axiom logging error:', err));
+    } else {
+      console.log('Axiom logging skipped - missing env vars:', {
+        hasToken: !!process.env.AXIOM_TOKEN,
+        hasDataset: !!process.env.AXIOM_DATASET
+      });
+    }
     
     // Track chat interaction
     track('chat_message', {
