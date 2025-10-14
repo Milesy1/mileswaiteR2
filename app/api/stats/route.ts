@@ -44,15 +44,24 @@ export async function GET() {
 
     // Google Analytics integration
     const gaPropertyId = process.env.GA_PROPERTY_ID;
+    const gaCredentials = process.env.GA_CREDENTIALS;
     const gaCredentialsPath = process.env.GA_CREDENTIALS_PATH;
 
-    if (gaPropertyId && gaCredentialsPath) {
+    if (gaPropertyId && (gaCredentials || gaCredentialsPath)) {
       try {
         // Google Analytics Data API v1
         const { BetaAnalyticsDataClient } = await import('@google-analytics/data/build/src/index.js');
-        const fs = await import('fs');
         
-        const credentials = JSON.parse(fs.readFileSync(gaCredentialsPath, 'utf8'));
+        let credentials;
+        if (gaCredentials) {
+          // Use credentials from environment variable
+          credentials = JSON.parse(gaCredentials);
+        } else if (gaCredentialsPath) {
+          // Use credentials from file path
+          const fs = await import('fs');
+          credentials = JSON.parse(fs.readFileSync(gaCredentialsPath, 'utf8'));
+        }
+        
         const analyticsDataClient = new BetaAnalyticsDataClient({
           credentials: credentials,
         });
