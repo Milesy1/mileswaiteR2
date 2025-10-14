@@ -17,6 +17,9 @@ dist/
 .env.test.local
 .env.production.local
 
+# Google Analytics credentials
+ga-credentials.json
+
 # IDE
 .vscode/
 .idea/
