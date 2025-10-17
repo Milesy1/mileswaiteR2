@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/next';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -68,6 +69,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <GoogleAnalytics measurementId="G-4B9899H34T" />
+      </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
         <div className="relative flex min-h-screen flex-col">
           <Navigation />
