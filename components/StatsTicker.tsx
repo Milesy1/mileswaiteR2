@@ -57,8 +57,8 @@ export default function StatsTicker() {
   return (
     <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 bg-white/30 py-3 overflow-hidden">
       <div className="flex items-center gap-6 text-sm text-neutral-600 animate-scroll">
-        {/* Show Vercel data if available, otherwise show chatbot data */}
-        {stats.pageviews > 0 ? (
+        {/* Always show Google Analytics data, even if 0 */}
+        {true ? (
           <>
             <StatItem 
               value={stats.pageviews.toLocaleString()} 
@@ -67,7 +67,7 @@ export default function StatsTicker() {
             <Separator />
             <StatItem 
               value={stats.visitors.toLocaleString()} 
-              label="visitors" 
+              label="active now" 
             />
             <Separator />
             <StatItem 
@@ -93,7 +93,7 @@ export default function StatsTicker() {
             <Separator />
             <StatItem 
               value={stats.visitors.toLocaleString()} 
-              label="visitors" 
+              label="active now" 
             />
             <Separator />
             <StatItem 
