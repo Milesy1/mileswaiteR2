@@ -1,0 +1,42 @@
+{
+  "name": "shadows",
+  "version": "1.0.0",
+  "description": "Modern portfolio built with Next.js 14+ App Router and Tailwind CSS",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "portfolio",
+    "nextjs",
+    "tailwind",
+    "react",
+    "three.js"
+  ],
+  "author": "Miles",
+  "license": "ISC",
+  "dependencies": {
+    "@google-analytics/data": "^5.2.0",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.3.0",
+    "@vercel/analytics": "^1.5.0",
+    "framer-motion": "^12.23.22",
+    "next": "^15.5.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5.9.3"
+  }
+}
