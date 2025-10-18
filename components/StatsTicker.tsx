@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface Stats {
   totalConversations: number;
@@ -12,6 +12,9 @@ interface Stats {
   visitors: number;
   bounceRate: number;
   avgSessionDuration: number;
+  totalDeployments?: number;
+  successfulDeployments?: number;
+  lastDeploymentStatus?: string;
   dataSource?: string;
   error?: string;
 }
@@ -24,32 +27,36 @@ export default function StatsTicker() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Trigger fade effect only on refresh (not initial load)
-        if (stats) {
-          setIsRefreshing(true);
-        }
-        
         const response = await fetch('/api/stats');
         const data = await response.json();
-        
-        // Small delay to show the fade effect
-        setTimeout(() => {
-          setStats(data);
-          setIsRefreshing(false);
-        }, 200);
+        setStats(data);
+        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch stats:', error);
-        setIsRefreshing(false);
-      } finally {
         setLoading(false);
       }
     };
 
+    // Initial fetch
     fetchStats();
 
-    // Refresh stats every 10 seconds
-    const interval = setInterval(fetchStats, 10000);
-    return () => clearInterval(interval);
+    // Combined refresh with fade animation every 10 seconds
+    const interval = setInterval(() => {
+      // Start fade
+      setIsRefreshing(true);
+      
+      // Fetch new data immediately
+      fetchStats();
+      
+      // End fade after 800ms
+      setTimeout(() => {
+        setIsRefreshing(false);
+      }, 800);
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   if (loading) {
@@ -67,8 +74,17 @@ export default function StatsTicker() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 bg-white/30 py-3 overflow-hidden">
-      <div className="flex items-center gap-6 text-sm text-neutral-600 animate-scroll">
+    <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 bg-white/30 py-3 overflow-hidden relative">
+      {/* Fade overlay - doesn't affect the animation */}
+      <div 
+        className="absolute inset-0 bg-white/80 pointer-events-none transition-opacity duration-500 z-10"
+        style={{ opacity: isRefreshing ? 1 : 0 }}
+      />
+      <div 
+        key="ticker-content"
+        className="flex items-center gap-6 text-sm text-neutral-600 animate-scroll"
+      >
+        {/* Ticker speed: 12.96s (30% faster total) */}
         {/* Always show Google Analytics data, even if 0 */}
         {true ? (
           <>
@@ -101,6 +117,17 @@ export default function StatsTicker() {
               label="projects indexed"
               isRefreshing={isRefreshing}
             />
+
+            <Separator />
+            <StatItem 
+              value={stats.totalDeployments || 0} 
+              label="deployments"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.totalDeployments ? `${Math.round((stats.successfulDeployments! / stats.totalDeployments) * 100)}%` : '0%'} 
+              label="success rate"
+            />
             <Separator />
             {/* Duplicate for seamless loop */}
             <StatItem 
@@ -131,6 +158,17 @@ export default function StatsTicker() {
               value={stats.projectsIndexed} 
               label="projects indexed"
               isRefreshing={isRefreshing}
+            />
+
+            <Separator />
+            <StatItem 
+              value={stats.totalDeployments || 0} 
+              label="deployments"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.totalDeployments ? `${Math.round((stats.successfulDeployments! / stats.totalDeployments) * 100)}%` : '0%'} 
+              label="success rate"
             />
             <Separator />
             <StatItem 
@@ -208,9 +246,9 @@ export default function StatsTicker() {
   );
 }
 
-function StatItem({ value, label, isRefreshing }: { value: string | number; label: string; isRefreshing?: boolean }) {
+function StatItem({ value, label }: { value: string | number; label: string }) {
   return (
-    <div className="flex items-baseline gap-1.5 transition-opacity duration-300" style={{ opacity: isRefreshing ? 0.5 : 1 }}>
+    <div className="flex items-baseline gap-1.5">
       <span className="font-medium text-neutral-900">{value}</span>
       <span className="text-xs text-neutral-500">{label}</span>
     </div>
