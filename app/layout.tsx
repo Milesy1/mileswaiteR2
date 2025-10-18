@@ -67,12 +67,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
   return (
     <html lang="en" className={inter.variable}>
-      <head>
-        <GoogleAnalytics measurementId="G-4B9899H34T" />
-      </head>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
+        {gaId && <GoogleAnalytics measurementId={gaId} />}
         <div className="relative flex min-h-screen flex-col">
           <Navigation />
           <main className="flex-1">{children}</main>

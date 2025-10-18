@@ -36,7 +36,7 @@
 
 @layer utilities {
   .animate-scroll {
-    animation: scroll 8s linear infinite;
+    animation: scroll 18s linear infinite;
   }
   
   @keyframes scroll {

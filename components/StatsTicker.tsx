@@ -19,15 +19,27 @@ interface Stats {
 export default function StatsTicker() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        // Trigger fade effect only on refresh (not initial load)
+        if (stats) {
+          setIsRefreshing(true);
+        }
+        
         const response = await fetch('/api/stats');
         const data = await response.json();
-        setStats(data);
+        
+        // Small delay to show the fade effect
+        setTimeout(() => {
+          setStats(data);
+          setIsRefreshing(false);
+        }, 200);
       } catch (error) {
         console.error('Failed to fetch stats:', error);
+        setIsRefreshing(false);
       } finally {
         setLoading(false);
       }
@@ -62,96 +74,132 @@ export default function StatsTicker() {
           <>
             <StatItem 
               value={stats.pageviews.toLocaleString()} 
-              label="pageviews" 
+              label="pageviews"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.visitors.toLocaleString()} 
-              label="active now" 
+              label="active now"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.bounceRate.toFixed(0) + '%'} 
-              label="bounce rate" 
+              label="bounce rate"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={Math.round(stats.avgSessionDuration / 60) + 'm'} 
-              label="avg session" 
+              label="avg session"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
-              label="projects indexed" 
+              label="projects indexed"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             {/* Duplicate for seamless loop */}
             <StatItem 
               value={stats.pageviews.toLocaleString()} 
-              label="pageviews" 
+              label="pageviews"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.visitors.toLocaleString()} 
-              label="active now" 
+              label="active now"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.bounceRate.toFixed(0) + '%'} 
-              label="bounce rate" 
+              label="bounce rate"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={Math.round(stats.avgSessionDuration / 60) + 'm'} 
-              label="avg session" 
+              label="avg session"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
-              label="projects indexed" 
+              label="projects indexed"
+              isRefreshing={isRefreshing}
+            />
+            <Separator />
+            <StatItem 
+              value={stats.totalConversations.toLocaleString()} 
+              label="total conversations"
+              isRefreshing={isRefreshing}
+            />
+            <Separator />
+            <StatItem 
+              value={`${stats.avgResponseTime}s`} 
+              label="avg response time"
+              isRefreshing={isRefreshing}
+            />
+            <Separator />
+            <StatItem 
+              value={stats.accuracy + '%'} 
+              label="accuracy rate"
+              isRefreshing={isRefreshing}
             />
           </>
         ) : (
           <>
             <StatItem 
               value={stats.totalConversations.toLocaleString()} 
-              label="conversations" 
+              label="conversations"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={`${stats.avgResponseTime}s`} 
-              label="avg response" 
+              label="avg response"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.accuracy + '%'} 
-              label="accuracy" 
+              label="accuracy"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
-              label="projects indexed" 
+              label="projects indexed"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             {/* Duplicate for seamless loop */}
             <StatItem 
               value={stats.totalConversations.toLocaleString()} 
-              label="conversations" 
+              label="conversations"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={`${stats.avgResponseTime}s`} 
-              label="avg response" 
+              label="avg response"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.accuracy + '%'} 
-              label="accuracy" 
+              label="accuracy"
+              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
-              label="projects indexed" 
+              label="projects indexed"
+              isRefreshing={isRefreshing}
             />
           </>
         )}
@@ -160,9 +208,9 @@ export default function StatsTicker() {
   );
 }
 
-function StatItem({ value, label }: { value: string | number; label: string }) {
+function StatItem({ value, label, isRefreshing }: { value: string | number; label: string; isRefreshing?: boolean }) {
   return (
-    <div className="flex items-baseline gap-1.5">
+    <div className="flex items-baseline gap-1.5 transition-opacity duration-300" style={{ opacity: isRefreshing ? 0.5 : 1 }}>
       <span className="font-medium text-neutral-900">{value}</span>
       <span className="text-xs text-neutral-500">{label}</span>
     </div>
