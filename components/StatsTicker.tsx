@@ -91,31 +91,26 @@ export default function StatsTicker() {
             <StatItem 
               value={stats.pageviews.toLocaleString()} 
               label="pageviews"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.visitors.toLocaleString()} 
               label="active now"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.bounceRate.toFixed(0) + '%'} 
               label="bounce rate"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={Math.round(stats.avgSessionDuration / 60) + 'm'} 
               label="avg session"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
               label="projects indexed"
-              isRefreshing={isRefreshing}
             />
 
             <Separator />
@@ -133,31 +128,26 @@ export default function StatsTicker() {
             <StatItem 
               value={stats.pageviews.toLocaleString()} 
               label="pageviews"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.visitors.toLocaleString()} 
               label="active now"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.bounceRate.toFixed(0) + '%'} 
               label="bounce rate"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={Math.round(stats.avgSessionDuration / 60) + 'm'} 
               label="avg session"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
               label="projects indexed"
-              isRefreshing={isRefreshing}
             />
 
             <Separator />
@@ -174,19 +164,16 @@ export default function StatsTicker() {
             <StatItem 
               value={stats.totalConversations.toLocaleString()} 
               label="total conversations"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={`${stats.avgResponseTime}s`} 
               label="avg response time"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.accuracy + '%'} 
               label="accuracy rate"
-              isRefreshing={isRefreshing}
             />
           </>
         ) : (
@@ -194,50 +181,42 @@ export default function StatsTicker() {
             <StatItem 
               value={stats.totalConversations.toLocaleString()} 
               label="conversations"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={`${stats.avgResponseTime}s`} 
               label="avg response"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.accuracy + '%'} 
               label="accuracy"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
               label="projects indexed"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             {/* Duplicate for seamless loop */}
             <StatItem 
               value={stats.totalConversations.toLocaleString()} 
               label="conversations"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={`${stats.avgResponseTime}s`} 
               label="avg response"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.accuracy + '%'} 
               label="accuracy"
-              isRefreshing={isRefreshing}
             />
             <Separator />
             <StatItem 
               value={stats.projectsIndexed} 
               label="projects indexed"
-              isRefreshing={isRefreshing}
             />
           </>
         )}
