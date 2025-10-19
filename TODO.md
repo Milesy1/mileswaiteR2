@@ -93,33 +93,136 @@
 
 ## 💡 Future Ideas
 
-### Visual Enhancements
+### ⚡ Quick Wins (High Impact, Low Effort)
+- [ ] **Export high-res hero images from TouchDesigner** (2400x1600 PNG) - 30 mins
+- [ ] **Add favicon** (minimal 'M' or dot logo) - 15 mins
+- [ ] **Keyboard shortcut: Escape to close modals** - 10 mins
+- [ ] **Add breadcrumbs to project pages** - 20 mins
+- [ ] **Improve OG images for social sharing** - 30 mins
+- [ ] **Add "Copy link" button to projects** - 15 mins
+- [ ] **Toast notifications for copy actions** - 20 mins
+- [ ] **Back to top button** (minimal floating dot) - 20 mins
+- [ ] **Loading skeletons** for project cards - 30 mins
+- [ ] **Project view counter** (simple, localStorage) - 20 mins
+- [ ] **Related projects section** - 30 mins
+- [ ] **Sitemap.xml generation** - 15 mins
+
+**Total Time: ~4-5 hours for massive UX improvements**
+
+---
+
+### 🎨 Visual & Performance Enhancements
 - [~] Smooth page transitions between routes (Attempted - conflicts with server components in Next.js 15)
+- [ ] **High-res hero images** (2400x1600 PNG exports from TouchDesigner)
+- [ ] Optimize Next.js image quality settings (quality: 90)
 - [ ] Parallax scrolling effects on project images
-- [ ] Animated gradient backgrounds
-- [ ] Enhanced hover effects on project cards
-- [ ] Loading skeleton screens
+- [ ] Animated gradient backgrounds (subtle, on-brand)
+- [ ] Enhanced hover effects on project cards (minimal scale/blur)
+- [ ] Loading skeleton screens with smooth fade-in
+- [ ] Lazy loading for images below fold
+- [ ] Add blur-up placeholders for images (LQIP)
+- [ ] Favicon and PWA icons (minimal 'M' logo?)
+- [ ] OpenGraph images for better social sharing
 
-### UX Improvements
-- [ ] Back to top button
-- [ ] Keyboard navigation shortcuts
-- [ ] Sound effects for interactions
-- [ ] Progress indicator for scroll depth
-- [ ] Search functionality for projects
+### 🎯 UX & Interaction Improvements
+- [ ] **Keyboard shortcuts** (Cmd+K for search, Escape to close modals, arrow keys for gallery navigation)
+- [ ] Back to top button (minimal floating dot, fades in on scroll)
+- [ ] Progress indicator for scroll depth (thin line at top)
+- [ ] Improved focus states for accessibility
+- [ ] Breadcrumb navigation on project pages
+- [ ] "Copy link" button on project pages
+- [ ] Toast notifications for actions (subtle, minimal)
+- [ ] Smooth scroll to section anchors
+- [ ] Search functionality for projects (Cmd+K modal)
+- [ ] Sound effects for interactions (optional, minimal click/whoosh)
 
-### Interactive Features
-- [ ] Filter/search projects by technology
-- [ ] Timeline view of work/experience
-- [ ] Live project previews (iframe/video)
-- [ ] Testimonials carousel
-- [ ] Skills visualization with animated charts
+### 🎭 TouchDesigner & Creative Features
+- [ ] **3D Model Viewer component** (React Three Fiber + OrbitControls)
+- [ ] TouchDesigner work showcase page with interactive models
+- [ ] Video/animation gallery for generative work (autoplay loops)
+- [ ] Real-time generative background (subtle, p5.js or Three.js)
+- [ ] Code syntax highlighting for technical projects (Prism.js)
+- [ ] Embed Bandcamp players for music projects
+- [ ] SoundCloud/Spotify integration for music
+- [ ] Interactive audio visualizer (Web Audio API)
+- [ ] Process documentation (before/after, technique breakdown)
+- [ ] Export/download button for generative art stills
 
-### Content Additions
-- [ ] Blog section for TouchDesigner/code thoughts
-- [ ] Newsletter signup
-- [ ] Case studies for major projects
-- [ ] Tutorial section
-- [ ] Resources/links page
+### 🔍 Discovery & Organization
+- [ ] **Filter projects by category** (TouchDesigner, Music, Code, AI)
+- [ ] Filter by technology/tools used
+- [ ] Sort projects (newest, popular, featured)
+- [ ] Related projects section on detail pages
+- [ ] Project tags/categories with visual indicators
+- [ ] Timeline view of work/experience (minimal, chronological)
+- [ ] "More like this" algorithm
+- [ ] Recently viewed projects tracker
+- [ ] Favorite/bookmark projects (localStorage)
+
+### 📊 Analytics & Engagement
+- [ ] View count display on projects (subtle, bottom corner)
+- [ ] Time to read/view estimate
+- [ ] Social share buttons (minimal, fade on hover)
+- [ ] Comments/feedback system (GitHub Discussions integration?)
+- [ ] Newsletter signup (minimal footer form)
+- [ ] Contact form improvements (add reCAPTCHA)
+- [ ] Download CV/Resume button
+- [ ] Link in bio page for social media
+
+### 📱 Mobile Optimizations
+- [ ] Swipe gestures for project gallery navigation
+- [ ] Pull-to-refresh on project lists
+- [ ] Mobile-specific hero image formats (WebP, smaller)
+- [ ] Improved touch target sizes (minimum 44x44px)
+- [ ] Haptic feedback for interactions (iOS)
+- [ ] Install as PWA prompt
+- [ ] Offline mode for cached projects
+
+### 🎓 Content & Storytelling
+- [ ] **Blog section** for TouchDesigner tutorials and generative art thoughts
+- [ ] Case studies with problem/solution/result format (already have structure!)
+- [ ] Behind-the-scenes content (WIP shots, process videos)
+- [ ] Tutorial section (TouchDesigner techniques, music production)
+- [ ] Resources/tools page (your stack, recommendations)
+- [ ] "Now" page (what you're currently working on)
+- [ ] Changelog/updates feed
+- [ ] Press/features page (if you get featured anywhere)
+
+### 🔧 Technical Improvements
+- [ ] RSS feed for blog/updates
+- [ ] Sitemap.xml generation
+- [ ] robots.txt optimization
+- [ ] Schema.org structured data for better SEO
+- [ ] Performance monitoring (Core Web Vitals tracking)
+- [ ] Error boundary improvements
+- [ ] 404 page with suggestions
+- [ ] Rate limiting on API routes
+- [ ] Image CDN (Cloudinary or Vercel Image Optimization)
+- [ ] Bundle size analysis and optimization
+
+### 🚀 Dream Features (Big Impact, Bigger Effort)
+- [ ] **Live TouchDesigner integration** (WebSocket streaming from TD to site)
+- [ ] **AI-powered project recommendations** (based on viewing history)
+- [ ] **Interactive coding playground** (live code editor for generative art)
+- [ ] **Collaborative features** (let users remix your generative art)
+- [ ] **WebGL/shader playground** (live fragment shader editor)
+- [ ] **Generative music player** (algorithmic compositions, Web Audio API)
+- [ ] **VR/AR previews** (WebXR for 3D models)
+- [ ] **Real-time collaboration** (multi-user cursor presence)
+- [ ] **AI chatbot trained on your work** (answer questions about projects)
+- [ ] **Automated project generation** (AI creates project cards from descriptions)
+
+### 🎯 Accessibility & Internationalization
+- [ ] Full keyboard navigation
+- [ ] Screen reader optimization
+- [ ] High contrast mode
+- [ ] Reduced motion support (respect prefers-reduced-motion)
+- [ ] Focus trap in modals
+- [ ] ARIA labels and roles
+- [ ] Alt text for all images
+- [ ] Multi-language support (i18n)
+- [ ] RTL language support
+- [ ] Accessibility audit and WCAG 2.1 AA compliance
 
 ---
 
@@ -130,6 +233,35 @@
 - Prioritize performance and smooth animations
 - Keep mobile experience in mind
 - Add subtle, sophisticated interactions
+
+---
+
+## 🎨 Recommendations Based on Your Work
+
+### **For TouchDesigner Projects:**
+1. **High-res exports** - Your generative work deserves crisp, clear presentation
+2. **3D viewer** - Let people explore your geometric systems interactively
+3. **Video loops** - Capture the motion and complexity of your systems
+4. **Process docs** - Show the network/workflow (screen recordings from TD)
+
+### **For Music Projects:**
+1. **Embedded players** - Bandcamp/SoundCloud directly on project pages
+2. **Waveform visualizers** - Subtle, animated audio visualization
+3. **Lyrics/credits** - Full metadata for each release
+4. **Behind-the-scenes** - Production process, tools used
+
+### **For Code Projects:**
+1. **Live demos** - Interactive previews where possible
+2. **Code snippets** - Syntax highlighted key algorithms
+3. **Architecture diagrams** - Visual system overviews
+4. **Performance metrics** - Show the technical achievements
+
+### **Immediate Priorities:**
+1. ✅ **Dark mode** - DONE! Looks amazing
+2. 🎯 **High-res images** - Replace hero images (2400x1600)
+3. ⚡ **Quick wins** - Favicon, breadcrumbs, back-to-top, social OG images
+4. 🎨 **3D viewer** - Add interactive model showcase (2-3 hours)
+5. 🔍 **Project filtering** - Let users find work by category/tech (1-2 hours)
 
 ---
 
