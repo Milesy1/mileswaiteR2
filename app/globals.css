@@ -52,13 +52,15 @@
   }
 }
 
-/* Custom Minimal Cursor */
-* {
-  cursor: none !important;
-}
+/* Custom Minimal Cursor - Only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
 
-body {
-  cursor: none !important;
+  body {
+    cursor: none !important;
+  }
 }
 
 .custom-cursor {
