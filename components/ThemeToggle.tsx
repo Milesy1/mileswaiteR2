@@ -32,7 +32,7 @@ export default function ThemeToggle() {
         exit={{ opacity: 0, y: 10 }}
         transition={{ duration: 0.2 }}
       >
-        {theme === 'light' ? 'Dark' : 'Light'}
+        {theme === 'light' ? 'D' : 'L'}
       </motion.span>
     </button>
   );
