@@ -51,3 +51,42 @@
     }
   }
 }
+
+/* Custom Minimal Cursor */
+* {
+  cursor: none !important;
+}
+
+body {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(115, 115, 115, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.2s ease-out, background-color 0.2s ease;
+}
+
+.custom-cursor-follower {
+  position: fixed;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+}
+
+.custom-cursor.hover {
+  transform: scale(1.5);
+  background-color: rgba(23, 23, 23, 0.8);
+}
+
+.custom-cursor-follower.hover {
+  width: 0;
+  height: 0;
+}

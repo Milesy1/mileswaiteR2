@@ -5,6 +5,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/next';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import CustomCursor from '@/components/CustomCursor';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -73,6 +74,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-white text-neutral-900 antialiased">
         {gaId && <GoogleAnalytics measurementId={gaId} />}
+        <CustomCursor />
         <div className="relative flex min-h-screen flex-col">
           <Navigation />
           <main className="flex-1">{children}</main>
