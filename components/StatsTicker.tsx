@@ -61,9 +61,9 @@ export default function StatsTicker() {
 
   if (loading) {
     return (
-      <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 bg-white/50 py-3 px-4">
+      <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 dark:border-neutral-800 bg-white/50 dark:bg-neutral-900/50 py-3 px-4 transition-colors duration-300">
         <div className="flex items-center justify-center">
-          <div className="h-4 bg-neutral-200 rounded w-64 animate-pulse"></div>
+          <div className="h-4 bg-neutral-200 dark:bg-neutral-700 rounded w-64 animate-pulse"></div>
         </div>
       </div>
     );
@@ -74,15 +74,15 @@ export default function StatsTicker() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 bg-white/30 py-3 overflow-hidden relative">
+    <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 dark:border-neutral-800 bg-white/30 dark:bg-neutral-900/30 py-3 overflow-hidden relative transition-colors duration-300">
       {/* Fade overlay - doesn't affect the animation */}
       <div 
-        className="absolute inset-0 bg-white/80 pointer-events-none transition-opacity duration-500 z-10"
+        className="absolute inset-0 bg-white/80 dark:bg-neutral-900/80 pointer-events-none transition-opacity duration-500 z-10"
         style={{ opacity: isRefreshing ? 1 : 0 }}
       />
       <div 
         key="ticker-content"
-        className="flex items-center gap-6 text-sm text-neutral-600 animate-scroll"
+        className="flex items-center gap-6 text-sm text-neutral-600 dark:text-neutral-400 animate-scroll"
       >
         {/* Ticker speed: 12.96s (30% faster total) */}
         {/* Always show Google Analytics data, even if 0 */}
@@ -228,12 +228,12 @@ export default function StatsTicker() {
 function StatItem({ value, label }: { value: string | number; label: string }) {
   return (
     <div className="flex items-baseline gap-1.5">
-      <span className="font-medium text-neutral-900">{value}</span>
-      <span className="text-xs text-neutral-500">{label}</span>
+      <span className="font-medium text-neutral-900 dark:text-neutral-100">{value}</span>
+      <span className="text-xs text-neutral-500 dark:text-neutral-500">{label}</span>
     </div>
   );
 }
 
 function Separator() {
-  return <span className="text-neutral-300">•</span>;
+  return <span className="text-neutral-300 dark:text-neutral-600">•</span>;
 }

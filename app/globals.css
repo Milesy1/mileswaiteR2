@@ -72,6 +72,10 @@ body {
   transition: transform 0.2s ease-out, background-color 0.2s ease;
 }
 
+.dark .custom-cursor {
+  background-color: rgba(212, 212, 212, 0.7);
+}
+
 .custom-cursor-follower {
   position: fixed;
   width: 0;
@@ -84,6 +88,10 @@ body {
 .custom-cursor.hover {
   transform: scale(1.5);
   background-color: rgba(23, 23, 23, 0.8);
+}
+
+.dark .custom-cursor.hover {
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .custom-cursor-follower.hover {
