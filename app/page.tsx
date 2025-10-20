@@ -51,13 +51,13 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 2.7 }}
-            className="text-base font-light text-[#666] uppercase tracking-[0.1em] mb-4"
+            className="text-base font-light text-neutral-600 dark:text-neutral-400 uppercase tracking-[0.1em] mb-4"
           >
             CREATIVE TECHNOLOGY & COMPLEX SYSTEMS
           </motion.div>
 
           {/* 3. Three Words - Animate in first (after 0.9s delay) */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-neutral-900 leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-neutral-900 dark:text-neutral-100 leading-tight">
             <motion.span
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -90,7 +90,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 3.3, ease: "easeOut" }}
-              className="text-sm font-normal text-[#888] max-w-[500px] mx-auto leading-[1.4]"
+              className="text-sm font-normal text-neutral-600 dark:text-neutral-400 max-w-[500px] mx-auto leading-[1.4]"
             >
               Certified by the Santa Fe Institute of Complex Science, with 
               expertise in complex, adaptive systems. 20+ years experience in 
@@ -107,7 +107,7 @@ export default function HomePage() {
             >
               <button 
                 onClick={handleChatClick}
-                className="inline-block text-lg font-medium text-primary-600 hover:text-primary-700 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
+                className="inline-block text-lg font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
               >
                 Chat with Miles
               </button>
@@ -118,8 +118,8 @@ export default function HomePage() {
 
         {/* Background Elements */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
-          <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-accent-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary-100 dark:bg-primary-900/30 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-xl opacity-20 dark:opacity-10 animate-float"></div>
+          <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-accent-100 dark:bg-accent-900/30 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-xl opacity-20 dark:opacity-10 animate-float" style={{ animationDelay: '2s' }}></div>
         </div>
       </section>
 
@@ -139,7 +139,7 @@ export default function HomePage() {
                 className="space-y-8"
               >
                 <div className="text-center">
-                  <h3 className="text-2xl sm:text-3xl font-light text-neutral-900 mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-neutral-100 mb-4">
                     {section}
                   </h3>
                   <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
@@ -149,8 +149,8 @@ export default function HomePage() {
                   {(() => {
                     const projects = getProjectsByCategory(section as 'Projects' | 'Music' | 'Code');
                     if (!projects || projects.length === 0) {
-                      return (
-                        <p className="text-center text-neutral-500 col-span-full">
+                        return (
+                        <p className="text-center text-neutral-500 dark:text-neutral-400 col-span-full">
                           No items for {section}
                         </p>
                       );
@@ -179,7 +179,7 @@ export default function HomePage() {
                   <div className="text-center pt-8">
                     <Link
                       href={`/${section.toLowerCase()}`}
-                      className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200"
+                      className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium transition-colors duration-200"
                     >
                       View All {section}
                       <svg
@@ -219,7 +219,7 @@ export default function HomePage() {
                 >
                   {/* Section Heading */}
                   <div className="text-center">
-                    <h3 className="text-2xl font-light text-neutral-900 mb-2">
+                    <h3 className="text-2xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
                       {section}
                     </h3>
                     <div className="w-16 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
@@ -243,7 +243,7 @@ export default function HomePage() {
                         >
                           <div className="overflow-hidden">
                             {/* Image Container - Match individual project page styling */}
-                            <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                            <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
                               <Image
                                 src={project.image}
                                 alt={project.title}
@@ -255,10 +255,10 @@ export default function HomePage() {
 
                             {/* Title underneath - Match individual project page styling */}
                             <div className="pt-4">
-                              <h3 className="text-lg font-medium text-neutral-900 group-hover:text-primary-600 transition-colors duration-200">
+                              <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
                                 {project.title}
                               </h3>
-                              <p className="text-sm text-neutral-600 mt-1 leading-relaxed">
+                              <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
                                 {project.description}
                               </p>
                             </div>
@@ -272,7 +272,7 @@ export default function HomePage() {
                   <div className="text-center pt-4">
                     <Link
                       href={`/${section.toLowerCase()}`}
-                      className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200"
+                      className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium transition-colors duration-200"
                     >
                       View All {section}
                       <svg

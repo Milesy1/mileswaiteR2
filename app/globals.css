@@ -36,11 +36,67 @@
 
 @layer utilities {
   .animate-scroll {
-    animation: scroll 8s linear infinite;
+    animation: scroll 12.96s linear infinite; /* Updated speed: 30% faster total (10% + 20%) */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
   }
   
   @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    from { 
+      transform: translateX(0); 
+    }
+    to { 
+      transform: translateX(-50%); 
+    }
   }
+}
+
+/* Custom Minimal Cursor - Only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+
+  body {
+    cursor: none !important;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(115, 115, 115, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.2s ease-out, background-color 0.2s ease;
+}
+
+.dark .custom-cursor {
+  background-color: rgba(212, 212, 212, 0.7);
+}
+
+.custom-cursor-follower {
+  position: fixed;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+}
+
+.custom-cursor.hover {
+  transform: scale(1.5);
+  background-color: rgba(23, 23, 23, 0.8);
+}
+
+.dark .custom-cursor.hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.custom-cursor-follower.hover {
+  width: 0;
+  height: 0;
 }

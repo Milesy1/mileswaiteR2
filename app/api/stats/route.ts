@@ -4,8 +4,43 @@ export async function GET() {
   try {
     const axiomToken = process.env.AXIOM_TOKEN;
     const axiomDataset = process.env.AXIOM_DATASET || 'your-dataset-name';
-    const vercelToken = process.env.VERCEL_ANALYTICS_TOKEN;
-    const vercelProjectId = process.env.VERCEL_PROJECT_ID;
+    const vercelToken = process.env.VERCEL_TOKEN;
+    const vercelProjectId = process.env.VERCEL_PROJECT_ID || process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID;
+
+    // Fetch Vercel deployment stats
+    let vercelDeploymentStats = {
+      totalDeployments: 0,
+      successfulDeployments: 0,
+      lastDeploymentStatus: 'READY'
+    };
+
+    if (vercelToken && vercelProjectId) {
+      try {
+        const deploymentsResponse = await fetch(
+          `https://api.vercel.com/v6/deployments?projectId=${vercelProjectId}&limit=20`,
+          {
+            headers: {
+              Authorization: `Bearer ${vercelToken}`,
+            },
+          }
+        );
+
+        if (deploymentsResponse.ok) {
+          const deploymentsData = await deploymentsResponse.json();
+          const deployments = deploymentsData.deployments || [];
+          
+          vercelDeploymentStats = {
+            totalDeployments: deployments.length,
+            successfulDeployments: deployments.filter((d: any) => d.state === 'READY').length,
+            lastDeploymentStatus: deployments[0]?.state || 'READY'
+          };
+          
+          console.log('Vercel deployment stats fetched:', vercelDeploymentStats);
+        }
+      } catch (error) {
+        console.warn('Failed to fetch Vercel deployment stats:', error);
+      }
+    }
 
     // Fetch Vercel Analytics data
     let vercelStats = {
@@ -131,6 +166,7 @@ export async function GET() {
       // Return Vercel data even if Axiom isn't configured
       return NextResponse.json({
         ...vercelStats,
+        ...vercelDeploymentStats,
         totalConversations: 0,
         todayConversations: 0,
         avgResponseTime: 0,
@@ -208,6 +244,7 @@ export async function GET() {
       projectsIndexed: 47, // Update this manually when you add projects
       accuracy: 89, // Hardcoded for now, calculate from feedback later
       ...vercelStats,
+      ...vercelDeploymentStats,
       dataSource: 'axiom-and-vercel'
     });
 
@@ -225,6 +262,9 @@ export async function GET() {
       visitors: 0,
       bounceRate: 0,
       avgSessionDuration: 0,
+      totalDeployments: 0,
+      successfulDeployments: 0,
+      lastDeploymentStatus: 'READY',
       error: 'Unable to fetch live stats'
     }, { status: 500 });
   }
