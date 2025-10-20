@@ -117,10 +117,6 @@ export default function HomePage() {
         </div>
 
         {/* Background Elements */}
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary-100 dark:bg-primary-900/30 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-xl opacity-20 dark:opacity-10 animate-float"></div>
-          <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-accent-100 dark:bg-accent-900/30 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-xl opacity-20 dark:opacity-10 animate-float" style={{ animationDelay: '2s' }}></div>
-        </div>
       </section>
 
       {/* Simple Projects Preview */}
