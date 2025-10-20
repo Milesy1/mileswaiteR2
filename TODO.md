@@ -46,6 +46,29 @@
 
 ---
 
+### 4. 🤖 RAG-Powered Image Explorer
+- [ ] Add "Ask about this" buttons/overlays to project images
+- [ ] Integrate GPT-4 Vision model for image understanding
+- [ ] Create per-image knowledge base context files
+- [ ] Scope RAG bot to specific project when viewing image
+- [ ] Allow users to ask questions about what they're seeing
+- [ ] Bot explains technical details, process, tools used
+- [ ] Add animation triggers from RAG responses
+- [ ] **RAG controls image viewer: zoom in/out, pan, focus regions**
+- [ ] Bot can guide users through image ("Show me the MIDI section")
+- [ ] Implement image manipulation commands (zoom 2x, pan left, reset view)
+- [ ] Add highlight/annotation overlays triggered by bot
+- [ ] Create guided tour mode (bot walks through image sections)
+- [ ] Create interactive image exploration UX
+- [ ] Build image context metadata system
+- [ ] Test with different project types (TD, music, code)
+
+**Impact:** High | **Effort:** High | **Status:** Not Started
+**Uniqueness:** ⭐⭐⭐⭐⭐ (No other portfolio does this!)
+**Game-Changer:** Bot becomes an interactive tour guide for your work!
+
+---
+
 ## 🚀 Recently Completed
 
 ### ✅ Dark Mode (Completed - October 19, 2025) 🌙
