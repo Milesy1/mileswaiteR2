@@ -4,6 +4,9 @@ import type { Metadata } from 'next';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/next';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+import CustomCursor from '@/components/CustomCursor';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -66,14 +69,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-white text-neutral-900 antialiased">
-        <div className="relative flex min-h-screen flex-col">
-          <Navigation />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 antialiased transition-colors duration-300">
+        {gaId && <GoogleAnalytics measurementId={gaId} />}
+        <ThemeProvider>
+          <CustomCursor />
+          <div className="relative flex min-h-screen flex-col">
+            <Navigation />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

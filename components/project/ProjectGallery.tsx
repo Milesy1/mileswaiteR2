@@ -19,13 +19,12 @@ export function ProjectGallery({ gallery, title }: ProjectGalleryProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
           className="space-y-12"
         >
           <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900 dark:text-neutral-100 mb-6">
               Project Gallery
             </h2>
             <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
@@ -42,7 +41,7 @@ export function ProjectGallery({ gallery, title }: ProjectGalleryProps) {
                 className="group cursor-pointer"
                 onClick={() => setSelectedImage(image)}
               >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-100">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-100 dark:bg-neutral-800">
                   <Image
                     src={image}
                     alt={`${title} - Image ${index + 1}`}

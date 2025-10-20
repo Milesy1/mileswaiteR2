@@ -26,7 +26,7 @@ export function ProjectCard({ title, description, image, video, link }: ProjectC
       >
         <div className="overflow-hidden">
           {/* Image/Video Container */}
-          <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+          <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100 dark:bg-neutral-800">
             {video ? (
               <video
                 src={video}
@@ -50,7 +50,7 @@ export function ProjectCard({ title, description, image, video, link }: ProjectC
 
           {/* Title */}
           <div className="pt-4">
-            <h3 className="text-base font-medium text-neutral-900 group-hover:text-primary-600 transition-colors duration-200">
+            <h3 className="text-base font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
               {title}
             </h3>
           </div>

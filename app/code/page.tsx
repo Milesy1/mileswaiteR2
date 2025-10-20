@@ -19,11 +19,11 @@ export default function CodePage() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-neutral-900">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-neutral-900 dark:text-neutral-100">
               {section}
             </h1>
             <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
-            <p className="text-sm font-normal text-[#888] max-w-[500px] mx-auto leading-[1.4]">
+            <p className="text-sm font-normal text-neutral-600 dark:text-neutral-400 max-w-[500px] mx-auto leading-[1.4]">
               <motion.span
                 initial={{ opacity: 0, x: 100 }}
                 animate={{ opacity: 1, x: 0 }}

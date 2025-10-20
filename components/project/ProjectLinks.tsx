@@ -12,17 +12,16 @@ export function ProjectLinks({ liveUrl, githubUrl, title }: ProjectLinksProps) {
   if (!liveUrl && !githubUrl) return null;
 
   return (
-    <section className="py-20 lg:py-32 bg-neutral-50">
+    <section className="py-20 lg:py-32 bg-neutral-50 dark:bg-neutral-950">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
           className="text-center space-y-12"
         >
           <div>
-            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900 dark:text-neutral-100 mb-6">
               Explore the Project
             </h2>
             <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>

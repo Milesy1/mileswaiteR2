@@ -19,17 +19,16 @@ export function ProjectNavigation({ currentSlug }: ProjectNavigationProps) {
   const nextProject = nextSlug ? getProjectBySlug(nextSlug) : null;
 
   return (
-    <section className="py-20 lg:py-32 border-t border-neutral-200">
+    <section className="py-20 lg:py-32 border-t border-neutral-200 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
           className="space-y-12"
         >
           <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl font-light text-neutral-900 dark:text-neutral-100 mb-6">
               More Projects
             </h2>
             <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto"></div>
@@ -48,11 +47,11 @@ export function ProjectNavigation({ currentSlug }: ProjectNavigationProps) {
                   href={`/projects/${prevProject.slug}`}
                   className="group block"
                 >
-                  <div className="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 border border-neutral-100 group-hover:border-primary-200">
+                  <div className="bg-white dark:bg-neutral-900 rounded-xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 border border-neutral-100 dark:border-neutral-800 group-hover:border-primary-200 dark:group-hover:border-primary-500">
                     <div className="flex items-center space-x-4 mb-4">
-                      <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center group-hover:bg-primary-200 transition-colors duration-200">
+                      <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center group-hover:bg-primary-200 dark:group-hover:bg-primary-800/50 transition-colors duration-200">
                         <svg
-                          className="w-5 h-5 text-primary-600"
+                          className="w-5 h-5 text-primary-600 dark:text-primary-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -65,14 +64,14 @@ export function ProjectNavigation({ currentSlug }: ProjectNavigationProps) {
                           />
                         </svg>
                       </div>
-                      <span className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
+                      <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
                         Previous Project
                       </span>
                     </div>
-                    <h3 className="text-xl font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors duration-200 mb-2">
+                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 mb-2">
                       {prevProject.title}
                     </h3>
-                    <p className="text-neutral-600 line-clamp-2">
+                    <p className="text-neutral-600 dark:text-neutral-400 line-clamp-2">
                       {prevProject.description}
                     </p>
                   </div>
@@ -93,14 +92,14 @@ export function ProjectNavigation({ currentSlug }: ProjectNavigationProps) {
                   href={`/projects/${nextProject.slug}`}
                   className="group block"
                 >
-                  <div className="bg-white rounded-xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 border border-neutral-100 group-hover:border-primary-200">
+                  <div className="bg-white dark:bg-neutral-900 rounded-xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 border border-neutral-100 dark:border-neutral-800 group-hover:border-primary-200 dark:group-hover:border-primary-500">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
+                      <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
                         Next Project
                       </span>
-                      <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center group-hover:bg-primary-200 transition-colors duration-200">
+                      <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center group-hover:bg-primary-200 dark:group-hover:bg-primary-800/50 transition-colors duration-200">
                         <svg
-                          className="w-5 h-5 text-primary-600"
+                          className="w-5 h-5 text-primary-600 dark:text-primary-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -114,10 +113,10 @@ export function ProjectNavigation({ currentSlug }: ProjectNavigationProps) {
                         </svg>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors duration-200 mb-2">
+                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 mb-2">
                       {nextProject.title}
                     </h3>
-                    <p className="text-neutral-600 line-clamp-2">
+                    <p className="text-neutral-600 dark:text-neutral-400 line-clamp-2">
                       {nextProject.description}
                     </p>
                   </div>
