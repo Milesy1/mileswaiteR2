@@ -3,7 +3,8 @@ export interface Project {
   title: string;
   description: string;
   longDescription: string;
-  image: string;
+  image: string;  // Used for project cards on homepage
+  heroImage?: string;  // Optional: Used for project detail page hero (defaults to image if not provided)
   video?: string;
   gallery: string[];
   techStack: string[];
@@ -24,6 +25,7 @@ export const projectsData: Project[] = [
     description: 'This comprehensive real-time visual system revolutionizes creative workflows through modular, reusable components orchestrated by an intelligent Python-based MIDI event dispatcher.',
     longDescription: 'Built with TouchDesigner\'s node-based architecture and event-driven control logic, it transforms MIDI controllers into expressive instruments for live visual performance, installations, and interactive experiences. The system enables rapid prototyping, expressive live performance control, and scalable complexity through component-based architecture with intelligent event-driven orchestration.',
     image: '/images/td.png',
+    heroImage: '/images/emergent_geometry-hero.png',
     gallery: [
       '/images/td1.png',
       '/images/td2.png',
@@ -66,6 +68,7 @@ export const projectsData: Project[] = [
     description: 'A comprehensive independent record label and artist collective designed to champion experimental musicians pushing the boundaries of electronic music production.',
     longDescription: 'Built as a sustainable ecosystem that celebrates creative risk-taking, technical innovation, and unconventional approaches to sound design. Functions as both a distribution platform and creative community for artists who treat music production as a form of technological research.',
     image: '/images/string-field-theories.png',
+    heroImage: '/images/string_field_theory-hero.png',
     gallery: [
       '/images/sft1.png',
       '/images/sft2.png',
@@ -103,6 +106,7 @@ export const projectsData: Project[] = [
     description: 'My production workflow is built around Ableton Live as a creative and technical hub.',
     longDescription: 'I combine live recordings, Max/MSP devices, and custom signal routing to shape unique, evolving soundscapes. Every session blends structured composition with real-time experimentation—using Max for Live patches to manipulate audio dynamically and automate complex effects chains. Mixing and mastering are handled in-house, focusing on clarity, depth, and cohesion across a range of genres, from ambient and experimental textures to beat-driven electronic work. The result is a balance of precision and spontaneity—music that feels alive in both tone and process.',
     image: '/images/ableton1.png',
+    heroImage: '/images/live-hero.png',
     gallery: [
       '/images/ableton1.png',
       '/images/ableton2.png',

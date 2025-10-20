@@ -72,6 +72,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       key="hero"
       title={project.title}
       image={project.image}
+      heroImage={project.heroImage}
       category={project.category}
     />,
     

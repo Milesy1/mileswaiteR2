@@ -6,16 +6,17 @@ import { motion } from 'framer-motion';
 interface ProjectHeroProps {
   title: string;
   image: string;
+  heroImage?: string;
   category: string;
 }
 
-export function ProjectHero({ title, image, category }: ProjectHeroProps) {
+export function ProjectHero({ title, image, heroImage, category }: ProjectHeroProps) {
   return (
     <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
       {/* Hero Image */}
       <div className="absolute inset-0">
         <Image
-          src={image}
+          src={heroImage || image}
           alt={title}
           fill
           className="object-cover"

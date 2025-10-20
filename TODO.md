@@ -116,6 +116,30 @@
 
 ## 💡 Future Ideas
 
+### 💎 Featured Interaction - Exploded View Animation
+- [ ] **Exploded Geometric Cube on Homepage** (Replace cylinder with interactive explosion)
+  - Cube made of smaller cubes hovering on hero
+  - Mouse controls rotation (OrbitControls)
+  - On scroll: Explodes into floating grid pattern
+  - Represents: Systems, complexity, emergence
+  - Matches "Robust. Antifragile. Emergent." tagline
+  - Built with React Three Fiber + react-spring
+  - Minimal aesthetic, professional
+  - Dark mode compatible
+  - Mobile responsive (touch to explode)
+  
+**Alternatives to Consider:**
+- Option A: Exploded synthesizer/modular system (represents music work)
+- Option B: Exploded TouchDesigner network (TOPs, SOPs, CHOPs flying apart)
+- Option C: Abstract geometric explosion (most minimal, on-brand)
+
+**Impact:** Very High (Unique, memorable, engaging)  
+**Effort:** Medium (2-3 hours for basic, 1-2 days polished)  
+**Status:** Not Started  
+**Inspiration:** makingsoftware.com exploded floppy disc
+
+---
+
 ### ⚡ Quick Wins (High Impact, Low Effort)
 - [ ] **Export high-res hero images from TouchDesigner** (2400x1600 PNG) - 30 mins
 - [ ] **Add favicon** (minimal 'M' or dot logo) - 15 mins
