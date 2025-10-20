@@ -67,7 +67,7 @@ export const projectsData: Project[] = [
     title: 'String Field Theories',
     description: 'A comprehensive independent record label and artist collective designed to champion experimental musicians pushing the boundaries of electronic music production.',
     longDescription: 'Built as a sustainable ecosystem that celebrates creative risk-taking, technical innovation, and unconventional approaches to sound design. Functions as both a distribution platform and creative community for artists who treat music production as a form of technological research.',
-    image: '/images/string-field-theories.png',
+    image: '/images/string_field_theory1.png',
     heroImage: '/images/string_field_theory-hero.png',
     gallery: [
       '/images/sft1.png',
@@ -125,10 +125,11 @@ export const projectsData: Project[] = [
     description: 'My work in complex systems focuses on understanding how order, intelligence, and adaptability arise from seemingly chaotic interactions.',
     longDescription: 'I earned a Certificate in Complex Systems from the Santa Fe Institute, where I studied the foundations of emergent behavior, nonlinear dynamics, and network theory—learning how simple local rules can generate global patterns. This academic work is paired with hands-on application. At E.ON, I helped design antifragile systems within risk management—frameworks that respond to volatility by adapting and strengthening over time. That experience shaped my ongoing interest in how complex systems can be modeled, simulated, and optimized in real-world contexts. I\'m currently developing deeper technical and mathematical skills to expand this work, exploring tools from computational modeling, agent-based simulation, and statistical mechanics to data visualization and algorithmic design. My goal is to bridge theory and practice—building systems that don\'t just resist disruption but evolve through it.',
     image: '/images/lorenz6.png',
+    heroImage: '/images/complex_systems-hero.png.avif',
     gallery: [
       '/images/complexsystems2.png',
-      '/images/complexsystems1.png',
-      '/images/complexsystems3.png'
+      '/images/complexsystems4.png',
+      '/images/complexsystems1.png'
     ],
     techStack: ['Complex Systems Theory', 'Emergent Behavior', 'Nonlinear Dynamics', 'Network Theory', 'Agent-Based Simulation', 'Statistical Mechanics', 'Computational Modeling'],
     liveUrl: 'https://viz.example.com',
@@ -180,7 +181,7 @@ export const projectsData: Project[] = [
     title: 'New City Dream',
     description: 'Up-tempo electronic track with layered synthesizers and dynamic percussion elements.',
     longDescription: 'An energetic electronic dance track designed for clubs and festivals. Features driving basslines, evolving synth pads, and crisp percussion. The arrangement builds tension and releases with powerful drops, creating an engaging sonic journey.',
-    image: '/images/ncd.png',
+    image: '/images/ncd1.png',
     gallery: [
       '/images/ncd6.png',
       '/images/new-city-dream.png',
