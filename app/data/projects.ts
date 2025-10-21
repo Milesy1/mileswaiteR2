@@ -284,7 +284,8 @@ export const projectsData: Project[] = [
     title: 'Emergence',
     description: 'CI/CD pipeline with Docker containerization, automated testing, and cloud deployment.',
     longDescription: 'A comprehensive DevOps automation solution that streamlines the entire software delivery process. Features include automated CI/CD pipelines, infrastructure as code, monitoring, and security scanning.',
-    image: '/images/emergence.png',
+    image: '/images/emergence3.png',
+    heroImage: '/images/murmuration.png',
     gallery: [
       '/images/emergence1.png',
       '/images/emergence2.png',
