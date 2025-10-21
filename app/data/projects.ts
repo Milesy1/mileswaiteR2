@@ -222,7 +222,7 @@ export const projectsData: Project[] = [
     description: 'Reusable React components with TypeScript, Storybook documentation, and comprehensive testing.',
     longDescription: 'A comprehensive React component library designed for modern web applications. Features TypeScript support, Storybook documentation, comprehensive testing suite, and accessibility compliance.',
     image: '/images/python.png',
-    heroImage: '/images/python-hero.png',
+    heroImage: '/images/rag5.png',
     gallery: [
       '/images/python2.jpg',
       '/images/python3.png',
