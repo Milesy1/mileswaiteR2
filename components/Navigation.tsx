@@ -40,13 +40,28 @@ export function Navigation() {
     >
       <nav className="w-full">
         <div className="flex justify-between items-center h-16 lg:h-20 px-[10%] sm:px-[8%] lg:px-[5%]">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-sm lg:text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
-          >
-            mileswaite.net
-          </Link>
+          {/* Logo with conditional Ask Miles button */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/"
+              className="text-sm lg:text-base font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+            >
+              mileswaite.net
+            </Link>
+            
+            {/* "Ask Miles..." - Only on homepage, fades in last */}
+            {pathname === '/' && (
+              <motion.button
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 4.2, ease: "easeOut" }}
+                onClick={() => window.location.href = '/about#chatbot'}
+                className="text-sm lg:text-base font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
+              >
+                Ask Miles...
+              </motion.button>
+            )}
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

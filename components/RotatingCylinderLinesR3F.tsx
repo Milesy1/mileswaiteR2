@@ -210,7 +210,7 @@ export default function RotatingCylinderLinesR3F() {
   return (
     <div className="w-full h-full">
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 75 }}
+        camera={{ position: [0, 0, 3.5], fov: 75 }}
         className="w-full h-full"
         style={{ background: '#000000' }}
       >

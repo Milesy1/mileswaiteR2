@@ -4,15 +4,23 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
 import { CubeScene } from '@/components/CubeScene';
-import RotatingCylinderLinesR3F from '@/components/RotatingCylinderLinesR3F';
+
+// Dynamically import heavy 3D component for better performance
+const RotatingCylinderLinesR3F = dynamic(
+  () => import('@/components/RotatingCylinderLinesR3F'),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full bg-black rounded-lg animate-pulse" />
+    )
+  }
+);
 
 export default function HomePage() {
-  const router = useRouter();
-  
   // Ensure page starts at top when navigating to homepage
   useEffect(() => {
     // Use requestAnimationFrame to ensure this runs after any layout shifts
@@ -20,44 +28,38 @@ export default function HomePage() {
       window.scrollTo(0, 0);
     });
   }, []);
-  
-  const handleChatClick = () => {
-    // Use Next.js Link for proper navigation instead of router.push
-    // This ensures the page loads properly on mobile
-    window.location.href = '/about#chatbot';
-  };
 
   return (
     <div className="pt-16 lg:pt-20">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto text-center flex flex-col justify-center -mt-8 sm:-mt-12 lg:-mt-16">
           {/* 1. Hero Animation - Fades in first */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="mb-12"
+            className="mb-6 sm:mb-8"
           >
-            {/* 3D Rotating Cylinder */}
-            <div className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto">
+            {/* 3D Rotating Cylinder - Large and prominent against black background */}
+            <div className="w-96 h-96 sm:w-[28rem] sm:h-[28rem] lg:w-[32rem] lg:h-[32rem] xl:w-[36rem] xl:h-[36rem] mx-auto">
               <RotatingCylinderLinesR3F />
             </div>
           </motion.div>
 
-        <div className="space-y-6">
+        <div className="space-y-2 sm:space-y-3">
           {/* 2. Subtitle - Fades in after three words (after 2.7s delay) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 2.7 }}
-            className="text-base font-light text-neutral-600 dark:text-neutral-400 uppercase tracking-[0.1em] mb-4"
+            className="text-[10px] sm:text-xs font-light text-neutral-600 dark:text-neutral-400 uppercase tracking-[0.1em] mb-2"
           >
             CREATIVE TECHNOLOGY & COMPLEX SYSTEMS
           </motion.div>
 
           {/* 3. Three Words - Animate in first (after 0.9s delay) */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-neutral-900 dark:text-neutral-100 leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-light text-neutral-900 dark:text-neutral-100 leading-tight">
             <motion.span
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
@@ -90,28 +92,13 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 3.3, ease: "easeOut" }}
-              className="text-sm font-normal text-neutral-600 dark:text-neutral-400 max-w-[500px] mx-auto leading-[1.4]"
+              className="text-[11px] sm:text-xs lg:text-sm font-normal text-neutral-600 dark:text-neutral-400 max-w-[400px] sm:max-w-[450px] mx-auto leading-relaxed"
             >
               Certified by the Santa Fe Institute of Complex Science, with 
               expertise in complex, adaptive systems. 20+ years experience in 
               designing, implementing & testing large-scale real-time complex 
               systems, & automating company-wide processes.
             </motion.p>
-
-            {/* Call to Action */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 3.8, ease: "easeOut" }}
-              className="mt-8"
-            >
-              <button 
-                onClick={handleChatClick}
-                className="inline-block text-lg font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
-              >
-                Chat with Miles
-              </button>
-            </motion.div>
 
           </div>
         </div>
