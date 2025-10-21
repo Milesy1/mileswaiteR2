@@ -49,14 +49,14 @@ export function Navigation() {
               mileswaite.net
             </Link>
             
-            {/* "Ask Miles..." - Only on homepage, fades in last */}
+            {/* "Ask Miles..." - Only on homepage desktop, fades in last */}
             {pathname === '/' && (
               <motion.button
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 4.2, ease: "easeOut" }}
                 onClick={() => window.location.href = '/about#chatbot'}
-                className="text-sm lg:text-base font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
+                className="hidden md:inline-block text-sm lg:text-base font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
               >
                 Ask Miles...
               </motion.button>
