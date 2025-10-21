@@ -44,6 +44,7 @@ function CylinderSegment({ radius, color, speed, reverse = false, startAngle, en
             count={points.length}
             array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
             itemSize={3}
+            args={[new Float32Array(points.flatMap(p => [p.x, p.y, p.z])), 3]}
           />
         </bufferGeometry>
         <lineBasicMaterial color={color} />
