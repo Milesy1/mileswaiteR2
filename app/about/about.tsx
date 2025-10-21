@@ -120,7 +120,7 @@ export default function AboutPage() {
 
               {/* Skills */}
               <div className="pt-8">
-                <h3 className="text-xl font-semibold text-neutral-900 mb-4">Technologies & Skills</h3>
+                <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-4">Technologies & Skills</h3>
                 <div className="flex flex-wrap gap-3">
                   {[
                     'Next.js', 'React', 'TypeScript', 'Tailwind CSS', 
@@ -129,7 +129,7 @@ export default function AboutPage() {
                   ].map((skill) => (
                     <span
                       key={skill}
-                      className="px-4 py-2 bg-white border border-neutral-200 rounded-full text-sm text-neutral-700 hover:border-primary-200 hover:text-primary-600 transition-colors duration-200"
+                      className="px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-sm text-neutral-700 dark:text-neutral-300 hover:border-primary-200 hover:text-primary-600 dark:hover:border-primary-400 dark:hover:text-primary-400 transition-colors duration-200"
                     >
                       {skill}
                     </span>
@@ -150,11 +150,27 @@ export default function AboutPage() {
               </div>
             </motion.div>
           </div>
+          
+          {/* CV Download - Between cylinder and chatbot */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-center pt-16"
+          >
+            <a
+              href="/cv/Miles-Waite-CV.pdf"
+              download
+              className="inline-block px-6 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-base text-neutral-700 dark:text-neutral-300 hover:border-primary-200 hover:text-primary-600 dark:hover:border-primary-400 dark:hover:text-primary-400 transition-colors duration-200 font-medium"
+            >
+              Download CV / Resume
+            </a>
+          </motion.div>
         </div>
       </section>
 
       {/* ChatBot Section */}
-      <section id="chatbot" className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50">
+      <section id="chatbot" className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50 dark:bg-neutral-900">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -231,7 +247,7 @@ export default function AboutPage() {
           >
             <a 
               href="/" 
-              className="inline-flex items-center text-sm text-neutral-500 hover:text-neutral-700 transition-colors duration-200"
+              className="inline-flex items-center text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors duration-200"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
