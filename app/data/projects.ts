@@ -125,7 +125,7 @@ export const projectsData: Project[] = [
     description: 'My work in complex systems focuses on understanding how order, intelligence, and adaptability arise from seemingly chaotic interactions.',
     longDescription: 'I earned a Certificate in Complex Systems from the Santa Fe Institute, where I studied the foundations of emergent behavior, nonlinear dynamics, and network theory—learning how simple local rules can generate global patterns. This academic work is paired with hands-on application. At E.ON, I helped design antifragile systems within risk management—frameworks that respond to volatility by adapting and strengthening over time. That experience shaped my ongoing interest in how complex systems can be modeled, simulated, and optimized in real-world contexts. I\'m currently developing deeper technical and mathematical skills to expand this work, exploring tools from computational modeling, agent-based simulation, and statistical mechanics to data visualization and algorithmic design. My goal is to bridge theory and practice—building systems that don\'t just resist disruption but evolve through it.',
     image: '/images/lorenz6.png',
-    heroImage: '/images/complex_systems-hero.png.avif',
+    heroImage: '/images/network.png',
     gallery: [
       '/images/complexsystems2.png',
       '/images/complexsystems4.png',
@@ -222,6 +222,7 @@ export const projectsData: Project[] = [
     description: 'Reusable React components with TypeScript, Storybook documentation, and comprehensive testing.',
     longDescription: 'A comprehensive React component library designed for modern web applications. Features TypeScript support, Storybook documentation, comprehensive testing suite, and accessibility compliance.',
     image: '/images/python.png',
+    heroImage: '/images/python-hero.png',
     gallery: [
       '/images/python2.jpg',
       '/images/python3.png',
