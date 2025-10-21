@@ -277,6 +277,22 @@ export default function HomePage() {
               );
             })}
           </div>
+          
+          {/* Mobile-Only Ask Miles Button - Below projects, above footer */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="md:hidden text-center pt-16 pb-8"
+          >
+            <button 
+              onClick={() => window.location.href = '/about#chatbot'}
+              className="inline-block text-lg font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
+            >
+              Ask Miles
+            </button>
+          </motion.div>
         </div>
       </section>
 
