@@ -67,7 +67,7 @@ export const projectsData: Project[] = [
     title: 'String Field Theories',
     description: 'A comprehensive independent record label and artist collective designed to champion experimental musicians pushing the boundaries of electronic music production.',
     longDescription: 'Built as a sustainable ecosystem that celebrates creative risk-taking, technical innovation, and unconventional approaches to sound design. Functions as both a distribution platform and creative community for artists who treat music production as a form of technological research.',
-    image: '/images/string_field_theory1.png',
+    image: '/images/string_field_theory2.png',
     heroImage: '/images/string_field_theory-hero.png',
     gallery: [
       '/images/sft1.png',
@@ -223,9 +223,9 @@ export const projectsData: Project[] = [
     longDescription: 'A comprehensive React component library designed for modern web applications. Features TypeScript support, Storybook documentation, comprehensive testing suite, and accessibility compliance.',
     image: '/images/python.png',
     gallery: [
-      'https://picsum.photos/800/600?random=91',
-      'https://picsum.photos/800/600?random=92',
-      'https://picsum.photos/800/600?random=93'
+      '/images/python2.jpg',
+      '/images/python3.png',
+      '/images/python1.png'
     ],
     techStack: ['React', 'TypeScript', 'Storybook', 'Jest', 'Styled Components'],
     liveUrl: 'https://components.example.com',

@@ -59,3 +59,4 @@ export function ProjectCard({ title, description, image, video, link }: ProjectC
     </motion.div>
   );
 }
+
