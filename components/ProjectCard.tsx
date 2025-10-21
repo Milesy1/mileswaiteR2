@@ -34,8 +34,10 @@ export function ProjectCard({ title, description, image, video, link }: ProjectC
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
                 poster={image}
+                onMouseEnter={(e) => e.currentTarget.play()}
+                onMouseLeave={(e) => e.currentTarget.pause()}
               />
             ) : (
               <Image
