@@ -179,43 +179,43 @@ export default function StatsTicker() {
         ) : (
           <>
             <StatItem 
-              value={stats.totalConversations.toLocaleString()} 
+              value={stats?.totalConversations.toLocaleString() ?? '0'} 
               label="conversations"
             />
             <Separator />
             <StatItem 
-              value={`${stats.avgResponseTime}s`} 
+              value={`${stats?.avgResponseTime ?? 0}s`} 
               label="avg response"
             />
             <Separator />
             <StatItem 
-              value={stats.accuracy + '%'} 
+              value={(stats?.accuracy ?? 0) + '%'} 
               label="accuracy"
             />
             <Separator />
             <StatItem 
-              value={stats.projectsIndexed} 
+              value={stats?.projectsIndexed ?? 0} 
               label="projects indexed"
             />
             <Separator />
             {/* Duplicate for seamless loop */}
             <StatItem 
-              value={stats.totalConversations.toLocaleString()} 
+              value={stats?.totalConversations.toLocaleString() ?? '0'} 
               label="conversations"
             />
             <Separator />
             <StatItem 
-              value={`${stats.avgResponseTime}s`} 
+              value={`${stats?.avgResponseTime ?? 0}s`} 
               label="avg response"
             />
             <Separator />
             <StatItem 
-              value={stats.accuracy + '%'} 
+              value={(stats?.accuracy ?? 0) + '%'} 
               label="accuracy"
             />
             <Separator />
             <StatItem 
-              value={stats.projectsIndexed} 
+              value={stats?.projectsIndexed ?? 0} 
               label="projects indexed"
             />
           </>
