@@ -33,7 +33,7 @@ export default function HomePage() {
     <div className="pt-16 lg:pt-20">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto text-center flex flex-col justify-center -mt-8 sm:-mt-12 lg:-mt-16">
+        <div className="max-w-7xl mx-auto text-center flex flex-col justify-center -mt-4 sm:-mt-8 lg:-mt-16">
           {/* 1. Hero Animation - Fades in first */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -42,7 +42,7 @@ export default function HomePage() {
             className="mb-6 sm:mb-8"
           >
             {/* 3D Rotating Cylinder - Large and prominent against black background */}
-            <div className="w-96 h-96 sm:w-[28rem] sm:h-[28rem] lg:w-[32rem] lg:h-[32rem] xl:w-[36rem] xl:h-[36rem] mx-auto">
+            <div className="w-80 h-80 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] lg:w-[32rem] lg:h-[32rem] xl:w-[36rem] xl:h-[36rem] mx-auto">
               <RotatingCylinderLinesR3F />
             </div>
           </motion.div>
