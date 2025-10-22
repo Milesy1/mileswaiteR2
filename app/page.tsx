@@ -32,8 +32,8 @@ export default function HomePage() {
   return (
     <div className="pt-16 lg:pt-20">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto text-center flex flex-col justify-center -mt-4 sm:-mt-8 lg:-mt-16">
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4 sm:py-12">
+        <div className="max-w-7xl mx-auto text-center flex flex-col justify-center -mt-8 sm:-mt-8 lg:-mt-16">
           {/* 1. Hero Animation - Fades in first */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -99,6 +99,21 @@ export default function HomePage() {
               designing, implementing & testing large-scale real-time complex 
               systems, & automating company-wide processes.
             </motion.p>
+
+            {/* Mobile-only "Ask Miles" button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 4.0, ease: "easeOut" }}
+              className="sm:hidden mt-4"
+            >
+              <Link 
+                href="#chat"
+                className="inline-block px-6 py-2 text-sm font-medium text-white bg-neutral-900 dark:bg-white dark:text-neutral-900 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-colors duration-200"
+              >
+                Ask Miles
+              </Link>
+            </motion.div>
 
           </div>
         </div>
