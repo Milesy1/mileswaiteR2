@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/next';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CustomCursor from '@/components/CustomCursor';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import KeyboardShortcutsProvider from '@/components/KeyboardShortcutsProvider';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -76,12 +77,14 @@ export default function RootLayout({
       <body className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 antialiased transition-colors duration-300">
         {gaId && <GoogleAnalytics measurementId={gaId} />}
         <ThemeProvider>
-          <CustomCursor />
-          <div className="relative flex min-h-screen flex-col">
-            <Navigation />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <KeyboardShortcutsProvider>
+            <CustomCursor />
+            <div className="relative flex min-h-screen flex-col">
+              <Navigation />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </KeyboardShortcutsProvider>
         </ThemeProvider>
         <Analytics />
       </body>
