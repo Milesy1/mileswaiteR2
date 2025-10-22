@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
+import { SkeletonMusicPlayer } from '@/components/SkeletonMusicPlayer';
 
 // ============================================================================
 // NOW PAGE DATA - Easy to update!
@@ -116,7 +117,7 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
     }
   }, [audioFile, trackTitle]);
 
-  // If no audio file, just show the track title
+  // If no audio file, show skeleton while loading or just track title
   if (!audioFile) {
     return (
       <div className="flex items-center space-x-3 sm:space-x-4">
@@ -128,6 +129,11 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
         </span>
       </div>
     );
+  }
+
+  // Show skeleton while audio is loading
+  if (duration === 0) {
+    return <SkeletonMusicPlayer />;
   }
 
   return (
