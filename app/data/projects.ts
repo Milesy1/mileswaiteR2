@@ -202,6 +202,7 @@ export const projectsData: Project[] = [
     description: 'Intimate acoustic composition with fingerpicked guitar and heartfelt vocal melodies.',
     longDescription: 'A tender acoustic ballad featuring intricate fingerpicked guitar arrangements and soulful vocal melodies. The song tells a story of reflection and hope, with a minimalist production style that highlights the raw emotion of the performance.',
     image: '/images/waw2.png',
+    heroImage: '/images/waw5.png',
     gallery: [
       '/images/wt2.png',
       '/images/waw.png',
@@ -243,10 +244,12 @@ export const projectsData: Project[] = [
     title: 'Julia 1.11.6',
     description: 'Scalable microservice architecture with authentication, rate limiting, and comprehensive logging.',
     longDescription: 'A production-ready microservice built with modern architecture patterns. Features include JWT authentication, rate limiting, comprehensive logging, health checks, and horizontal scaling capabilities.',
-    image: '/images/julia.png',
+    image: '/images/julia1.png',
+    heroImage: '/images/julia2.png',
     gallery: [
-      'https://picsum.photos/800/600?random=101',
-      'https://picsum.photos/800/600?random=102'
+      '/images/rag3.png',
+      '/images/rag8.png',
+      '/images/rag9.png'
     ],
     techStack: ['Node.js', 'Express', 'JWT', 'Redis', 'Docker', 'Kubernetes'],
     liveUrl: 'https://api.example.com/docs',

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ClientBackToTop from './ClientBackToTop';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -97,9 +98,12 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-8 pt-8 border-t border-neutral-200 dark:border-neutral-800">
-          <p className="text-neutral-500 dark:text-neutral-400 text-sm">
-            © {currentYear} Miles. All rights reserved.
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-neutral-500 dark:text-neutral-400 text-sm">
+              © {currentYear} Miles. All rights reserved.
+            </p>
+            <ClientBackToTop />
+          </div>
         </div>
       </div>
     </footer>
