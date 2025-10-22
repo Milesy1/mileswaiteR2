@@ -18,11 +18,11 @@ export function ChatBot() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
-    // No auto-scroll on any device - keep page still
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleInputFocus = () => {
-    // No scroll manipulation on any device - keep page still
+    // Keep input focused without page scroll manipulation
   };
 
   useEffect(() => {
@@ -30,6 +30,12 @@ export function ChatBot() {
       scrollToBottom();
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (isLoading) {
+      scrollToBottom();
+    }
+  }, [isLoading]);
 
 
   const sendMessage = async () => {
@@ -63,6 +69,11 @@ export function ChatBot() {
       const data = await response.json();
       const aiMessage: Message = { role: 'assistant', content: data.message };
       setMessages([...newMessages, aiMessage]);
+      
+      // Scroll to bottom after AI response is added
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
       
       // Track successful conversation turn
       track('chat_conversation_turn', {
