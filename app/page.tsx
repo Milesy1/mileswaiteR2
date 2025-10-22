@@ -8,15 +8,14 @@ import dynamic from 'next/dynamic';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
 import { CubeScene } from '@/components/CubeScene';
+import { Skeleton3D } from '@/components/Skeleton3D';
 
 // Dynamically import heavy 3D component for better performance
 const RotatingCylinderLinesR3F = dynamic(
   () => import('@/components/RotatingCylinderLinesR3F'),
   { 
     ssr: false,
-    loading: () => (
-      <div className="w-full h-full bg-black rounded-lg animate-pulse" />
-    )
+    loading: () => <Skeleton3D size="large" />
   }
 );
 

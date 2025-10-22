@@ -3,10 +3,21 @@
 import { motion } from 'framer-motion';
 import { ProjectCard } from '@/components/ProjectCard';
 import { getProjectsByCategory } from '../data/projects';
+import { SkeletonCardGrid } from '@/components/SkeletonCard';
+import { useState, useEffect } from 'react';
 
 export default function MusicPage() {
   const section = 'Music';
   const projects = getProjectsByCategory('Music');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time for projects
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -58,7 +69,9 @@ export default function MusicPage() {
       {/* Music Grid */}
       <section className="pb-20 lg:pb-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {projects.length > 0 ? (
+          {isLoading ? (
+            <SkeletonCardGrid count={4} />
+          ) : projects.length > 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
