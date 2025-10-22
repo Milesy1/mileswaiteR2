@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
         projects_count: searchResult.projects.length,
         expertise_count: searchResult.expertise.length,
         music_count: searchResult.musicInspirations.length,
-        keywords_count: lastUserMessage.split(/\s+/).filter(word => word.length > 2).length,
+        keywords_count: lastUserMessage.split(/\s+/).filter((word: string) => word.length > 2).length,
         query_length: lastUserMessage.length,
       });
 
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       if (totalEntities === 0) {
         trackServerEvent('rag_empty_results', {
           query: lastUserMessage.substring(0, 100), // First 100 chars for privacy
-          keywords_extracted: lastUserMessage.split(/\s+/).filter(word => word.length > 2),
+          keywords_extracted: lastUserMessage.split(/\s+/).filter((word: string) => word.length > 2),
         });
       }
       
