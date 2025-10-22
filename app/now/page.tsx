@@ -23,7 +23,7 @@ const nowData = [
       { title: "Against The Day", author: "Thomas Pynchon" }
     ],
     listeningTrack: "WIP Mix 01",
-    listeningFile: "/music/mileswaite.mp3",
+    listeningFile: "/music/theremaxmw-edit.mp3",
     using: ["Prompt Engineering", "Cursor", "Claude - Sonnet 4.5" ],
     location: "London, UK",
     openTo: ["Live 12.3", "TouchDesigner"]
@@ -51,6 +51,7 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [displayTitle, setDisplayTitle] = useState(trackTitle);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const togglePlayPause = () => {
@@ -90,8 +91,32 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
+      
+      // Try to get track name from metadata
+      const audio = audioRef.current;
+      if (audio.title) {
+        setDisplayTitle(audio.title);
+      } else if (audioFile) {
+        // Fallback to filename (cleaned up)
+        const filename = audioFile.split('/').pop() || '';
+        const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
+        const cleanName = nameWithoutExt.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        setDisplayTitle(cleanName);
+      }
     }
   };
+
+  // Update display title when audioFile changes
+  useEffect(() => {
+    if (audioFile) {
+      const filename = audioFile.split('/').pop() || '';
+      const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
+      const cleanName = nameWithoutExt.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      setDisplayTitle(cleanName);
+    } else {
+      setDisplayTitle(trackTitle);
+    }
+  }, [audioFile, trackTitle]);
 
   // If no audio file, just show the track title
   if (!audioFile) {
@@ -121,7 +146,7 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
         </button>
       </div>
       <span className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
-        {trackTitle}
+        {displayTitle}
       </span>
       {/* Time display */}
       <span className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-mono">
