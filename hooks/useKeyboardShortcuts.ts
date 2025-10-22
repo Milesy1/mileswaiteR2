@@ -92,7 +92,7 @@ export function useKeyboardShortcuts({
             router.push('/music')
             break
           case 6:
-            router.push('/collectible')
+            router.push('/now')
             break
         }
         return
