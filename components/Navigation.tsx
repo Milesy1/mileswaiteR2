@@ -11,8 +11,8 @@ const navItems = [
   { name: 'Projects', href: '/projects' },
   { name: 'Music', href: '/music' },
   { name: 'Code', href: '/code' },
-  { name: 'Now', href: '/now' },
   { name: 'About', href: '/about' },
+  { name: 'Now', href: '/now' },
 ];
 
 export function Navigation() {
