@@ -92,11 +92,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl mx-4"
+            className="fixed top-4 left-4 right-4 sm:top-1/2 sm:left-1/2 sm:right-auto sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 z-50 w-auto sm:w-full sm:max-w-2xl sm:mx-4"
           >
             <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
               {/* Search Input */}
-              <div className="p-6 border-b border-neutral-200 dark:border-neutral-700">
+              <div className="p-4 sm:p-6 border-b border-neutral-200 dark:border-neutral-700">
                 <div className="flex items-center space-x-3">
                   <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -107,7 +107,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     placeholder="Search projects..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="flex-1 bg-transparent text-lg placeholder-neutral-400 focus:outline-none text-neutral-900 dark:text-white"
+                    className="flex-1 bg-transparent text-base sm:text-lg placeholder-neutral-400 focus:outline-none text-neutral-900 dark:text-white"
                   />
                   <kbd className="px-2 py-1 text-xs font-mono bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">
                     ESC
@@ -116,7 +116,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               </div>
 
               {/* Results */}
-              <div className="max-h-96 overflow-y-auto">
+              <div className="max-h-64 sm:max-h-96 overflow-y-auto">
                 {filteredProjects.length === 0 ? (
                   <div className="p-6 text-center text-neutral-500 dark:text-neutral-400">
                     {query ? 'No projects found' : 'Start typing to search...'}
@@ -129,7 +129,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className={`px-6 py-3 cursor-pointer transition-colors ${
+                        className={`px-4 sm:px-6 py-3 cursor-pointer transition-colors ${
                           index === selectedIndex
                             ? 'bg-neutral-100 dark:bg-neutral-800'
                             : 'hover:bg-neutral-50 dark:hover:bg-neutral-800/50'
@@ -176,9 +176,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               </div>
 
               {/* Footer */}
-              <div className="px-6 py-3 bg-neutral-50 dark:bg-neutral-800/50 border-t border-neutral-200 dark:border-neutral-700">
+              <div className="px-4 sm:px-6 py-3 bg-neutral-50 dark:bg-neutral-800/50 border-t border-neutral-200 dark:border-neutral-700">
                 <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
-                  <div className="flex items-center space-x-4">
+                  <div className="hidden sm:flex items-center space-x-4">
                     <span className="flex items-center space-x-1">
                       <kbd className="px-1.5 py-0.5 bg-neutral-200 dark:bg-neutral-700 rounded text-xs">↑↓</kbd>
                       <span>Navigate</span>
@@ -188,7 +188,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <span>Select</span>
                     </span>
                   </div>
-                  <span>{filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}</span>
+                  <span className="text-center sm:text-right">{filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}</span>
                 </div>
               </div>
             </div>
