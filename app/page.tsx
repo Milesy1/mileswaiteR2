@@ -100,12 +100,12 @@ export default function HomePage() {
               systems, & automating company-wide processes.
             </motion.p>
 
-            {/* Mobile-only "Ask Miles" button */}
+            {/* "Ask Miles" button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 4.0, ease: "easeOut" }}
-              className="sm:hidden mt-4"
+              className="mt-4"
             >
               <Link 
                 href="#chat"
