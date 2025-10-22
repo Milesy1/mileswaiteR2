@@ -187,6 +187,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <kbd className="px-1.5 py-0.5 bg-neutral-200 dark:bg-neutral-700 rounded text-xs">↵</kbd>
                       <span>Select</span>
                     </span>
+                    <span className="flex items-center space-x-1">
+                      <kbd className="px-1.5 py-0.5 bg-neutral-200 dark:bg-neutral-700 rounded text-xs">1-6</kbd>
+                      <span>Quick Nav</span>
+                    </span>
                   </div>
                   <span className="text-center sm:text-right">{filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}</span>
                 </div>
