@@ -84,16 +84,18 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
   }
 
   return (
-    <div className="flex items-center space-x-3 sm:space-x-4">
-      <button
-        onClick={togglePlayPause}
-        onKeyDown={handleKeyDown}
-        className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white focus:text-neutral-900 dark:focus:text-white transition-colors duration-200 font-mono text-sm sm:text-base p-2 -m-2 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900 min-w-[44px] min-h-[44px] flex items-center justify-center"
-        aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
-        tabIndex={0}
-      >
-        {isPlaying ? '⏸' : '▶'}
-      </button>
+    <div className="flex items-center space-x-3 sm:space-x-4 py-2">
+      <div className="p-2">
+        <button
+          onClick={togglePlayPause}
+          onKeyDown={handleKeyDown}
+          className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white focus:text-neutral-900 dark:focus:text-white transition-colors duration-200 font-mono text-sm sm:text-base p-3 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
+          tabIndex={0}
+        >
+          {isPlaying ? '⏸' : '▶'}
+        </button>
+      </div>
       <span className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
         {trackTitle}
       </span>
