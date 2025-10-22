@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { searchKnowledge } from '@/lib/search';
-import { track } from '@vercel/analytics/server';
+import { searchKnowledge, limitContextSize, isPortfolioRelated, validateContextQuality } from '@/lib/search';
+import { milesKnowledge } from '@/data/knowledge-base';
+import { trackServerEvent } from '@/lib/posthog';
 
 export async function POST(request: NextRequest) {
   try {
@@ -61,14 +62,91 @@ export async function POST(request: NextRequest) {
     }
     
     // Track chat interaction
-    track('chat_message', {
+    trackServerEvent('chat_message', {
       message_length: lastUserMessage.length,
       session_length: messages.length,
-      timestamp: new Date().toISOString()
     });
     
-    // SEARCH for relevant context using RAG
-    const context = searchKnowledge(lastUserMessage);
+    // OFF-TOPIC DETECTION: Check if query is portfolio-related
+    const isPortfolioQuery = isPortfolioRelated(lastUserMessage);
+    
+    let context;
+    let contextLimiterResult;
+    
+    if (!isPortfolioQuery) {
+      // Create empty context for off-topic queries
+      context = {
+        bio: milesKnowledge.bio,
+        techStack: milesKnowledge.techStack,
+        projects: [],
+        expertise: [],
+        philosophy: milesKnowledge.philosophy,
+        musicInspirations: [],
+        complexSystemsTheorists: [],
+        emergenceConcepts: [],
+        relevanceScore: 0,
+        fallbackStrategy: 'none' as const
+      };
+      contextLimiterResult = {
+        context,
+        wasTruncated: false,
+        originalCount: 0,
+        finalCount: 0
+      };
+      
+      // Track off-topic query detection
+      trackServerEvent('off_topic_query_detected', {
+        query: lastUserMessage.substring(0, 100), // First 100 chars for privacy
+      });
+    } else {
+      // SEARCH for relevant context using RAG
+      const searchResult = searchKnowledge(lastUserMessage);
+      
+      // VALIDATE context quality before processing
+      const qualityValidation = validateContextQuality(searchResult);
+      
+      // Track quality issues if validation fails
+      if (!qualityValidation.valid) {
+        trackServerEvent('context_quality_issue', {
+          issue: qualityValidation.issue,
+          action: qualityValidation.action,
+          query: lastUserMessage.substring(0, 100), // First 100 chars for privacy
+        });
+        
+        // TODO: Future enhancement - use validation.action for automated responses
+        // Example: if (qualityValidation.action === 'use_fallback') { /* trigger fallback */ }
+        // Example: if (qualityValidation.action === 'limit_context') { /* apply stricter limits */ }
+      }
+
+      // ANALYTICS: Track RAG retrieval summary for every query
+      // Fires: After context retrieval, before any processing
+      trackServerEvent('rag_retrieval_summary', {
+        projects_count: searchResult.projects.length,
+        expertise_count: searchResult.expertise.length,
+        music_count: searchResult.musicInspirations.length,
+        keywords_count: lastUserMessage.split(/\s+/).filter(word => word.length > 2).length,
+        query_length: lastUserMessage.length,
+      });
+
+      // ANALYTICS: Track empty results when no entities match
+      // Fires: When initial search returns zero results across all categories
+      const totalEntities = searchResult.projects.length + 
+                           searchResult.expertise.length + 
+                           searchResult.musicInspirations.length + 
+                           searchResult.complexSystemsTheorists.length + 
+                           searchResult.emergenceConcepts.length;
+      
+      if (totalEntities === 0) {
+        trackServerEvent('rag_empty_results', {
+          query: lastUserMessage.substring(0, 100), // First 100 chars for privacy
+          keywords_extracted: lastUserMessage.split(/\s+/).filter(word => word.length > 2),
+        });
+      }
+      
+      // LIMIT context size to prevent token limit exceeded errors
+      contextLimiterResult = limitContextSize(searchResult, { maxEntities: 15 });
+      context = contextLimiterResult.context;
+    }
     
     // BUILD enhanced system prompt with relevant context
     let systemPrompt = `You are an AI assistant for Miles Waite's portfolio website.
@@ -82,6 +160,24 @@ Backend: ${context.techStack.backend.join(', ')}
 Deployment: ${context.techStack.deployment.join(', ')}
 Specialties: ${context.techStack.specialties.join(', ')}
 `;
+
+    // Add off-topic query note if applicable
+    if (!isPortfolioQuery) {
+      systemPrompt += `\n\nNOTE: This query seems off-topic. Politely guide conversation back to portfolio work.\n`;
+    }
+
+    // Add fallback strategy note to system prompt if applicable
+    if (context.fallbackStrategy !== 'none') {
+      const fallbackNote = context.fallbackStrategy === 'broader_search' 
+        ? 'Note: Using broader search strategy due to limited initial results.'
+        : 'Note: Using comprehensive fallback strategy - returning all available content due to no specific matches found.';
+      systemPrompt += `\n\n${fallbackNote}\n`;
+    }
+
+    // Add context truncation note if applicable
+    if (contextLimiterResult.wasTruncated) {
+      systemPrompt += `\n\nNote: Context has been optimized for token efficiency (${contextLimiterResult.originalCount} → ${contextLimiterResult.finalCount} entities).\n`;
+    }
 
     // Add relevant projects if found
     if (context.projects.length > 0) {
@@ -97,7 +193,7 @@ ${project.title}:
       });
       
       // Track which projects are being discussed
-      track('chat_project_discussion', {
+      trackServerEvent('chat_project_discussion', {
         projects_count: context.projects.length,
         query: lastUserMessage.substring(0, 100) // First 100 chars for privacy
       });
@@ -115,7 +211,7 @@ Examples: ${exp.examples.join(', ')}
       });
       
       // Track which expertise areas are being discussed
-      track('chat_expertise_discussion', {
+      trackServerEvent('chat_expertise_discussion', {
         expertise_count: context.expertise.length,
         query: lastUserMessage.substring(0, 100)
       });
@@ -136,7 +232,7 @@ Relevance to Miles's work: ${theorist.relevance}
       });
       
       // Track which theorists are being discussed
-      track('chat_theorist_discussion', {
+      trackServerEvent('chat_theorist_discussion', {
         theorists_count: context.complexSystemsTheorists.length,
         query: lastUserMessage.substring(0, 100)
       });
@@ -157,7 +253,7 @@ Relevance to Miles's work: ${concept.relevance}
       });
       
       // Track which emergence concepts are being discussed
-      track('chat_emergence_discussion', {
+      trackServerEvent('chat_emergence_discussion', {
         emergence_concepts_count: context.emergenceConcepts.length,
         query: lastUserMessage.substring(0, 100)
       });
@@ -211,14 +307,36 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
       );
     }
 
+    // ANALYTICS: Track fallback strategy if used
+    // Fires: When fallback strategies are activated (broader_search or return_all)
+    if (context.fallbackStrategy !== 'none') {
+      trackServerEvent('rag_fallback_triggered', {
+        fallback_type: context.fallbackStrategy,
+        original_query: lastUserMessage.substring(0, 100), // First 100 chars for privacy
+      });
+    }
+
+    // ANALYTICS: Track context size warning when context exceeds threshold
+    // Fires: When context size exceeds the limit and gets truncated
+    if (contextLimiterResult.wasTruncated) {
+      trackServerEvent('context_size_warning', {
+        total_entities: contextLimiterResult.originalCount,
+        truncated: true,
+        final_count: contextLimiterResult.finalCount,
+        max_entities: 15,
+        query: lastUserMessage.substring(0, 100), // First 100 chars for privacy
+      });
+    }
+
     // Track successful response
-    track('chat_response_success', {
+    trackServerEvent('chat_response_success', {
       response_length: aiMessage.length,
       context_relevance: context.relevanceScore,
       projects_found: context.projects.length,
       expertise_found: context.expertise.length,
       theorists_found: context.complexSystemsTheorists.length,
-      emergence_concepts_found: context.emergenceConcepts.length
+      emergence_concepts_found: context.emergenceConcepts.length,
+      fallback_strategy: context.fallbackStrategy
     });
 
     return NextResponse.json({ message: aiMessage });
@@ -227,9 +345,8 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
     console.error('Chat API error:', error);
     
     // Track errors
-    track('chat_error', {
+    trackServerEvent('chat_error', {
       error_type: error instanceof Error ? error.message : 'unknown',
-      timestamp: new Date().toISOString()
     });
     
     return NextResponse.json(
