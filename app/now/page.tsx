@@ -131,10 +131,7 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
     );
   }
 
-  // Show skeleton while audio is loading
-  if (duration === 0) {
-    return <SkeletonMusicPlayer />;
-  }
+  // Show music player immediately, no skeleton delay
 
   return (
     <div className="flex items-center space-x-3 sm:space-x-4 py-2">
