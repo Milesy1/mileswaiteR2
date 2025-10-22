@@ -49,6 +49,8 @@ const nowData = [
 // Music Player Component - Touch-friendly and accessible
 function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile: string }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const togglePlayPause = () => {
@@ -66,6 +68,28 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       togglePlayPause();
+    }
+  };
+
+  // Format time in MM:SS format
+  const formatTime = (time: number) => {
+    if (isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Handle time updates
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  // Handle duration loaded
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
     }
   };
 
@@ -99,11 +123,17 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
       <span className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
         {trackTitle}
       </span>
+      {/* Time display */}
+      <span className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-mono">
+        {formatTime(currentTime)} / {formatTime(duration)}
+      </span>
       <audio
         ref={audioRef}
         src={audioFile}
         loop
         onEnded={() => setIsPlaying(false)}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
         preload="metadata"
       />
     </div>
