@@ -35,6 +35,7 @@ Visit the live portfolio: [https://mileswaiteR2.vercel.app](https://mileswaiteR2
 - **Hover Effects** and interactive elements
 - **Mobile-First** responsive design
 - **Accessibility** compliant
+- **Keyboard Shortcuts** for power users (see [KEYBOARD_SHORTCUTS.md](KEYBOARD_SHORTCUTS.md))
 
 ## 🎨 Design System
 
@@ -138,6 +139,23 @@ npm start
 - Scroll-triggered animations
 - Hover effects
 - Loading states
+
+## ⌨️ Keyboard Shortcuts
+
+This portfolio includes professional keyboard shortcuts for enhanced navigation:
+
+### Quick Access
+- **`Cmd+K` (Mac) / `Ctrl+K` (Windows)** - Open project search modal
+- **`1-6`** - Navigate to different pages (Home, Projects, Music, Code, About, Collectible)
+- **`H`, `P`, `A`** - Quick letter shortcuts for Home, Projects, About
+- **`Escape`** - Close any open modal
+
+### Search Modal
+- **Arrow Keys** - Navigate through search results
+- **Enter** - Select highlighted project
+- **Real-time filtering** by project name, description, or technology
+
+For a complete reference, see [KEYBOARD_SHORTCUTS.md](KEYBOARD_SHORTCUTS.md).
 
 ## 🎨 Customization
 
