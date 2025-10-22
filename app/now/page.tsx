@@ -97,11 +97,10 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
       if (audio.title) {
         setDisplayTitle(audio.title);
       } else if (audioFile) {
-        // Fallback to filename (cleaned up)
+        // Fallback to filename
         const filename = audioFile.split('/').pop() || '';
         const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
-        const cleanName = nameWithoutExt.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        setDisplayTitle(cleanName);
+        setDisplayTitle(nameWithoutExt);
       }
     }
   };
@@ -111,8 +110,7 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
     if (audioFile) {
       const filename = audioFile.split('/').pop() || '';
       const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
-      const cleanName = nameWithoutExt.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      setDisplayTitle(cleanName);
+      setDisplayTitle(nameWithoutExt);
     } else {
       setDisplayTitle(trackTitle);
     }
