@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorenz Attractor Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        #canvas-container {
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .info {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="info">
+            <h2>Lorenz Attractor</h2>
+            <p>Parameters: t=0, a=9, b=28, c=2</p>
+        </div>
+        <div id="canvas-container"></div>
+    </div>
+
+    <script>
+        let w, t = 0, a = 9, b = 28, c = 2;
+        let points = [];
+        let pointIndex = 0;
+        
+        function setup() {
+            let canvas = createCanvas(400, 400);
+            canvas.parent('canvas-container');
+            w = 400;
+            background(9);
+            
+            // Pre-allocate points array for better performance
+            points = new Array(30000);
+        }
+        
+        function draw() {
+            t++;
+            background(9);
+            
+            let x = 0.1, y = 0.1, z = 0.1;
+            
+            // Pre-calculate constants
+            const timeFactor = t * PI / 90;
+            const stepSize = 1e-3;
+            
+            for (let i = 30000; i--; ) {
+                // Pre-calculate stroke properties
+                const strokeWeight = (i + t) % 540 ? 1 : 5;
+                const alpha = strokeWeight * 96;
+                
+                // Calculate screen position
+                const screenX = (x + y) * (sin(timeFactor + z / 49 + x * x / w) * 2 + 2) + 200;
+                const screenY = 325 - z * 5;
+                
+                // Store point for batch rendering
+                points[pointIndex] = {x: screenX, y: screenY, weight: strokeWeight, alpha: alpha};
+                pointIndex = (pointIndex + 1) % 30000;
+                
+                // Update x, y, z using the Lorenz equations (optimized)
+                const dx = a * (y - x) * stepSize;
+                const dy = (x * (b - z) - y) * stepSize;
+                const dz = (x * y - c * z) * stepSize;
+                
+                x += dx;
+                y += dy;
+                z += dz;
+            }
+            
+            // Batch render all points
+            for (let i = 0; i < 30000; i++) {
+                const p = points[i];
+                if (p) {
+                    strokeWeight(p.weight);
+                    stroke(255, p.alpha);
+                    point(p.x, p.y);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

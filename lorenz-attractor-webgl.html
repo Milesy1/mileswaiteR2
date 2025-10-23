@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorenz Attractor - WebGL</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        #canvas-container {
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .info {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="info">
+            <h2>Lorenz Attractor - WebGL</h2>
+            <p>Parameters: t=0, a=9, b=28, c=2</p>
+            <p>Much faster with GPU acceleration!</p>
+        </div>
+        <div id="canvas-container">
+            <canvas id="webgl-canvas" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // WebGL setup
+        const canvas = document.getElementById('webgl-canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        
+        if (!gl) {
+            alert('WebGL not supported!');
+        }
+
+        // Vertex shader - handles position
+        const vertexShaderSource = `
+            attribute vec2 position;
+            attribute float alpha;
+            varying float vAlpha;
+            
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+                gl_PointSize = 2.0;
+                vAlpha = alpha;
+            }
+        `;
+
+        // Fragment shader - handles color
+        const fragmentShaderSource = `
+            precision mediump float;
+            varying float vAlpha;
+            
+            void main() {
+                gl_FragColor = vec4(1.0, 1.0, 1.0, vAlpha);
+            }
+        `;
+
+        // Create shader
+        function createShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            return shader;
+        }
+
+        // Create program
+        function createProgram(gl, vertexShader, fragmentShader) {
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('Program linking error:', gl.getProgramInfoLog(program));
+                gl.deleteProgram(program);
+                return null;
+            }
+            return program;
+        }
+
+        // Create shaders and program
+        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        const program = createProgram(gl, vertexShader, fragmentShader);
+
+        // Get attribute locations
+        const positionLocation = gl.getAttribLocation(program, 'position');
+        const alphaLocation = gl.getAttribLocation(program, 'alpha');
+
+        // Lorenz attractor parameters
+        let t = 0;
+        const a = 9, b = 28, c = 2;
+        const numPoints = 30000;
+        
+        // Create buffers
+        const positionBuffer = gl.createBuffer();
+        const alphaBuffer = gl.createBuffer();
+        
+        // Pre-allocate arrays
+        const positions = new Float32Array(numPoints * 2);
+        const alphas = new Float32Array(numPoints);
+
+        function updateLorenz() {
+            t++;
+            
+            let x = 0.1, y = 0.1, z = 0.1;
+            const w = 400;
+            const timeFactor = t * Math.PI / 90;
+            
+            for (let i = 0; i < numPoints; i++) {
+                // Calculate screen position
+                const screenX = (x + y) * (Math.sin(timeFactor + z / 49 + x * x / w) * 2 + 2) / 200 - 1; // Normalize to [-1, 1]
+                const screenY = (325 - z * 5) / 200 - 1; // Normalize to [-1, 1]
+                
+                positions[i * 2] = screenX;
+                positions[i * 2 + 1] = screenY;
+                
+                // Calculate alpha based on stroke weight
+                const strokeWeight = (i + t) % 540 ? 1 : 5;
+                alphas[i] = strokeWeight * 96 / 255; // Normalize to [0, 1]
+                
+                // Update x, y, z using Lorenz equations
+                const dx = a * (y - x) * 1e-3;
+                const dy = (x * (b - z) - y) * 1e-3;
+                const dz = (x * y - c * z) * 1e-3;
+                
+                x += dx;
+                y += dy;
+                z += dz;
+            }
+        }
+
+        function render() {
+            // Clear canvas
+            gl.clearColor(0.035, 0.035, 0.035, 1.0); // Dark background
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            
+            // Update Lorenz data
+            updateLorenz();
+            
+            // Upload position data
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+            
+            // Upload alpha data
+            gl.bindBuffer(gl.ARRAY_BUFFER, alphaBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, alphas, gl.DYNAMIC_DRAW);
+            gl.enableVertexAttribArray(alphaLocation);
+            gl.vertexAttribPointer(alphaLocation, 1, gl.FLOAT, false, 0, 0);
+            
+            // Use program and draw
+            gl.useProgram(program);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.drawArrays(gl.POINTS, 0, numPoints);
+            
+            // Continue animation
+            requestAnimationFrame(render);
+        }
+
+        // Start animation
+        render();
+    </script>
+</body>
+</html>
+
