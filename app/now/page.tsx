@@ -23,8 +23,25 @@ const nowData = [
       { title: "All Things Are Full of Gods", author: "David Bentley Hart" },
       { title: "Against The Day", author: "Thomas Pynchon" }
     ],
-    listeningTrack: "WIP Mix 01",
-    listeningFile: "/music/theremaxmw-edit.mp3",
+    listening: {
+      title: "A Model of Reality",
+      artist: "Sunnk",
+      link: "https://music.amazon.co.uk/albums/B0BQCR5B27?trackAsin=B0BQCSQNWW&ref=dm_sh_3a94-44bc-60a0-a81f-ed5f5"
+    },
+    producing: [
+      {
+        title: "WIP Mix 01",
+        file: "/music/theremaxmw-edit.mp3"
+      },
+      {
+        title: "Track 2",
+        file: "/music/airychant.mp3"
+      },
+      {
+        title: "Track 3", 
+        file: "/music/echobass.mp3"
+      }
+    ],
     using: ["Prompt Engineering", "Cursor", "Claude - Sonnet 4.5" ],
     location: "London, UK",
     openTo: ["Live 12.3", "TouchDesigner"]
@@ -38,8 +55,21 @@ const nowData = [
       { title: "Previous Book", author: "Previous Author" },
       { title: "Another Previous Book", author: "Another Previous Author" }
     ],
-    listeningTrack: "Previous Track Title",
-    listeningFile: "",
+    listening: {
+      title: "Previous Track Title",
+      artist: "Previous Artist",
+      link: ""
+    },
+    producing: [
+      {
+        title: "Previous Track 1",
+        file: "/music/previous1.mp3"
+      },
+      {
+        title: "Previous Track 2",
+        file: "/music/previous2.mp3"
+      }
+    ],
     using: ["Previous tool 1", "Previous tool 2", "Previous tool 3", "Previous tool 4"],
     location: "Previous City, State/Country",
     openTo: ["Previous opportunity type 1", "Previous opportunity type 2"]
@@ -232,7 +262,7 @@ export default function NowPage() {
                 transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
                 className="inline-block"
               >
-                Listening.
+                Producing.
               </motion.span>
             </p>
             <motion.p
@@ -302,6 +332,30 @@ export default function NowPage() {
                         className="overflow-hidden"
                       >
                         <div className="space-y-8 sm:space-y-10 lg:space-y-12">
+                          {/* LISTENING */}
+                          <div>
+                            <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
+                              LISTENING
+                            </h3>
+                            {entry.listening.link ? (
+                              <p className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
+                                "{entry.listening.title}" — {entry.listening.artist}{' '}
+                                <a 
+                                  href={entry.listening.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors duration-200"
+                                >
+                                  →
+                                </a>
+                              </p>
+                            ) : (
+                              <p className="text-neutral-500 dark:text-neutral-400 text-base">
+                                No music currently selected
+                              </p>
+                            )}
+                          </div>
+
                           {/* BUILDING */}
                           <div>
                             <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
@@ -336,12 +390,20 @@ export default function NowPage() {
                             </ul>
                           </div>
 
-                          {/* LISTENING */}
+                          {/* PRODUCING */}
                           <div>
                             <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
-                              LISTENING
+                              PRODUCING
                             </h3>
-                            <MusicPlayer trackTitle={entry.listeningTrack} audioFile={entry.listeningFile} />
+                            <div className="space-y-4">
+                              {entry.producing.map((track, index) => (
+                                <MusicPlayer 
+                                  key={index}
+                                  trackTitle={track.title} 
+                                  audioFile={track.file} 
+                                />
+                              ))}
+                            </div>
                           </div>
 
                           {/* USING */}
