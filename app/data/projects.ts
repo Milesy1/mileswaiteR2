@@ -32,7 +32,7 @@ export const projectsData: Project[] = [
       '/images/td3.png',
       '/images/td4.png'
     ],
-    techStack: ['TouchDesigner', 'Python', 'GLSL', 'MIDI Protocol', 'OSC', 'DMX', 'WebSocket'],
+    techStack: ['TouchDesigner', 'Python', 'GLSL', 'MIDI Protocol', 'OSC'],
     liveUrl: 'https://youtu.be/wk0JtWD0Pbs',
     githubUrl: 'https://github.com/example/interactive-web-app',
     featured: true,
@@ -131,7 +131,7 @@ export const projectsData: Project[] = [
       '/images/complexsystems4.png',
       '/images/complexsystems1.png'
     ],
-    techStack: ['Complex Systems Theory', 'Emergent Behavior', 'Nonlinear Dynamics', 'Network Theory', 'Agent-Based Simulation', 'Statistical Mechanics', 'Computational Modeling'],
+    techStack: ['Complex Systems Theory', 'Emergent Behaviour', 'Nonlinear Dynamics', 'Network Theory', 'Agent-Based Simulation', 'Statistical Mechanics', 'Computational Modeling'],
     liveUrl: 'https://viz.example.com',
     githubUrl: 'https://github.com/example/data-viz-tool',
     featured: false,
@@ -187,7 +187,7 @@ export const projectsData: Project[] = [
       '/images/new-city-dream.png',
       '/images/ncd2.png'
     ],
-    techStack: ['FL Studio', 'Serum', 'Kontakt', 'Drum Programming'],
+    techStack: ['Serum', 'Kontakt', 'Drum Programming'],
     liveUrl: 'https://www.youtube.com/watch?v=1e0LL0alEIo',
     featured: true,
     category: 'Music',
@@ -251,7 +251,7 @@ export const projectsData: Project[] = [
       '/images/rag8.png',
       '/images/rag9.png'
     ],
-    techStack: ['Node.js', 'Express', 'JWT', 'Redis', 'Docker', 'Kubernetes'],
+    techStack: ['Power Laws', 'SOC'],
     liveUrl: 'https://api.example.com/docs',
     githubUrl: 'https://github.com/example/api-microservice',
     featured: true,
@@ -272,7 +272,7 @@ export const projectsData: Project[] = [
       '/images/rag2.png',
       '/images/rag6.png'
     ],
-    techStack: ['Python', 'TensorFlow', 'scikit-learn', 'Pandas', 'Docker', 'Kubernetes'],
+    techStack: ['Next.js', 'TypeScript', 'Groq', 'Axiom', 'PostHog', 'Vercel'],
     liveUrl: 'https://ml.example.com',
     githubUrl: 'https://github.com/example/ml-pipeline',
     featured: true,
@@ -294,7 +294,7 @@ export const projectsData: Project[] = [
       '/images/emergence2.png',
       '/images/emergence3.png'
     ],
-    techStack: ['Jenkins', 'Docker', 'Kubernetes', 'Terraform', 'AWS', 'GitLab CI'],
+    techStack: ['Emergent', 'Murmuration'],
     liveUrl: 'https://devops.example.com',
     githubUrl: 'https://github.com/example/devops-automation',
     featured: true,

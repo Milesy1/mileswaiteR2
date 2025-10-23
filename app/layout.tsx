@@ -8,6 +8,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CustomCursor from '@/components/CustomCursor';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import KeyboardShortcutsProvider from '@/components/KeyboardShortcutsProvider';
+import { PersonSchema, OrganizationSchema, WebsiteSchema } from '@/components/JsonLdSchema';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -95,6 +96,11 @@ export default function RootLayout({
           </KeyboardShortcutsProvider>
         </ThemeProvider>
         <Analytics />
+        
+        {/* JSON-LD Schema for SEO */}
+        <PersonSchema />
+        <OrganizationSchema />
+        <WebsiteSchema />
       </body>
     </html>
   );
