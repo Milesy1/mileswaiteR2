@@ -198,7 +198,7 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
 
 export default function NowPage() {
   const section = 'Now';
-  const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set(['OCTOBER 2025']));
+  const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
