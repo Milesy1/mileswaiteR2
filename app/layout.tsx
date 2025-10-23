@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Analytics } from '@vercel/analytics/next';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CustomCursor from '@/components/CustomCursor';
@@ -81,7 +82,12 @@ export default function RootLayout({
             <CustomCursor />
             <div className="relative flex min-h-screen flex-col">
               <Navigation />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 pt-16 lg:pt-20">
+                <div className="w-full px-[10%] sm:px-[8%] lg:px-[5%] pb-4">
+                  <Breadcrumbs />
+                </div>
+                {children}
+              </main>
               <Footer />
             </div>
           </KeyboardShortcutsProvider>
