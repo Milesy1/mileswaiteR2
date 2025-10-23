@@ -298,7 +298,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="md:hidden text-center pt-16 pb-8"
+            className="md:hidden text-center pt-12 pb-8"
           >
             <button 
               onClick={() => window.location.href = '/about#chatbot'}
