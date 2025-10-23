@@ -107,7 +107,7 @@ export default function HomePage() {
               className="mt-4"
             >
               <Link 
-                href="#chat"
+                href="/about#chatbot"
                 className="inline-block px-6 py-2 text-sm font-medium text-white bg-neutral-900 dark:bg-white dark:text-neutral-900 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-colors duration-200"
               >
                 Ask Miles
