@@ -16,16 +16,17 @@ export function ChatBot() {
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Detect if we're on mobile
   const isMobile = () => {
     return window.innerWidth <= 768;
   };
 
-  // Scroll to bottom only on desktop, not mobile
+  // Scroll the messages container (not the whole chatbot)
   const scrollToBottom = () => {
-    if (!isMobile()) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   };
 
@@ -34,13 +35,13 @@ export function ChatBot() {
   };
 
   useEffect(() => {
-    if (messages.length > 0 && !isMobile()) {
+    if (messages.length > 0) {
       scrollToBottom();
     }
   }, [messages]);
 
   useEffect(() => {
-    if (isLoading && !isMobile()) {
+    if (isLoading) {
       scrollToBottom();
     }
   }, [isLoading]);
@@ -77,12 +78,10 @@ export function ChatBot() {
       const aiMessage: Message = { role: 'assistant', content: data.message };
       setMessages([...newMessages, aiMessage]);
       
-      // Only scroll on desktop, not mobile
-      if (!isMobile()) {
-        setTimeout(() => {
-          scrollToBottom();
-        }, 100);
-      }
+      // Scroll the messages container to show new response
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
       
       // Track successful conversation turn
       track('chat_conversation_turn', {
@@ -115,7 +114,7 @@ export function ChatBot() {
     <div className="w-full max-w-4xl mx-auto">
       <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
         {/* Messages Container - Fixed height */}
-        <div className="h-96 overflow-y-auto p-4 space-y-4">
+        <div ref={messagesContainerRef} className="h-96 overflow-y-auto p-4 space-y-4">
           {messages.length === 0 && (
             <div className="text-center text-neutral-400 py-8">
               <p className="text-sm">Sensitive Dependence on Initial Conditions:</p>
