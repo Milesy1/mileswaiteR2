@@ -60,12 +60,12 @@ export default function AboutPage() {
               className="space-y-8"
             >
               <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-neutral-900 mb-6">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-neutral-900 dark:text-neutral-100 mb-6">
                   About
                 </h1>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-neutral-800 mb-6">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-neutral-800 dark:text-neutral-200 mb-6">
                   Miles Waite{' '}
-                  <span className="text-sm font-normal text-[#888] ml-2">
+                  <span className="text-sm font-normal text-[#888] dark:text-neutral-400 ml-2">
                     <motion.span
                       initial={{ opacity: 0, x: 100 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -97,7 +97,7 @@ export default function AboutPage() {
                 <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500"></div>
               </div>
 
-              <div className="space-y-6 text-lg text-neutral-600 leading-relaxed">
+              <div className="space-y-6 text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
                 <p>
                   Certified by the Santa Fe Institute of Complex Science, with expertise in complex, adaptive systems.
                 </p>
@@ -113,7 +113,7 @@ export default function AboutPage() {
                 <p>
                   Experienced in hybrid roles bridging technical problem solving and experimental creative work.
                 </p>
-                <p className="text-xl font-medium text-neutral-800 pt-4">
+                <p className="text-xl font-medium text-neutral-800 dark:text-neutral-200 pt-4">
                   Emergent. Robust. Antifragile
                 </p>
               </div>
@@ -178,10 +178,10 @@ export default function AboutPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h2 className="text-base font-light text-[#666] lowercase tracking-[0.1em] mb-4">
+            <h2 className="text-base font-light text-[#666] dark:text-neutral-400 lowercase tracking-[0.1em] mb-4">
               mileswaite.net
             </h2>
-            <div className="text-lg text-neutral-600 max-w-2xl mx-auto">
+            <div className="text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
               <motion.span
                 initial={{ opacity: 0, x: 100 }}
                 animate={{ opacity: 1, x: 0 }}
