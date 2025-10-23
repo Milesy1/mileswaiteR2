@@ -8,11 +8,11 @@
   }
   
   body {
-    @apply bg-white text-neutral-900 font-sans antialiased;
+    @apply bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 font-sans antialiased;
   }
   
   * {
-    @apply border-neutral-200;
+    @apply border-neutral-200 dark:border-neutral-700;
   }
 
   /* Improved focus states for accessibility */
@@ -62,11 +62,11 @@
   }
   
   .btn-secondary {
-    @apply bg-white hover:bg-neutral-50 text-neutral-700 px-6 py-3 rounded-lg font-medium transition-all duration-200 border border-neutral-200 hover:border-neutral-300 shadow-soft hover:shadow-medium;
+    @apply bg-white dark:bg-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 px-6 py-3 rounded-lg font-medium transition-all duration-200 border border-neutral-200 dark:border-neutral-600 hover:border-neutral-300 dark:hover:border-neutral-500 shadow-soft hover:shadow-medium;
   }
   
   .card {
-    @apply bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 border border-neutral-100;
+    @apply bg-white dark:bg-neutral-800 rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 border border-neutral-100 dark:border-neutral-700;
   }
   
   .text-gradient {
