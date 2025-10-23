@@ -14,29 +14,63 @@ export function ChatBot() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  // Handle keyboard detection
+  useEffect(() => {
+    const handleResize = () => {
+      const initialHeight = window.innerHeight;
+      const currentHeight = window.visualViewport?.height || window.innerHeight;
+      const heightDifference = initialHeight - currentHeight;
+      
+      // If height decreased significantly, keyboard is likely open
+      setIsKeyboardOpen(heightDifference > 150);
+    };
+
+    // Use visualViewport API if available (better for mobile)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+    } else {
+      window.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+      } else {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
+
+  // Prevent automatic scrolling when keyboard is open
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (!isKeyboardOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleInputFocus = () => {
-    // Keep input focused without page scroll manipulation
+    // Prevent page scroll when input is focused
+    if (inputRef.current) {
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   };
 
   useEffect(() => {
-    if (messages.length > 0) {
+    if (messages.length > 0 && !isKeyboardOpen) {
       scrollToBottom();
     }
-  }, [messages]);
+  }, [messages, isKeyboardOpen]);
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading && !isKeyboardOpen) {
       scrollToBottom();
     }
-  }, [isLoading]);
-
+  }, [isLoading, isKeyboardOpen]);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -70,10 +104,12 @@ export function ChatBot() {
       const aiMessage: Message = { role: 'assistant', content: data.message };
       setMessages([...newMessages, aiMessage]);
       
-      // Scroll to bottom after AI response is added
-      setTimeout(() => {
-        scrollToBottom();
-      }, 100);
+      // Only scroll if keyboard is not open
+      if (!isKeyboardOpen) {
+        setTimeout(() => {
+          scrollToBottom();
+        }, 100);
+      }
       
       // Track successful conversation turn
       track('chat_conversation_turn', {
@@ -101,11 +137,36 @@ export function ChatBot() {
     }
   };
 
+  // Dynamic height calculation for mobile
+  const getContainerHeight = () => {
+    if (isKeyboardOpen) {
+      // When keyboard is open, use a smaller fixed height
+      return 'h-64';
+    }
+    return 'h-96';
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
+    <div 
+      ref={containerRef}
+      className="w-full max-w-4xl mx-auto chatbot-container"
+      style={{
+        // Use dynamic viewport height to account for keyboard
+        maxHeight: isKeyboardOpen ? '40vh' : '60vh',
+        minHeight: isKeyboardOpen ? '32vh' : '48vh'
+      }}
+    >
+      <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden flex flex-col">
         {/* Messages Container */}
-        <div className="h-96 overflow-y-auto p-4 pb-40 md:pb-4 space-y-4">
+        <div 
+          className={`${getContainerHeight()} overflow-y-auto p-4 space-y-4 flex-1 chatbot-messages`}
+          style={{
+            // Ensure proper scrolling behavior
+            scrollBehavior: 'smooth',
+            // Prevent content from being hidden behind keyboard
+            paddingBottom: isKeyboardOpen ? '1rem' : '1rem'
+          }}
+        >
           {messages.length === 0 && (
             <div className="text-center text-neutral-400 py-8">
               <p className="text-sm">Sensitive Dependence on Initial Conditions:</p>
@@ -171,8 +232,17 @@ export function ChatBot() {
           {messages.length > 0 && <div ref={messagesEndRef} />}
         </div>
 
-        {/* Input Container */}
-        <div className="border-t border-neutral-800 p-4">
+        {/* Input Container - Fixed at bottom */}
+        <div 
+          className="border-t border-neutral-800 p-4 flex-shrink-0 chatbot-input"
+          style={{
+            // Ensure input stays visible above keyboard
+            position: 'sticky',
+            bottom: 0,
+            backgroundColor: 'rgb(23 23 23)', // neutral-900
+            zIndex: 10
+          }}
+        >
           <div className="flex space-x-2">
             <input
               ref={inputRef}
@@ -184,12 +254,15 @@ export function ChatBot() {
               placeholder="Retrieval-Augmented Generation"
               disabled={isLoading}
               className="flex-1 bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 text-base text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ fontSize: '16px' }}
+              style={{ 
+                fontSize: '16px', // Prevent zoom on iOS
+                transform: 'translateZ(0)' // Hardware acceleration
+              }}
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}
-              className="bg-primary-600 hover:bg-primary-700 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="bg-primary-600 hover:bg-primary-700 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 flex-shrink-0"
             >
               <svg
                 className="w-4 h-4"

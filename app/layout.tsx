@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Analytics } from '@vercel/analytics/next';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CustomCursor from '@/components/CustomCursor';
@@ -26,6 +25,14 @@ export const metadata: Metadata = {
   keywords: ['portfolio', 'developer', 'music', 'code', 'projects', 'nextjs', 'tailwind'],
   authors: [{ name: 'Miles' }],
   creator: 'Miles',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.jpg', type: 'image/jpeg' }
+    ],
+    shortcut: '/favicon.jpg',
+    apple: '/favicon.jpg',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -83,7 +90,6 @@ export default function RootLayout({
             <div className="relative flex min-h-screen flex-col">
               <Navigation />
               <main className="flex-1">{children}</main>
-              <Breadcrumbs />
               <Footer />
             </div>
           </KeyboardShortcutsProvider>
