@@ -4,6 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '../../contexts/ThemeContext';
 
+// Extend the Window interface to include SpeechRecognition
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 interface Toast {
   id: string;
   message: string;
@@ -23,7 +31,7 @@ export default function VoiceAskMilesButton() {
   const [textInput, setTextInput] = useState('');
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const [messages, setMessages] = useState<Array<{id: string, type: 'user' | 'ai', content: string, timestamp: Date}>>([]);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Get page context for AI
@@ -64,7 +72,7 @@ export default function VoiceAskMilesButton() {
             setError(null);
           };
 
-          recognitionRef.current.onresult = (event) => {
+          recognitionRef.current.onresult = (event: any) => {
             const transcript = event.results[0][0].transcript;
             
             // Add user message to chat
@@ -79,7 +87,7 @@ export default function VoiceAskMilesButton() {
             handleVoiceQuery(transcript);
           };
 
-          recognitionRef.current.onerror = (event) => {
+          recognitionRef.current.onerror = (event: any) => {
             // Handle different error types silently
             let errorMessage = '';
             switch (event.error) {

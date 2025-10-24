@@ -1,8 +1,9 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
-import { Video, OrbitControls, Text } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Text } from '@react-three/drei';
 import { useRef, useState } from 'react';
+import * as THREE from 'three';
 
 interface VideoItem {
   id: string;
@@ -20,18 +21,25 @@ interface VideoScreenProps {
 }
 
 function VideoScreen({ videoPath, position, title, isActive, onSelect }: VideoScreenProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01;
+    }
+  });
+
   return (
     <group position={position}>
-      {/* Video */}
-      <Video
-        src={videoPath}
-        loop
-        muted
-        autoPlay={isActive}
-        width={3}
-        height={2}
-        onClick={onSelect}
-      />
+      {/* Video placeholder - using a plane with texture */}
+      <mesh ref={meshRef} onClick={onSelect}>
+        <planeGeometry args={[3, 2]} />
+        <meshBasicMaterial 
+          color={isActive ? "#4f46e5" : "#6b7280"} 
+          transparent 
+          opacity={0.8}
+        />
+      </mesh>
       
       {/* Title */}
       <Text

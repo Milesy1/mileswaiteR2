@@ -64,6 +64,10 @@ export async function POST(request: NextRequest) {
     console.log('API Key exists:', !!groqApiKey);
     console.log('API Key value:', groqApiKey ? groqApiKey.substring(0, 10) + '...' : 'null');
     console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('GROQ') || key.includes('AXIOM')));
+    
+    // Get the last user message
+    const lastUserMessage = messages[messages.length - 1]?.content;
+    
     if (!groqApiKey) {
       console.log('No API key found - returning mock response');
       
@@ -78,9 +82,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: mockResponse });
       }
     }
-
-    // Get the last user message
-    const lastUserMessage = messages[messages.length - 1]?.content;
     
     // Log to Axiom (async - won't slow down response)
     if (process.env.AXIOM_TOKEN && process.env.AXIOM_DATASET) {
