@@ -1,9 +1,10 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
-import { Video, OrbitControls, Text, Box } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Text, Box } from '@react-three/drei';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import * as THREE from 'three';
 
 interface VideoItem {
   id: string;
@@ -21,7 +22,13 @@ interface VideoPlayerProps {
 }
 
 function VideoPlayer({ videoPath, position, isActive, onSelect }: VideoPlayerProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.005;
+    }
+  });
   
   return (
     <group position={position}>
@@ -30,17 +37,15 @@ function VideoPlayer({ videoPath, position, isActive, onSelect }: VideoPlayerPro
         <meshStandardMaterial color={isActive ? "#ffffff" : "#333333"} />
       </Box>
       
-      {/* Video Element */}
-      <Video
-        ref={videoRef}
-        src={videoPath}
-        loop
-        muted
-        autoPlay={isActive}
-        position={[0, 0, 0.06]}
-        width={4}
-        height={2.25}
-      />
+      {/* Video placeholder - using a plane with texture */}
+      <mesh ref={meshRef} position={[0, 0, 0.06]}>
+        <planeGeometry args={[4, 2.25]} />
+        <meshBasicMaterial 
+          color={isActive ? "#4f46e5" : "#6b7280"} 
+          transparent 
+          opacity={0.8}
+        />
+      </mesh>
     </group>
   );
 }
