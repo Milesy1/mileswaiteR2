@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { SkeletonMusicPlayer } from '@/components/SkeletonMusicPlayer';
+import VoiceAskMilesButton from '@/components/project/VoiceAskMilesButton';
 
 // ============================================================================
 // NOW PAGE DATA - Easy to update!
@@ -380,20 +381,13 @@ export default function NowPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mt-4 space-x-6"
+              className="mt-4 flex flex-col items-center"
             >
               <a
                 href="/blog"
                 className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors duration-200 underline decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-500 dark:hover:decoration-neutral-300"
               >
                 Emergent →
-              </a>
-              <a
-                href="/admin/now"
-                className="text-xs text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-200"
-                title="Admin Panel"
-              >
-                Admin
               </a>
             </motion.div>
           </motion.div>
@@ -424,8 +418,8 @@ export default function NowPage() {
                     aria-expanded={isExpanded}
                     aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${month} content`}
                   >
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex items-center justify-center">
+                      <div className="text-center">
                         <h2 className="text-xl sm:text-2xl lg:text-3xl font-light text-neutral-900 dark:text-white mb-1 sm:mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                           {month}
                         </h2>
@@ -627,6 +621,11 @@ export default function NowPage() {
 
         </div>
       </section>
+
+      {/* Ask Miles Button - Bottom Left Above Footer */}
+      <div className="flex justify-start items-center py-8 px-[10%] sm:px-[8%] lg:px-[5%]">
+        <VoiceAskMilesButton />
+      </div>
     </motion.div>
   )
 }

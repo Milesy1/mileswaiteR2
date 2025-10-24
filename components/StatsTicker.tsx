@@ -15,6 +15,9 @@ interface Stats {
   totalDeployments?: number;
   successfulDeployments?: number;
   lastDeploymentStatus?: string;
+  totalStars?: number;
+  totalRepos?: number;
+  followers?: number;
   dataSource?: string;
   error?: string;
 }
@@ -124,6 +127,21 @@ export default function StatsTicker() {
               label="success rate"
             />
             <Separator />
+            <StatItem 
+              value={stats.totalStars || 0} 
+              label="github stars"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.totalRepos || 0} 
+              label="repositories"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.followers || 0} 
+              label="followers"
+            />
+            <Separator />
             {/* Duplicate for seamless loop */}
             <StatItem 
               value={stats.pageviews.toLocaleString()} 
@@ -159,6 +177,21 @@ export default function StatsTicker() {
             <StatItem 
               value={stats.totalDeployments ? `${Math.round((stats.successfulDeployments! / stats.totalDeployments) * 100)}%` : '0%'} 
               label="success rate"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.totalStars || 0} 
+              label="github stars"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.totalRepos || 0} 
+              label="repositories"
+            />
+            <Separator />
+            <StatItem 
+              value={stats.followers || 0} 
+              label="followers"
             />
             <Separator />
             <StatItem 

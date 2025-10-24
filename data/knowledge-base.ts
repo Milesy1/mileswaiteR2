@@ -1,6 +1,24 @@
 export const milesKnowledge = {
   bio: "Miles Waite is a Business Analyst with 20+ years solving complex problems across energy trading, risk management, and AI/GenAI systems. He has a proven track record leading cross-functional teams, managing technical delivery, and driving operational excellence in mission-critical environments. Recently completed Santa Fe Institute courses in Complexity Science and Dynamical Systems (2025), applying these principles to AI architecture and knowledge management systems. Core expertise includes GenAI/RAG Architecture, Energy Trading & Risk Management Systems, and Team Leadership (managed teams up to 15 developers).",
   
+  currentWork: {
+    status: "Building AI-powered portfolio systems and experimental music projects",
+    activeProjects: [
+      "Voice-Activated RAG Assistant with page-aware contextual responses",
+      "Mobile Now Page Admin with smart persistence and multi-entry support", 
+      "TouchDesigner modular MIDI-to-SOP system with emergent geometry generation",
+      "String Field Theories record label and artist collective"
+    ],
+    recentAchievements: [
+      "Implemented persistent file-based storage for Now page updates",
+      "Built Facebook Messenger-style chat widget with theme-aware styling",
+      "Created mobile-responsive AI assistant with voice recognition fallback",
+      "Developed 9-module TouchDesigner system with JSON-based configuration"
+    ],
+    currentLocation: "Brooklyn, NY",
+    availability: "Open to freelance projects, collaboration, and consulting opportunities"
+  },
+  
   techStack: {
     frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js"],
     backend: ["Node.js", "API Development", "PHP", "MySQL", "Apache", "Linux"],
@@ -38,6 +56,20 @@ export const milesKnowledge = {
       developmentTimeline: "Phase 1 (Foundation): Storage, MIDI Handler, Integration - Complete. Phase 2 (Core Features): Note Selector, SOP Mapper, Parameter Editor, State Control - In Progress. Phase 3 (Monitoring): Overview Panel, Preset Manager - Planned",
       requirements: "TouchDesigner 2023.12480+, Python 3.x, MIDI controller or virtual MIDI routing, JSON file support, Table DAT operations",
       installation: "Deploy 9-module system in TouchDesigner project. Configure MIDI device, set up file paths (/project1/config/, /project1/sop_pool/, /project1/logs/), initialize integration script on project load"
+    },
+    {
+      title: "String Field Theories",
+      description: "A comprehensive independent record label and artist collective designed to champion experimental musicians pushing the boundaries of electronic music production.",
+      technologies: ["Music Production", "Modular Synthesis", "Algorithmic Composition", "Live Coding", "AI-Assisted Composition", "Experimental Sound Design"],
+      challenge: "Create a sustainable ecosystem that celebrates creative risk-taking, technical innovation, and unconventional approaches to sound design in electronic music.",
+      solution: "Built as both a distribution platform and creative community for artists who treat music production as a form of technological research. Functions as a hub for experimental electronic music.",
+      keywords: ["record label", "electronic music", "experimental", "modular synthesis", "algorithmic composition", "live coding", "ai-assisted composition", "sound design", "music production", "artist collective", "distribution platform"],
+      liveUrl: "https://www.youtube.com/watch?v=frX36FzDP_s",
+      gallery: ["/images/sft1.png", "/images/sft2.png", "/images/sft3.png"],
+      currentStatus: "Active label with multiple releases, focusing on experimental electronic music and generative composition techniques",
+      artistRoster: "Curated selection of experimental electronic artists pushing boundaries in sound design and composition",
+      releaseFormat: "Digital releases with accompanying visual art and generative music systems",
+      technicalApproach: "Combines traditional music production with algorithmic composition, AI-assisted sound design, and modular synthesis techniques"
     },
     {
       title: "Modular TouchDesigner System with Event-Based MIDI Brain",
@@ -189,6 +221,29 @@ export const milesKnowledge = {
       ],
       relevance: "Emergence is central to Miles's work in complex systems and TouchDesigner visual systems. His modular MIDI-to-SOP system demonstrates emergence - simple MIDI input rules generate complex, unpredictable visual behaviors. The rotating cylinder animations show emergent patterns from basic geometric transformations. Miles's expertise in designing systems for emergence aligns with his Santa Fe Institute complex systems education.",
       keywords: ["emergence", "emergent behavior", "complex systems", "self-organization", "spontaneous order", "unpredictable phenomena", "irreducible properties", "scale-dependent", "pattern formation", "collective behavior", "system properties", "holistic behavior", "emergent properties", "bottom-up organization"]
+    }
+  ],
+
+  faq: [
+    {
+      question: "What is your approach to complex systems design?",
+      answer: "I design systems that are robust (withstand stress), antifragile (improve under stress), and emergent (exhibit complex behaviors from simple rules). This approach is influenced by my Santa Fe Institute education in complexity science and self-organized criticality theory."
+    },
+    {
+      question: "How do you handle real-time systems with high reliability requirements?",
+      answer: "I've built systems with <5ms latency using event-driven architectures, observer patterns, and priority queues. My experience includes enterprise risk management platforms serving 120+ traders with 25,000 Monte Carlo simulations running in real-time."
+    },
+    {
+      question: "What makes your TouchDesigner systems different?",
+      answer: "I build modular, persistent systems with comprehensive state management and backup systems. My 9-module MIDI-to-SOP system uses JSON-based configuration, parameter mapping with validation, and emergent geometry generation from simple interaction rules."
+    },
+    {
+      question: "How do you approach team leadership and project management?",
+      answer: "I've led cross-functional teams up to 15 developers, coordinating with 120+ business users and senior stakeholders. My approach focuses on requirements analysis, stakeholder management, and delivering measurable business impact through technical excellence."
+    },
+    {
+      question: "What is String Field Theories?",
+      answer: "String Field Theories is my independent record label and artist collective focused on experimental electronic music. It combines traditional music production with algorithmic composition, AI-assisted sound design, and modular synthesis techniques."
     }
   ],
 
