@@ -380,13 +380,20 @@ export default function NowPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mt-4"
+              className="mt-4 space-x-6"
             >
               <a
                 href="/blog"
                 className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors duration-200 underline decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-500 dark:hover:decoration-neutral-300"
               >
                 Emergent →
+              </a>
+              <a
+                href="/admin/now"
+                className="text-xs text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-200"
+                title="Admin Panel"
+              >
+                Admin
               </a>
             </motion.div>
           </motion.div>
@@ -538,7 +545,7 @@ export default function NowPage() {
                               READING
                             </h3>
                             <ul className="space-y-2">
-                              {entry.reading.map((book, bookIndex) => (
+                              {entry.reading.map((book: { title: string; author: string }, bookIndex: number) => (
                                 <li key={bookIndex} className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
                                   · "{book.title}" — {book.author}
                                 </li>
@@ -552,7 +559,7 @@ export default function NowPage() {
                               PRODUCING
                             </h3>
                             <div className="space-y-4">
-                              {entry.producing.map((track, index) => (
+                              {entry.producing.map((track: { title: string; file: string }, index: number) => (
                                 <MusicPlayer 
                                   key={index}
                                   trackTitle={track.title} 
