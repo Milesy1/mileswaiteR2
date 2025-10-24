@@ -14,6 +14,14 @@ import Link from 'next/link';
 
 const blogPosts = [
   {
+    slug: "voice-activated-ai-assistant",
+    title: "Building a Voice-Activated AI Assistant for My Portfolio",
+    excerpt: "How I built a page-aware, voice-controlled AI assistant that works seamlessly across desktop and mobile devices.",
+    date: "October 24, 2025",
+    readTime: "15 min read",
+    tags: ["AI", "Web Development", "Voice Recognition", "Next.js"]
+  },
+  {
     slug: "emergent-geometry-touchdesigner",
     title: "Emergent Geometry in TouchDesigner",
     excerpt: "Exploring how procedural systems can generate complex, organic forms that emerge from simple rules and interactions.",
