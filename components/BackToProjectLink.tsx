@@ -43,7 +43,7 @@ export function BackToProjectLink() {
         setTimeout(() => {
           // Try multiple selectors to find the Project Overview section
           const overviewSection = document.querySelector('[data-section="project-overview"]') ||
-                                 document.querySelector('h2:contains("Project Overview")') ||
+                                 Array.from(document.querySelectorAll('h2')).find(h2 => h2.textContent?.includes('Project Overview')) ||
                                  document.querySelector('h2');
           
           if (overviewSection) {

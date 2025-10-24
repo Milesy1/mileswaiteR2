@@ -4,6 +4,62 @@
     "lastUpdated": "October 24, 2025",
     "building": [
       "mileswaite.net",
+      "mileswaite.net AI assistant is now live",
+      "Emergent Geometry",
+      "TD - callbacks"
+    ],
+    "exploring": [
+      "Python",
+      "Next.js",
+      "TouchDesigner: event-based triggering",
+      "Remote Now Updates ",
+      "Remote Now Updates remotely (#1 try)"
+    ],
+    "reading": [
+      {
+        "title": "All Things Are Full of Gods",
+        "author": "David Bentley Hart"
+      },
+      {
+        "title": "Against The Day",
+        "author": "Thomas Pynchon"
+      }
+    ],
+    "listening": {
+      "title": "A Model of Reality",
+      "artist": "Sunnk",
+      "link": "https://music.amazon.co.uk/albums/B0BQCR5B27?trackAsin=B0BQCSQNWW&ref=dm_sh_3a94-44bc-60a0-a81f-ed5f5"
+    },
+    "producing": [
+      {
+        "title": "WIP Mix 01",
+        "file": "/music/theremaxmw-edit.mp3"
+      },
+      {
+        "title": "Track 2",
+        "file": "/music/airychant.mp3"
+      },
+      {
+        "title": "Track 3",
+        "file": "/music/echobass.mp3"
+      }
+    ],
+    "using": [
+      "Prompt Engineering",
+      "Cursor",
+      "Claude - Sonnet 4.5"
+    ],
+    "location": "London, UK",
+    "openTo": [
+      "Live 12.3",
+      "TouchDesigner"
+    ]
+  },
+  {
+    "month": "OCTOBER 2025",
+    "lastUpdated": "October 24, 2025",
+    "building": [
+      "mileswaite.net",
       "Emergent Geometry",
       "TD - callbacks"
     ],

@@ -6,6 +6,55 @@ export async function GET() {
     const axiomDataset = process.env.AXIOM_DATASET || 'your-dataset-name';
     const vercelToken = process.env.VERCEL_TOKEN;
     const vercelProjectId = process.env.VERCEL_PROJECT_ID || process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID;
+    const githubToken = process.env.GITHUB_TOKEN;
+
+    // Fetch GitHub stats
+    let githubStats = {
+      totalStars: 0,
+      totalRepos: 0,
+      totalCommits: 0,
+      followers: 0
+    };
+
+    if (githubToken) {
+      try {
+        // Fetch user stats
+        const userResponse = await fetch('https://api.github.com/user', {
+          headers: {
+            'Authorization': `Bearer ${githubToken}`,
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        });
+
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          
+          // Fetch repositories
+          const reposResponse = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated', {
+            headers: {
+              'Authorization': `Bearer ${githubToken}`,
+              'Accept': 'application/vnd.github.v3+json',
+            },
+          });
+
+          if (reposResponse.ok) {
+            const reposData = await reposResponse.json();
+            const totalStars = reposData.reduce((sum: number, repo: any) => sum + repo.stargazers_count, 0);
+            
+            githubStats = {
+              totalStars,
+              totalRepos: reposData.length,
+              totalCommits: 0, // Would need to fetch from each repo
+              followers: userData.followers
+            };
+            
+            console.log('GitHub stats fetched:', githubStats);
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to fetch GitHub stats:', error);
+      }
+    }
 
     // Fetch Vercel deployment stats
     let vercelDeploymentStats = {
@@ -167,12 +216,13 @@ export async function GET() {
       return NextResponse.json({
         ...vercelStats,
         ...vercelDeploymentStats,
+        ...githubStats,
         totalConversations: 0,
         todayConversations: 0,
         avgResponseTime: 0,
         projectsIndexed: 47,
         accuracy: 89,
-        dataSource: 'vercel-only'
+        dataSource: 'vercel-and-github'
       });
     }
 
@@ -245,7 +295,8 @@ export async function GET() {
       accuracy: 89, // Hardcoded for now, calculate from feedback later
       ...vercelStats,
       ...vercelDeploymentStats,
-      dataSource: 'axiom-and-vercel'
+      ...githubStats,
+      dataSource: 'axiom-vercel-and-github'
     });
 
   } catch (error) {

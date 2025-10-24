@@ -2,31 +2,81 @@ import { NextRequest, NextResponse } from 'next/server';
 import { searchKnowledge, limitContextSize, isPortfolioRelated, validateContextQuality } from '@/lib/search';
 import { milesKnowledge } from '@/data/knowledge-base';
 import { trackServerEvent } from '@/lib/posthog';
+import fs from 'fs';
+import path from 'path';
+
+// Function to get current Now page data
+function getCurrentNowData() {
+  try {
+    const dataFile = path.join(process.cwd(), 'public', 'data', 'now.json');
+    if (fs.existsSync(dataFile)) {
+      const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+      return data;
+    }
+  } catch (error) {
+    console.error('Error reading Now data:', error);
+  }
+  return null;
+}
 
 export async function POST(request: NextRequest) {
   try {
     console.log('Chat API called');
-    const { messages } = await request.json();
-    console.log('Messages received:', messages);
-
-    if (!messages || !Array.isArray(messages)) {
-      console.log('Invalid messages format');
+    
+    // Get raw body text first for debugging
+    const rawBody = await request.text();
+    console.log('Raw body:', rawBody);
+    
+    let body;
+    try {
+      body = JSON.parse(rawBody);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      console.error('Raw body that failed to parse:', rawBody);
       return NextResponse.json(
-        { error: 'Messages array is required' },
+        { error: 'Invalid JSON format' },
         { status: 400 }
       );
     }
+    
+    // Handle both old format (messages array) and new format (voice context)
+    let messages, pageContext;
+    if (body.messages && Array.isArray(body.messages)) {
+      // Old format: chatbot messages
+      messages = body.messages;
+      pageContext = null;
+    } else if (body.message && (body.context || body.pageContext)) {
+      // New format: voice query with page context
+      messages = [{ role: 'user', content: body.message }];
+      pageContext = body.context || body.pageContext;
+    } else {
+      console.log('Invalid request format');
+      return NextResponse.json(
+        { error: 'Invalid request format. Expected either messages array or message with context.' },
+        { status: 400 }
+      );
+    }
+    
+    console.log('Messages received:', messages);
+    console.log('Context received:', pageContext);
 
     const groqApiKey = process.env.GROQ_API_KEY;
     console.log('API Key exists:', !!groqApiKey);
     console.log('API Key value:', groqApiKey ? groqApiKey.substring(0, 10) + '...' : 'null');
     console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('GROQ') || key.includes('AXIOM')));
     if (!groqApiKey) {
-      console.log('No API key found');
-      return NextResponse.json(
-        { error: 'GROQ_API_KEY not configured' },
-        { status: 500 }
-      );
+      console.log('No API key found - returning mock response');
+      
+      // Return a mock response for testing
+      const mockResponse = pageContext && pageContext.pathname 
+        ? `This is a mock response for testing. You asked: "${lastUserMessage}". This would normally be answered by the AI based on the ${pageContext.pageType} page context.`
+        : `This is a mock response for testing. You asked: "${lastUserMessage}". This would normally be answered by the AI.`;
+      
+      if (pageContext && pageContext.pathname) {
+        return NextResponse.json({ response: mockResponse });
+      } else {
+        return NextResponse.json({ message: mockResponse });
+      }
     }
 
     // Get the last user message
@@ -160,6 +210,27 @@ Backend: ${context.techStack.backend.join(', ')}
 Deployment: ${context.techStack.deployment.join(', ')}
 Specialties: ${context.techStack.specialties.join(', ')}
 `;
+
+    // Add current Now page data
+    const currentNowData = getCurrentNowData();
+    if (currentNowData && currentNowData.length > 0) {
+      const latestEntry = currentNowData[0]; // Most recent entry
+      systemPrompt += `\n\nCURRENT NOW PAGE DATA (Latest Update - ${latestEntry.month}):\n`;
+      systemPrompt += `Building: ${latestEntry.building ? latestEntry.building.join(', ') : 'Not specified'}\n`;
+      systemPrompt += `Exploring: ${latestEntry.exploring ? latestEntry.exploring.join(', ') : 'Not specified'}\n`;
+      systemPrompt += `Reading: ${latestEntry.reading ? latestEntry.reading.map((book: any) => book.title).join(', ') : 'Not specified'}\n`;
+      systemPrompt += `Listening: ${latestEntry.listening ? latestEntry.listening.title : 'Not specified'}\n`;
+      systemPrompt += `Using: ${latestEntry.using ? latestEntry.using.join(', ') : 'Not specified'}\n`;
+      systemPrompt += `Location: ${latestEntry.location || 'Not specified'}\n`;
+      systemPrompt += `Open To: ${latestEntry.openTo ? latestEntry.openTo.join(', ') : 'Not specified'}\n`;
+      systemPrompt += `Last Updated: ${latestEntry.lastUpdated}\n`;
+    }
+
+    // Add page context if provided (voice queries)
+    if (pageContext && pageContext.pathname) {
+      const pageContextPrompt = getPageContextPrompt(pageContext);
+      systemPrompt += `\n\nCURRENT PAGE CONTEXT:\n${pageContextPrompt}\n`;
+    }
 
     // Add off-topic query note if applicable
     if (!isPortfolioQuery) {
@@ -339,7 +410,14 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
       fallback_strategy: context.fallbackStrategy
     });
 
-    return NextResponse.json({ message: aiMessage });
+    // Return response in appropriate format
+    if (pageContext && pageContext.pathname) {
+      // Voice query format
+      return NextResponse.json({ response: aiMessage });
+    } else {
+      // Chatbot format
+      return NextResponse.json({ message: aiMessage });
+    }
 
   } catch (error) {
     console.error('Chat API error:', error);
@@ -354,4 +432,51 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
       { status: 500 }
     );
   }
+}
+
+// Helper function to build page context prompt
+function getPageContextPrompt(context: any): string {
+  const { pathname, pageType, pageContent, metadata } = context;
+  
+  let pageContext = `User is currently on: ${pathname}\n`;
+  pageContext += `Page type: ${pageType}\n`;
+  
+  if (metadata) {
+    pageContext += `Page title: ${metadata.title}\n`;
+    if (metadata.description) {
+      pageContext += `Page description: ${metadata.description}\n`;
+    }
+  }
+  
+  if (pageContent) {
+    if (pageContent.title) {
+      pageContext += `Content title: ${pageContent.title}\n`;
+    }
+    if (pageContent.headers && pageContent.headers.length > 0) {
+      pageContext += `Page headers: ${pageContent.headers.join(', ')}\n`;
+    }
+    if (pageContent.summary) {
+      pageContext += `Content summary: ${pageContent.summary}\n`;
+    }
+  }
+  
+  // Add page-specific guidance
+  switch (pageType) {
+    case 'home':
+      pageContext += `\nGuidance: User is on the homepage. Focus on overview and highlighting key projects.`;
+      break;
+    case 'projects':
+      pageContext += `\nGuidance: User is viewing the projects page. Provide technical details about specific projects.`;
+      break;
+    case 'now':
+      pageContext += `\nGuidance: User is on the Now page. Share current activities, reading, location, etc.`;
+      break;
+    case 'blog':
+      pageContext += `\nGuidance: User is reading a blog post. Discuss the content and related topics.`;
+      break;
+    default:
+      pageContext += `\nGuidance: User is on a general page. Provide relevant information about Miles' work.`;
+  }
+  
+  return pageContext;
 }

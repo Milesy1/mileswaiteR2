@@ -1,11 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
-// Simple in-memory storage for Vercel deployment
-// In production, you'd want to use a database like Vercel KV, Supabase, or similar
-let memoryStorage: any[] = [];
+// File-based storage for persistence
+const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
 
 // Fallback data structure (matches your current nowData)
 const fallbackData = [
+  {
+    month: "NOVEMBER 2025",
+    lastUpdated: "November 2025",
+    building: ["RAG chatbot", "Portfolio site"],
+    exploring: ["Rust", "TouchDesigner"],
+    reading: [
+      { title: "The Extended Mind", author: "Andy Clark" }
+    ],
+    listening: {
+      title: "Radiohead - Creep",
+      artist: "Radiohead",
+      link: ""
+    },
+    producing: [],
+    using: ["Cursor", "Claude", "Vercel"],
+    location: "Brooklyn, NY",
+    openTo: ["Freelance projects", "Collaboration"]
+  },
   {
     month: "OCTOBER 2025",
     lastUpdated: "October 22, 2025",
@@ -43,9 +62,13 @@ const fallbackData = [
 // GET - Fetch Now page data
 export async function GET() {
   try {
-    // Return memory storage if it has data, otherwise fallback
-    if (memoryStorage.length > 0) {
-      return NextResponse.json(memoryStorage);
+    // Try to read from file first
+    if (fs.existsSync(DATA_FILE)) {
+      const fileData = fs.readFileSync(DATA_FILE, 'utf8');
+      const data = JSON.parse(fileData);
+      if (data && data.length > 0) {
+        return NextResponse.json(data);
+      }
     }
     
     // Fallback to hardcoded data
@@ -69,14 +92,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use in-memory storage for Vercel deployment
+    // Read existing data
+    let existingData = [];
+    if (fs.existsSync(DATA_FILE)) {
+      try {
+        const fileData = fs.readFileSync(DATA_FILE, 'utf8');
+        existingData = JSON.parse(fileData);
+      } catch (parseError) {
+        console.error('Error parsing existing data:', parseError);
+        existingData = [];
+      }
+    }
+
     // Add new entry to beginning of array (most recent first)
-    memoryStorage = [body, ...memoryStorage];
+    const updatedData = [body, ...existingData];
+
+    // Ensure data directory exists
+    const dataDir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+
+    // Write to file
+    fs.writeFileSync(DATA_FILE, JSON.stringify(updatedData, null, 2));
 
     return NextResponse.json({ 
       success: true, 
       message: 'Now page updated successfully',
-      data: memoryStorage 
+      data: updatedData 
     });
 
   } catch (error) {
