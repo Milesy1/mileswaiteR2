@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+
+// Simple in-memory storage for Vercel deployment
+let memoryStorage: any[] = [];
 
 // Fallback data structure
 const fallbackData = [
@@ -38,20 +39,12 @@ const fallbackData = [
   }
 ];
 
-const dataFilePath = path.join(process.cwd(), 'public', 'data', 'now.json');
-
 // GET - Fetch latest Now page entry for pre-filling admin form
 export async function GET() {
   try {
-    // Try to read from JSON file
-    if (fs.existsSync(dataFilePath)) {
-      const fileData = fs.readFileSync(dataFilePath, 'utf8');
-      const data = JSON.parse(fileData);
-      
-      // Return the first (most recent) entry
-      if (data && data.length > 0) {
-        return NextResponse.json(data[0]);
-      }
+    // Return the first (most recent) entry from memory storage
+    if (memoryStorage.length > 0) {
+      return NextResponse.json(memoryStorage[0]);
     }
     
     // Fallback to hardcoded data

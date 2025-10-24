@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+
+// Simple in-memory storage for Vercel deployment
+// In production, you'd want to use a database like Vercel KV, Supabase, or similar
+let memoryStorage: any[] = [];
 
 // Fallback data structure (matches your current nowData)
 const fallbackData = [
@@ -38,16 +40,12 @@ const fallbackData = [
   }
 ];
 
-const dataFilePath = path.join(process.cwd(), 'public', 'data', 'now.json');
-
 // GET - Fetch Now page data
 export async function GET() {
   try {
-    // Try to read from JSON file
-    if (fs.existsSync(dataFilePath)) {
-      const fileData = fs.readFileSync(dataFilePath, 'utf8');
-      const data = JSON.parse(fileData);
-      return NextResponse.json(data);
+    // Return memory storage if it has data, otherwise fallback
+    if (memoryStorage.length > 0) {
+      return NextResponse.json(memoryStorage);
     }
     
     // Fallback to hardcoded data
@@ -71,34 +69,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Ensure data directory exists
-    const dataDir = path.dirname(dataFilePath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-
-    // Read existing data or use fallback
-    let existingData = fallbackData;
-    if (fs.existsSync(dataFilePath)) {
-      try {
-        const fileData = fs.readFileSync(dataFilePath, 'utf8');
-        existingData = JSON.parse(fileData);
-      } catch (error) {
-        console.error('Error reading existing data, using fallback:', error);
-      }
-    }
-
+    // Use in-memory storage for Vercel deployment
     // Add new entry to beginning of array (most recent first)
-    // Keep all entries - allow multiple updates per month
-    const newData = [body, ...existingData];
-
-    // Save to file
-    fs.writeFileSync(dataFilePath, JSON.stringify(newData, null, 2));
+    memoryStorage = [body, ...memoryStorage];
 
     return NextResponse.json({ 
       success: true, 
       message: 'Now page updated successfully',
-      data: newData 
+      data: memoryStorage 
     });
 
   } catch (error) {
