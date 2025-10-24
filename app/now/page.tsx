@@ -77,6 +77,45 @@ const nowData = [
   // Add new months here - copy the object above and update all values
 ]
 
+// Collapsed Entry Summary Component
+function CollapsedEntrySummary({ entry, onToggle }: { entry: any; onToggle: () => void }) {
+  const summaryItems = [];
+  
+  if (entry.building && entry.building.length > 0) {
+    summaryItems.push(`Building: ${entry.building.slice(0, 2).join(', ')}${entry.building.length > 2 ? '...' : ''}`);
+  }
+  if (entry.location) {
+    summaryItems.push(`Location: ${entry.location}`);
+  }
+  if (entry.reading && entry.reading.length > 0) {
+    summaryItems.push(`Reading: ${entry.reading[0].title}`);
+  }
+  if (entry.listening && entry.listening.title) {
+    summaryItems.push(`Listening: ${entry.listening.title}`);
+  }
+
+  return (
+    <div className="border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 bg-neutral-50 dark:bg-neutral-800/50">
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            {entry.lastUpdated}
+          </p>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            {summaryItems.join(' • ')}
+          </p>
+        </div>
+        <button
+          onClick={onToggle}
+          className="ml-4 text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+        >
+          Show details →
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // Music Player Component - Touch-friendly and accessible
 function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile: string }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -199,10 +238,45 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
 export default function NowPage() {
   const section = 'Now';
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
+  const [expandedEntries, setExpandedEntries] = useState<Set<string>>(new Set());
   const [isLoaded, setIsLoaded] = useState(false);
+  const [dynamicData, setDynamicData] = useState(nowData);
+  const [groupedData, setGroupedData] = useState<{[key: string]: any[]}>({});
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    // Try to fetch dynamic data from API
+    fetch('/api/now')
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          setDynamicData(data);
+          
+          // Group entries by month
+          const grouped = data.reduce((acc: any, entry: any) => {
+            if (!acc[entry.month]) {
+              acc[entry.month] = [];
+            }
+            acc[entry.month].push(entry);
+            return acc;
+          }, {});
+          
+          setGroupedData(grouped);
+        }
+      })
+      .catch(error => {
+        console.log('Using fallback data:', error);
+        // Keep using nowData as fallback
+        const grouped = nowData.reduce((acc: any, entry: any) => {
+          if (!acc[entry.month]) {
+            acc[entry.month] = [];
+          }
+          acc[entry.month].push(entry);
+          return acc;
+        }, {});
+        setGroupedData(grouped);
+      });
   }, []);
 
   const toggleMonth = (month: string) => {
@@ -212,6 +286,35 @@ export default function NowPage() {
         newSet.delete(month);
       } else {
         newSet.add(month);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleEntry = (entryKey: string) => {
+    setExpandedEntries(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(entryKey)) {
+        newSet.delete(entryKey);
+      } else {
+        newSet.add(entryKey);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleAllEntries = (month: string, entries: any[]) => {
+    const allEntryKeys = entries.map(entry => `${month}-${entry.lastUpdated}`);
+    const allExpanded = allEntryKeys.every(key => expandedEntries.has(key));
+    
+    setExpandedEntries(prev => {
+      const newSet = new Set(prev);
+      if (allExpanded) {
+        // Collapse all
+        allEntryKeys.forEach(key => newSet.delete(key));
+      } else {
+        // Expand all
+        allEntryKeys.forEach(key => newSet.add(key));
       }
       return newSet;
     });
@@ -271,7 +374,7 @@ export default function NowPage() {
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               className="text-xs text-neutral-500 dark:text-neutral-500"
             >
-              Last updated: {nowData[0].lastUpdated}
+              Last updated: {Object.keys(groupedData).length > 0 ? Object.values(groupedData)[0][0].lastUpdated : dynamicData[0].lastUpdated}
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -301,31 +404,42 @@ export default function NowPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="space-y-16"
           >
-            {nowData.map((entry, index) => {
-              const isExpanded = expandedMonths.has(entry.month);
+            {Object.entries(groupedData).map(([month, entries]) => {
+              const isExpanded = expandedMonths.has(month);
+              const latestEntry = entries[0]; // Most recent entry for this month
               
               return (
-                <div key={entry.month} className="relative">
+                <div key={month} className="relative">
                   {/* Month Header - Clickable */}
                   <button
-                    onClick={() => toggleMonth(entry.month)}
-                    className="w-full text-left mb-6 sm:mb-8 group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900 rounded-lg p-2 -m-2"
+                    onClick={() => toggleMonth(month)}
+                    className="w-full text-left mb-6 sm:mb-8 group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900 rounded-lg p-3 -m-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors duration-200"
                     aria-expanded={isExpanded}
-                    aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${entry.month} content`}
+                    aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${month} content`}
                   >
                     <div className="flex items-center justify-between">
                       <div>
                         <h2 className="text-xl sm:text-2xl lg:text-3xl font-light text-neutral-900 dark:text-white mb-1 sm:mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                          {entry.month}
+                          {month}
                         </h2>
                         <p className="text-neutral-500 dark:text-neutral-500 text-xs sm:text-sm">
-                          Updated: {entry.lastUpdated}
+                          Latest: {latestEntry.lastUpdated}
+                          {entries.length > 1 && (
+                            <span className="ml-2 text-neutral-400 dark:text-neutral-500">
+                              ({entries.length} updates)
+                            </span>
+                          )}
                         </p>
+                        {!isExpanded && (
+                          <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-1 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
+                            Click to expand ↓
+                          </p>
+                        )}
                       </div>
                       <motion.div
                         animate={{ rotate: isExpanded ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
-                        className="text-neutral-400 dark:text-neutral-500 flex-shrink-0 ml-4"
+                        className="text-neutral-400 dark:text-neutral-500 flex-shrink-0 ml-4 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors"
                       >
                         <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -344,7 +458,36 @@ export default function NowPage() {
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        <div className="space-y-8 sm:space-y-10 lg:space-y-12">
+                        <div className="space-y-8">
+                          {/* Show All/Expand All Button */}
+                          {entries.length > 1 && (
+                            <div className="text-center">
+                              <button
+                                onClick={() => toggleAllEntries(month, entries)}
+                                className="text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
+                              >
+                                {entries.every(entry => expandedEntries.has(`${month}-${entry.lastUpdated}`)) 
+                                  ? 'Collapse all entries' 
+                                  : `Show all ${entries.length} entries`}
+                              </button>
+                            </div>
+                          )}
+
+                          {entries.map((entry, entryIndex) => {
+                            const entryKey = `${month}-${entry.lastUpdated}`;
+                            const isEntryExpanded = expandedEntries.has(entryKey);
+                            const isLatestEntry = entryIndex === 0;
+                            
+                            // Always show latest entry fully, others as summaries unless expanded
+                            if (isLatestEntry || isEntryExpanded) {
+                              return (
+                                <div key={`${entry.lastUpdated}-${entryIndex}`} className="space-y-8 sm:space-y-10 lg:space-y-12">
+                                  {/* Entry Header */}
+                                  <div className="border-b border-neutral-200 dark:border-neutral-700 pb-4">
+                                    <h3 className="text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                                      Updated: {entry.lastUpdated}
+                                    </h3>
+                                  </div>
                           {/* LISTENING */}
                           <div>
                             <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
@@ -439,22 +582,35 @@ export default function NowPage() {
                             </p>
                           </div>
 
-                          {/* OPEN TO */}
-                          <div>
-                            <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
-                              OPEN TO
-                            </h3>
-                            <p className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
-                              {entry.openTo.join(' · ')}
-                            </p>
-                          </div>
+                                  {/* OPEN TO */}
+                                  <div>
+                                    <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
+                                      OPEN TO
+                                    </h3>
+                                    <p className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
+                                      {entry.openTo.join(' · ')}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            } else {
+                              // Show collapsed summary for older entries
+                              return (
+                                <CollapsedEntrySummary
+                                  key={`${entry.lastUpdated}-${entryIndex}`}
+                                  entry={entry}
+                                  onToggle={() => toggleEntry(entryKey)}
+                                />
+                              );
+                            }
+                          })}
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
 
                   {/* Divider between months */}
-                  {index < nowData.length - 1 && (
+                  {Object.keys(groupedData).indexOf(month) < Object.keys(groupedData).length - 1 && (
                     <div className="mt-16 pt-16 border-t border-neutral-200 dark:border-neutral-800"></div>
                   )}
                 </div>
