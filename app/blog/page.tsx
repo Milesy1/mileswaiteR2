@@ -4,64 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-// ============================================================================
-// BLOG DATA - Easy to update!
-// ============================================================================
-// To add a new blog post:
-// 1. Add a new object to the blogPosts array
-// 2. Update the slug, title, excerpt, date, readTime, and tags
-// 3. The posts will automatically appear in reverse chronological order
-
-const blogPosts = [
-  {
-    slug: "voice-activated-ai-assistant",
-    title: "Building a Voice-Activated AI Assistant for My Portfolio",
-    excerpt: "How I built a page-aware, voice-controlled AI assistant that works seamlessly across desktop and mobile devices.",
-    date: "October 24, 2025",
-    readTime: "15 min read",
-    tags: ["AI", "Web Development", "Voice Recognition", "Next.js"]
-  },
-  {
-    slug: "emergent-geometry-touchdesigner",
-    title: "Emergent Geometry in TouchDesigner",
-    excerpt: "Exploring how procedural systems can generate complex, organic forms that emerge from simple rules and interactions.",
-    date: "October 15, 2025",
-    readTime: "8 min read",
-    tags: ["TouchDesigner", "Generative Art", "Geometry"]
-  },
-  {
-    slug: "complex-systems-thinking",
-    title: "Complex Systems and Creative Practice",
-    excerpt: "How understanding complex adaptive systems can inform and enhance creative work across disciplines.",
-    date: "October 8, 2025",
-    readTime: "12 min read",
-    tags: ["Complex Systems", "Philosophy", "Creative Practice"]
-  },
-  {
-    slug: "python-automation-workflow",
-    title: "Python Automation for Creative Workflows",
-    excerpt: "Building efficient pipelines that connect different creative tools and automate repetitive tasks.",
-    date: "October 1, 2025",
-    readTime: "6 min read",
-    tags: ["Python", "Automation", "Workflow"]
-  },
-  {
-    slug: "sound-design-philosophy",
-    title: "The Philosophy of Sound Design",
-    excerpt: "Thoughts on how sound shapes perception and creates emotional landscapes in digital environments.",
-    date: "September 24, 2025",
-    readTime: "10 min read",
-    tags: ["Sound Design", "Philosophy", "Perception"]
-  },
-  {
-    slug: "nextjs-portfolio-architecture",
-    title: "Building a Minimal Portfolio with Next.js",
-    excerpt: "Architectural decisions and design patterns for creating clean, performant portfolio sites.",
-    date: "September 17, 2025",
-    readTime: "7 min read",
-    tags: ["Next.js", "Web Development", "Portfolio"]
-  }
-];
+import { blogPosts } from '../../data/blog-posts';
 
 export default function BlogPage() {
   const [isLoaded, setIsLoaded] = useState(false);
