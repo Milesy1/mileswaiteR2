@@ -35,9 +35,11 @@ export function ProjectOverview({
               Project Overview
             </h2>
             <div className="w-24 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500"></div>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              {longDescription}
-            </p>
+            <div className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed space-y-4">
+              {longDescription.split('<br><br>').map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
           </div>
 
           {/* Problem & Solution */}
