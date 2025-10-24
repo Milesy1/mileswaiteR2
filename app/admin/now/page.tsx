@@ -60,7 +60,7 @@ export default function AdminNowPage() {
     openTo: ''
   });
 
-  // Simple password protection (you can enhance this later)
+  // Simple password protection (you can enhance this later) - v1.1
   const ADMIN_PASSWORD = 'milesadmin2025';
 
   // Load latest data for pre-filling
