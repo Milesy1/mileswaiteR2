@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { SkeletonMusicPlayer } from '@/components/SkeletonMusicPlayer';
 import VoiceAskMilesButton from '@/components/project/VoiceAskMilesButton';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+import EllipseSketch from '@/components/EllipseSketch';
 
 // ============================================================================
 // NOW PAGE DATA - Easy to update!
@@ -661,6 +662,7 @@ export default function NowPage() {
       <div className="flex justify-start items-center py-8 px-[10%] sm:px-[8%] lg:px-[5%]">
         <VoiceAskMilesButton />
       </div>
+
     </motion.div>
   )
 }

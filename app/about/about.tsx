@@ -17,37 +17,20 @@ export default function AboutPage() {
           // Get the input field within the chatbot
           const inputElement = chatbotElement.querySelector('input');
           
-          if (inputElement) {
-            // Scroll to the input field, accounting for mobile keyboard
-            inputElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'center',
-              inline: 'nearest'
-            });
-            
-            // Additional mobile adjustments
-            setTimeout(() => {
-              const viewportHeight = window.innerHeight;
-              const isMobile = viewportHeight < 768;
-              
-              if (isMobile) {
-                // Scroll up more on mobile to account for keyboard
-                window.scrollBy(0, -150);
-              }
-            }, 300);
-          } else {
-            // Fallback to scrolling to the chatbot section
-            chatbotElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'start' 
-            });
-          }
+          // Scroll to show header content above the chatbot
+          const elementPosition = chatbotElement.offsetTop;
+          const offsetPosition = elementPosition - 100; // 100px above the chatbot
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
         }
       }, 100); // Small delay to ensure page is loaded
     }
   }, []);
   return (
-    <div className="pt-16 lg:pt-20">
+    <div className="pt-16 lg:pt-20 scroll-padding-top-32">
       {/* Hero Section */}
       <section className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
