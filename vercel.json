@@ -1,0 +1,6 @@
+{
+  "crons": [{
+    "path": "/api/curator/cron",
+    "schedule": "0 9 * * 1"
+  }]
+}

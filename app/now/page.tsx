@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { SkeletonMusicPlayer } from '@/components/SkeletonMusicPlayer';
 import VoiceAskMilesButton from '@/components/project/VoiceAskMilesButton';
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 
 // ============================================================================
 // NOW PAGE DATA - Easy to update!
@@ -592,6 +593,40 @@ export default function NowPage() {
                                       {entry.openTo.join(' · ')}
                                     </p>
                                   </div>
+
+                                  {/* LEARNING */}
+                                  {entry.learning && entry.learning.length > 0 && (
+                                    <div>
+                                      <h3 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3 sm:mb-4">
+                                        LEARNING
+                                      </h3>
+                                      
+                                      <p className="text-neutral-900 dark:text-white text-base sm:text-lg leading-relaxed">
+                                        {entry.learning.map((item: any, i: number) => (
+                                          <span key={i}>
+                                            <a
+                                              href={item.url}
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                              className="text-neutral-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                                            >
+                                              {item.title}
+                                            </a>
+                                            {i < entry.learning.length - 1 && ' · '}
+                                          </span>
+                                        ))}
+                                      </p>
+                                      
+                                      {entry.learningUpdatedAt && (
+                                        <p className="text-xs text-neutral-500 mt-4">
+                                          Updated {formatDistanceToNow(
+                                            new Date(entry.learningUpdatedAt),
+                                            { addSuffix: true }
+                                          )}
+                                        </p>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                               );
                             } else {

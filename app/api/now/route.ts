@@ -66,7 +66,17 @@ export async function GET() {
     if (fs.existsSync(DATA_FILE)) {
       const fileData = fs.readFileSync(DATA_FILE, 'utf8');
       const data = JSON.parse(fileData);
-      if (data && data.length > 0) {
+      
+      // Handle new structure with currentEntry
+      if (data && data.currentEntry) {
+        // Return array format for backward compatibility
+        const currentEntry = data.currentEntry;
+        const history = data.history || [];
+        return NextResponse.json([currentEntry, ...history]);
+      }
+      
+      // Handle old array format
+      if (data && Array.isArray(data) && data.length > 0) {
         return NextResponse.json(data);
       }
     }
