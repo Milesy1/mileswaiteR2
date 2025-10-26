@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
-import RotatingCylinderLinesR3F from '../../components/RotatingCylinderLinesR3F';
+import MySketch from '../../components/MySketch';
 import { ChatBot } from '../../components/ChatBot';
 import { BackToProjectLink } from '../../components/BackToProjectLink';
 import StatsTicker from '../../components/StatsTicker';
@@ -145,8 +145,8 @@ export default function AboutPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="w-full h-[600px] lg:h-[700px]">
-                <RotatingCylinderLinesR3F />
+              <div className="w-full h-[800px] lg:h-[900px]">
+                <MySketch width={600} height={800} />
               </div>
             </motion.div>
           </div>
