@@ -145,8 +145,8 @@ export default function AboutPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="w-full h-[800px] lg:h-[900px]">
-                <MySketch width={600} height={800} />
+              <div className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[800px] xl:h-[900px]">
+                <MySketch />
               </div>
             </motion.div>
           </div>
@@ -170,7 +170,7 @@ export default function AboutPage() {
       </section>
 
       {/* ChatBot Section */}
-      <section id="chatbot" className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50 dark:bg-neutral-900">
+      <section id="chatbot" className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50 dark:bg-neutral-900 scroll-mt-32">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

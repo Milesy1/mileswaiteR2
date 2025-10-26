@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 declare global {
   interface Window {
@@ -19,8 +19,30 @@ export default function MySketch({
   height = 400, 
   className = '' 
 }: MySketchProps) {
+  const [dimensions, setDimensions] = useState({ width: 400, height: 400 });
   const containerRef = useRef<HTMLDivElement>(null);
   const p5InstanceRef = useRef<any>(null);
+
+  // Handle responsive dimensions
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth;
+        const containerHeight = containerRef.current.clientHeight;
+        
+        // Use container dimensions or fallback to props
+        const newWidth = containerWidth > 0 ? containerWidth : width;
+        const newHeight = containerHeight > 0 ? containerHeight : height;
+        
+        setDimensions({ width: newWidth, height: newHeight });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, [width, height]);
 
   useEffect(() => {
     // Load p5.js dynamically
@@ -54,7 +76,7 @@ export default function MySketch({
         ];
 
         p.setup = () => {
-          p.createCanvas(width, height, p.WEBGL);
+          p.createCanvas(dimensions.width, dimensions.height, p.WEBGL);
           p.strokeWeight(5);
           p.colorMode(p.RGB, 255);
         };
@@ -101,7 +123,7 @@ export default function MySketch({
         p5InstanceRef.current = null;
       }
     };
-  }, [width, height]);
+  }, [dimensions.width, dimensions.height]);
 
   return (
     <div 
