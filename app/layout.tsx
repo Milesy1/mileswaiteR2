@@ -2,7 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import { Navigation } from '@/components/Navigation';
-import { Footer } from '@/components/Footer';
+import ClientFooter from '@/components/ClientFooter';
 import { Analytics } from '@vercel/analytics/next';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import CustomCursor from '@/components/CustomCursor';
@@ -91,7 +91,7 @@ export default function RootLayout({
             <div className="relative flex min-h-screen flex-col">
               <Navigation />
               <main className="flex-1">{children}</main>
-              <Footer />
+              <ClientFooter />
             </div>
           </KeyboardShortcutsProvider>
         </ThemeProvider>

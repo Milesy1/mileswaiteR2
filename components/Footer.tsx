@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import ClientBackToTop from './ClientBackToTop';
 
-export function Footer() {
+interface FooterProps {
+  showAdmin?: boolean;
+}
+
+export function Footer({ showAdmin = false }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -14,13 +18,15 @@ export function Footer() {
             <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
               Robust. Antifragile. Emergent.
             </p>
-            <a
-              href="/admin/now"
-              className="text-xs text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-200"
-              title="Admin Panel"
-            >
-              Admin
-            </a>
+            {showAdmin && (
+              <a
+                href="/admin/now"
+                className="text-xs text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-200"
+                title="Admin Panel"
+              >
+                Admin
+              </a>
+            )}
           </div>
 
           {/* Middle Section - Social Links */}
