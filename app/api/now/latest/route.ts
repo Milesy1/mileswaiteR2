@@ -2,8 +2,19 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// File-based storage for persistence
+// Use KV in production, file storage locally
+const isProduction = process.env.NODE_ENV === 'production';
 const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
+
+// Dynamically import KV only in production
+let kv: any = null;
+if (isProduction) {
+  try {
+    kv = require('@vercel/kv').kv;
+  } catch (error) {
+    console.warn('Vercel KV not available, falling back to file storage');
+  }
+}
 
 // Fallback data structure
 const fallbackData = [
@@ -44,18 +55,27 @@ const fallbackData = [
 // GET - Fetch latest Now page entry for pre-filling admin form
 export async function GET() {
   try {
-    // Try to read from file first
-    if (fs.existsSync(DATA_FILE)) {
-      const fileData = fs.readFileSync(DATA_FILE, 'utf8');
-      const data = JSON.parse(fileData);
-      
+    let data = null;
+    
+    if (isProduction && kv) {
+      // Use KV in production
+      data = await kv.get('now-data');
+    } else {
+      // Use file storage locally
+      if (fs.existsSync(DATA_FILE)) {
+        const fileData = fs.readFileSync(DATA_FILE, 'utf8');
+        data = JSON.parse(fileData);
+      }
+    }
+    
+    if (data) {
       // Handle new structure with currentEntry
-      if (data && data.currentEntry) {
+      if (data.currentEntry) {
         return NextResponse.json(data.currentEntry);
       }
       
       // Handle old array format
-      if (data && Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data) && data.length > 0) {
         return NextResponse.json(data[0]); // Return first (most recent) entry
       }
     }

@@ -2,8 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// File-based storage for persistence
+// Use KV in production, file storage locally
+const isProduction = process.env.NODE_ENV === 'production';
 const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
+
+// Dynamically import KV only in production
+let kv: any = null;
+if (isProduction) {
+  try {
+    kv = require('@vercel/kv').kv;
+  } catch (error) {
+    console.warn('Vercel KV not available, falling back to file storage');
+  }
+}
 
 // Fallback data structure (matches your current nowData)
 const fallbackData = [
@@ -62,13 +73,22 @@ const fallbackData = [
 // GET - Fetch Now page data
 export async function GET() {
   try {
-    // Try to read from file first
-    if (fs.existsSync(DATA_FILE)) {
-      const fileData = fs.readFileSync(DATA_FILE, 'utf8');
-      const data = JSON.parse(fileData);
-      
+    let data = null;
+    
+    if (isProduction && kv) {
+      // Use KV in production
+      data = await kv.get('now-data');
+    } else {
+      // Use file storage locally
+      if (fs.existsSync(DATA_FILE)) {
+        const fileData = fs.readFileSync(DATA_FILE, 'utf8');
+        data = JSON.parse(fileData);
+      }
+    }
+    
+    if (data) {
       // Handle new structure with currentEntry
-      if (data && data.currentEntry) {
+      if (data.currentEntry) {
         // Return array format for backward compatibility
         const currentEntry = data.currentEntry;
         const history = data.history || [];
@@ -76,7 +96,7 @@ export async function GET() {
       }
       
       // Handle old array format
-      if (data && Array.isArray(data) && data.length > 0) {
+      if (Array.isArray(data) && data.length > 0) {
         return NextResponse.json(data);
       }
     }
@@ -104,24 +124,29 @@ export async function POST(request: NextRequest) {
 
     // Read existing data
     let existingData = { currentEntry: null, history: [] };
-    if (fs.existsSync(DATA_FILE)) {
-      try {
+    let storedData = null;
+    
+    if (isProduction && kv) {
+      // Use KV in production
+      storedData = await kv.get('now-data');
+    } else {
+      // Use file storage locally
+      if (fs.existsSync(DATA_FILE)) {
         const fileData = fs.readFileSync(DATA_FILE, 'utf8');
-        const parsed = JSON.parse(fileData);
-        
-        // Handle new structure with currentEntry
-        if (parsed && parsed.currentEntry) {
-          existingData = parsed;
-        } else if (parsed && Array.isArray(parsed)) {
-          // Convert old array format to new structure
-          existingData = {
-            currentEntry: parsed[0] || null,
-            history: parsed.slice(1) || []
-          };
-        }
-      } catch (parseError) {
-        console.error('Error parsing existing data:', parseError);
-        existingData = { currentEntry: null, history: [] };
+        storedData = JSON.parse(fileData);
+      }
+    }
+    
+    if (storedData) {
+      // Handle new structure with currentEntry
+      if (storedData.currentEntry) {
+        existingData = storedData;
+      } else if (Array.isArray(storedData)) {
+        // Convert old array format to new structure
+        existingData = {
+          currentEntry: storedData[0] || null,
+          history: storedData.slice(1) || []
+        };
       }
     }
 
@@ -134,14 +159,18 @@ export async function POST(request: NextRequest) {
       lastUpdated: new Date().toISOString()
     };
 
-    // Ensure data directory exists
-    const dataDir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
+    // Store data
+    if (isProduction && kv) {
+      // Store in KV database
+      await kv.set('now-data', updatedData);
+    } else {
+      // Store in file locally
+      const dataDir = path.dirname(DATA_FILE);
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+      }
+      fs.writeFileSync(DATA_FILE, JSON.stringify(updatedData, null, 2));
     }
-
-    // Write to file
-    fs.writeFileSync(DATA_FILE, JSON.stringify(updatedData, null, 2));
 
     return NextResponse.json({ 
       success: true, 

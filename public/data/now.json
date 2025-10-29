@@ -20,6 +20,10 @@
       {
         "title": "Against The Day",
         "author": "Thomas Pynchon"
+      },
+      {
+        "title": "John Gray - False Daw: Delusions of Global Capitalism",
+        "author": ""
       }
     ],
     "listening": {
@@ -74,6 +78,173 @@
         {
           "title": "Against The Day",
           "author": "Thomas Pynchon"
+        },
+        {
+          "title": "John Gray - False Daw: Delusions of Capitalism",
+          "author": ""
+        }
+      ],
+      "listening": {
+        "title": "Figures",
+        "artist": "Jim Kimchi",
+        "link": "https://music.amazon.co.uk/albums/B0F4RH5NN4?trackAsin=B0F4RFXDC3&ref=dm_sh_00cc-7c8c-75e5-5305-62568"
+      },
+      "producing": [
+        {
+          "title": "WIP Mix 01",
+          "file": "/music/theremaxmw-edit.mp3"
+        },
+        {
+          "title": "Track 2",
+          "file": "/music/airychant.mp3"
+        },
+        {
+          "title": "Track 3",
+          "file": "/music/echobass.mp3"
+        }
+      ],
+      "using": [
+        "Prompt Engineering",
+        "Cursor",
+        "Claude - Sonnet 4.5"
+      ],
+      "location": "London, UK",
+      "openTo": [
+        "Live 12.3",
+        "TouchDesigner"
+      ]
+    },
+    {
+      "month": "OCTOBER 2025",
+      "lastUpdated": "October 22, 2025",
+      "building": [
+        "mileswaite.net",
+        "Emergent Geometry",
+        "TD - callbacks"
+      ],
+      "exploring": [
+        "Python",
+        "Next.js",
+        "TouchDesigner: event-based triggering"
+      ],
+      "reading": [
+        {
+          "title": "All Things Are Full of Gods",
+          "author": "David Bentley Hart"
+        },
+        {
+          "title": "Against The Day",
+          "author": "Thomas Pynchon"
+        },
+        {
+          "title": "John Gray - False Dawn",
+          "author": ""
+        }
+      ],
+      "listening": {
+        "title": "Figures",
+        "artist": "Jim Kimchi",
+        "link": "https://music.amazon.co.uk/albums/B0F4RH5NN4?trackAsin=B0F4RFXDC3&ref=dm_sh_00cc-7c8c-75e5-5305-62568"
+      },
+      "producing": [
+        {
+          "title": "WIP Mix 01",
+          "file": "/music/theremaxmw-edit.mp3"
+        },
+        {
+          "title": "Track 2",
+          "file": "/music/airychant.mp3"
+        },
+        {
+          "title": "Track 3",
+          "file": "/music/echobass.mp3"
+        }
+      ],
+      "using": [
+        "Prompt Engineering",
+        "Cursor",
+        "Claude - Sonnet 4.5"
+      ],
+      "location": "London, UK",
+      "openTo": [
+        "Live 12.3",
+        "TouchDesigner"
+      ]
+    },
+    {
+      "month": "OCTOBER 2025",
+      "lastUpdated": "October 22, 2025",
+      "building": [
+        "mileswaite.net",
+        "Emergent Geometry",
+        "TD - callbacks"
+      ],
+      "exploring": [
+        "Python",
+        "Next.js",
+        "TouchDesigner: event-based triggering"
+      ],
+      "reading": [
+        {
+          "title": "All Things Are Full of Gods",
+          "author": "David Bentley Hart"
+        },
+        {
+          "title": "Against The Day",
+          "author": "Thomas Pynchon"
+        }
+      ],
+      "listening": {
+        "title": "Figures",
+        "artist": "Jim Kimchi",
+        "link": "https://music.amazon.co.uk/albums/B0F4RH5NN4?trackAsin=B0F4RFXDC3&ref=dm_sh_00cc-7c8c-75e5-5305-62568"
+      },
+      "producing": [
+        {
+          "title": "WIP Mix 01",
+          "file": "/music/theremaxmw-edit.mp3"
+        },
+        {
+          "title": "Track 2",
+          "file": "/music/airychant.mp3"
+        },
+        {
+          "title": "Track 3",
+          "file": "/music/echobass.mp3"
+        }
+      ],
+      "using": [
+        "Prompt Engineering",
+        "Cursor",
+        "Claude - Sonnet 4.5"
+      ],
+      "location": "London, UK",
+      "openTo": [
+        "Live 12.3",
+        "TouchDesigner"
+      ]
+    },
+    {
+      "month": "OCTOBER 2025",
+      "lastUpdated": "October 22, 2025",
+      "building": [
+        "mileswaite.net",
+        "Emergent Geometry",
+        "TD - callbacks"
+      ],
+      "exploring": [
+        "Python",
+        "Next.js",
+        "TouchDesigner: event-based triggering"
+      ],
+      "reading": [
+        {
+          "title": "All Things Are Full of Gods",
+          "author": "David Bentley Hart"
+        },
+        {
+          "title": "Against The Day",
+          "author": "Thomas Pynchon"
         }
       ],
       "listening": {
@@ -107,5 +278,5 @@
       ]
     }
   ],
-  "lastUpdated": "2025-10-29T18:13:44.174Z"
+  "lastUpdated": "2025-10-29T18:34:03.797Z"
 }
