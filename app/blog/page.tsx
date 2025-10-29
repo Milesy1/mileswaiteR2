@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 import { blogPosts } from '../../data/blog-posts';
+import ParticleBackground from '../../components/ParticleBackground';
 
 export default function BlogPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -15,11 +16,16 @@ export default function BlogPage() {
 
   return (
     <motion.div 
-      className="pt-16 lg:pt-20"
+      className="pt-16 lg:pt-20 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: isLoaded ? 1 : 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
+      {/* Particle Background */}
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" style={{ opacity: 1.0 }}>
+        <ParticleBackground />
+      </div>
+      
       {/* Header */}
       <section className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
