@@ -14,14 +14,19 @@ if (isProduction) {
     console.log('Redis URL exists:', !!process.env.UPSTASH_REDIS_REST_URL);
     console.log('Redis Token exists:', !!process.env.UPSTASH_REDIS_REST_TOKEN);
     
-    const { Redis } = require('@upstash/redis');
-    redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    });
-    console.log('Redis connected successfully');
+    // Check if environment variables are properly set
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+      console.warn('Redis environment variables not set, using memory store');
+    } else {
+      const { Redis } = require('@upstash/redis');
+      redis = new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      });
+      console.log('Redis connected successfully');
+    }
   } catch (error) {
-    console.warn('Upstash Redis not available, falling back to file storage:', error);
+    console.warn('Upstash Redis not available, falling back to memory storage:', error);
   }
 }
 
@@ -179,11 +184,18 @@ export async function POST(request: NextRequest) {
 
     // Store data
     if (isProduction && redis) {
-      // Store in Upstash Redis
-      await redis.set('now-data', updatedData);
+      try {
+        // Store in Upstash Redis
+        await redis.set('now-data', updatedData);
+        console.log('Data stored in Redis successfully');
+      } catch (redisError) {
+        console.warn('Redis storage failed, using memory store:', redisError);
+        memoryStore = updatedData;
+      }
     } else if (isProduction) {
       // Store in memory as fallback in production
       memoryStore = updatedData;
+      console.log('Data stored in memory store');
     } else {
       // Store in file locally
       const dataDir = path.dirname(DATA_FILE);
