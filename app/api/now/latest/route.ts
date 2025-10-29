@@ -48,7 +48,14 @@ export async function GET() {
     if (fs.existsSync(DATA_FILE)) {
       const fileData = fs.readFileSync(DATA_FILE, 'utf8');
       const data = JSON.parse(fileData);
-      if (data && data.length > 0) {
+      
+      // Handle new structure with currentEntry
+      if (data && data.currentEntry) {
+        return NextResponse.json(data.currentEntry);
+      }
+      
+      // Handle old array format
+      if (data && Array.isArray(data) && data.length > 0) {
         return NextResponse.json(data[0]); // Return first (most recent) entry
       }
     }

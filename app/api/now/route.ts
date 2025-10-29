@@ -103,19 +103,36 @@ export async function POST(request: NextRequest) {
     }
 
     // Read existing data
-    let existingData = [];
+    let existingData = { currentEntry: null, history: [] };
     if (fs.existsSync(DATA_FILE)) {
       try {
         const fileData = fs.readFileSync(DATA_FILE, 'utf8');
-        existingData = JSON.parse(fileData);
+        const parsed = JSON.parse(fileData);
+        
+        // Handle new structure with currentEntry
+        if (parsed && parsed.currentEntry) {
+          existingData = parsed;
+        } else if (parsed && Array.isArray(parsed)) {
+          // Convert old array format to new structure
+          existingData = {
+            currentEntry: parsed[0] || null,
+            history: parsed.slice(1) || []
+          };
+        }
       } catch (parseError) {
         console.error('Error parsing existing data:', parseError);
-        existingData = [];
+        existingData = { currentEntry: null, history: [] };
       }
     }
 
-    // Add new entry to beginning of array (most recent first)
-    const updatedData = [body, ...existingData];
+    // Move current entry to history and set new entry as current
+    const updatedData = {
+      currentEntry: body,
+      history: existingData.currentEntry 
+        ? [existingData.currentEntry, ...existingData.history] 
+        : existingData.history,
+      lastUpdated: new Date().toISOString()
+    };
 
     // Ensure data directory exists
     const dataDir = path.dirname(DATA_FILE);

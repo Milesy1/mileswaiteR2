@@ -99,7 +99,7 @@ export default function AdminNowPage() {
       // Pre-fill form with latest data
       setFormData({
         month: data.month || '',
-        lastUpdated: data.lastUpdated || '',
+        lastUpdated: data.lastUpdated || data.timestamp || '',
         building: data.building?.join('\n') || '',
         exploring: data.exploring?.join('\n') || '',
         reading: data.reading?.map(book => `${book.title} — ${book.author}`).join('\n') || '',
@@ -154,6 +154,8 @@ export default function AdminNowPage() {
         openTo: formData.openTo.split('\n').filter(item => item.trim())
       };
 
+      console.log('Submitting data:', nowEntry);
+
       const response = await fetch('/api/now', {
         method: 'POST',
         headers: {
@@ -161,6 +163,10 @@ export default function AdminNowPage() {
         },
         body: JSON.stringify(nowEntry),
       });
+
+      console.log('Response status:', response.status);
+      const responseData = await response.json();
+      console.log('Response data:', responseData);
 
       if (response.ok) {
         setSaveStatus('success');

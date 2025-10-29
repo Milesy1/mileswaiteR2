@@ -1,19 +1,16 @@
 {
   "currentEntry": {
     "month": "OCTOBER 2025",
-    "timestamp": "2025-10-24T00:00:00Z",
+    "lastUpdated": "October 22, 2025",
     "building": [
       "mileswaite.net",
-      "mileswaite.net AI assistant is now live",
       "Emergent Geometry",
       "TD - callbacks"
     ],
     "exploring": [
       "Python",
       "Next.js",
-      "TouchDesigner: event-based triggering",
-      "Remote Now Updates ",
-      "Remote Now Updates remotely (#1 try)"
+      "TouchDesigner: event-based triggering"
     ],
     "reading": [
       {
@@ -26,9 +23,9 @@
       }
     ],
     "listening": {
-      "title": "A Model of Reality",
-      "artist": "Sunnk",
-      "link": "https://music.amazon.co.uk/albums/B0BQCR5B27?trackAsin=B0BQCSQNWW&ref=dm_sh_3a94-44bc-60a0-a81f-ed5f5"
+      "title": "Figures",
+      "artist": "Jim Kimchi",
+      "link": "https://music.amazon.co.uk/albums/B0F4RH5NN4?trackAsin=B0F4RFXDC3&ref=dm_sh_00cc-7c8c-75e5-5305-62568"
     },
     "producing": [
       {
@@ -53,38 +50,117 @@
     "openTo": [
       "Live 12.3",
       "TouchDesigner"
-    ],
-    "learning": [
-      {
-        "title": "React Server Components Are Breaking Production Apps (And Nobody's Talking About It)",
-        "url": "https://dev.to/elvissautet/react-server-components-are-breaking-production-apps-and-nobodys-talking-about-it-1dme",
-        "topic": "Next.js"
-      },
-      {
-        "title": "Next.js 16 is Here: What It Means for Your Workflow",
-        "url": "https://dev.to/hashbyt/nextjs-16-is-here-what-it-means-for-your-workflow-1agh",
-        "topic": "Next.js"
-      },
-      {
-        "title": "Rari: React Server Components with Rust - 12x faster P99 latency than Next.js",
-        "url": "https://ryanskinner.com/posts/the-rari-ssr-breakthrough-12x-faster-10x-higher-throughput-than-nextjs",
-        "topic": "Next.js"
-      },
-      {
-        "title": "Understanding Next.js Client Routing - The Fundamentals",
-        "url": "https://dev.to/alexandru-ene-dev/understanding-nextjs-client-routing-the-fundamentals-3h9a",
-        "topic": "Next.js"
-      },
-      {
-        "title": "React and the City ⚔️ Part 3: Return of the MCP",
-        "url": "https://dev.to/sagi0312/react-and-the-city-part-3-return-of-the-mcp-1ede",
-        "topic": "Next.js"
-      }
-    ],
-    "learningUpdatedAt": "2025-10-26T09:34:46.720Z"
+    ]
   },
-  "lastUpdated": "2025-10-24T00:00:00Z",
   "history": [
+    {
+      "month": "TEST",
+      "lastUpdated": "Test Date",
+      "building": [
+        "test"
+      ],
+      "exploring": [
+        "test"
+      ],
+      "reading": [],
+      "listening": {
+        "title": "",
+        "artist": "",
+        "link": ""
+      },
+      "producing": [],
+      "using": [
+        "test"
+      ],
+      "location": "Test",
+      "openTo": [
+        "test"
+      ]
+    },
+    {
+      "month": "OCTOBER 2025",
+      "timestamp": "2025-10-24T00:00:00Z",
+      "building": [
+        "mileswaite.net",
+        "mileswaite.net AI assistant is now live",
+        "Emergent Geometry",
+        "TD - callbacks"
+      ],
+      "exploring": [
+        "Python",
+        "Next.js",
+        "TouchDesigner: event-based triggering",
+        "Remote Now Updates ",
+        "Remote Now Updates remotely (#1 try)"
+      ],
+      "reading": [
+        {
+          "title": "All Things Are Full of Gods",
+          "author": "David Bentley Hart"
+        },
+        {
+          "title": "Against The Day",
+          "author": "Thomas Pynchon"
+        }
+      ],
+      "listening": {
+        "title": "A Model of Reality",
+        "artist": "Sunnk",
+        "link": "https://music.amazon.co.uk/albums/B0BQCR5B27?trackAsin=B0BQCSQNWW&ref=dm_sh_3a94-44bc-60a0-a81f-ed5f5"
+      },
+      "producing": [
+        {
+          "title": "WIP Mix 01",
+          "file": "/music/theremaxmw-edit.mp3"
+        },
+        {
+          "title": "Track 2",
+          "file": "/music/airychant.mp3"
+        },
+        {
+          "title": "Track 3",
+          "file": "/music/echobass.mp3"
+        }
+      ],
+      "using": [
+        "Prompt Engineering",
+        "Cursor",
+        "Claude - Sonnet 4.5"
+      ],
+      "location": "London, UK",
+      "openTo": [
+        "Live 12.3",
+        "TouchDesigner"
+      ],
+      "learning": [
+        {
+          "title": "React Server Components Are Breaking Production Apps (And Nobody's Talking About It)",
+          "url": "https://dev.to/elvissautet/react-server-components-are-breaking-production-apps-and-nobodys-talking-about-it-1dme",
+          "topic": "Next.js"
+        },
+        {
+          "title": "Next.js 16 is Here: What It Means for Your Workflow",
+          "url": "https://dev.to/hashbyt/nextjs-16-is-here-what-it-means-for-your-workflow-1agh",
+          "topic": "Next.js"
+        },
+        {
+          "title": "Rari: React Server Components with Rust - 12x faster P99 latency than Next.js",
+          "url": "https://ryanskinner.com/posts/the-rari-ssr-breakthrough-12x-faster-10x-higher-throughput-than-nextjs",
+          "topic": "Next.js"
+        },
+        {
+          "title": "Understanding Next.js Client Routing - The Fundamentals",
+          "url": "https://dev.to/alexandru-ene-dev/understanding-nextjs-client-routing-the-fundamentals-3h9a",
+          "topic": "Next.js"
+        },
+        {
+          "title": "React and the City ⚔️ Part 3: Return of the MCP",
+          "url": "https://dev.to/sagi0312/react-and-the-city-part-3-return-of-the-mcp-1ede",
+          "topic": "Next.js"
+        }
+      ],
+      "learningUpdatedAt": "2025-10-26T09:34:46.720Z"
+    },
     {
       "month": "OCTOBER 2025",
       "lastUpdated": "October 24, 2025",
@@ -246,5 +322,6 @@
         "TouchDesigner"
       ]
     }
-  ]
+  ],
+  "lastUpdated": "2025-10-29T18:13:44.174Z"
 }
