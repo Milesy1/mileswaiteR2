@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { SkeletonMusicPlayer } from '@/components/SkeletonMusicPlayer';
 import VoiceAskMilesButton from '@/components/project/VoiceAskMilesButton';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
-import EllipseSketch from '@/components/EllipseSketch';
 
 // ============================================================================
 // NOW PAGE DATA - Easy to update!
@@ -238,6 +237,115 @@ function MusicPlayer({ trackTitle, audioFile }: { trackTitle: string; audioFile:
   );
 }
 
+// Ellipse Background Component
+function EllipseBackground() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const p5InstanceRef = useRef<any>(null);
+
+  useEffect(() => {
+    // Load p5.js dynamically
+    const loadP5 = async () => {
+      if (typeof window !== 'undefined' && !window.p5) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js';
+        script.onload = () => {
+          initializeSketch();
+        };
+        document.head.appendChild(script);
+      } else if (window.p5) {
+        initializeSketch();
+      }
+    };
+
+    const initializeSketch = () => {
+      if (!containerRef.current || p5InstanceRef.current) return;
+
+      // Ellipse sketch code from your ellipse-sketch.js
+      const sketch = (p: any) => {
+        let theta = 0;
+        let npoints = 60;
+        let anglestep;
+        let anglestart = 0;
+        let r;
+        let colorIndex = 0;
+        let colorProgress = 0;
+
+        // Red, Green, White color cycle
+        const COLORS = [
+          [255, 0, 0],    // Red
+          [0, 255, 0],    // Green  
+          [255, 255, 255] // White
+        ];
+
+        p.setup = () => {
+          p.createCanvas(window.innerWidth, window.innerHeight);
+          r = Math.min(p.width, p.height) / 4.5; // Increased from /6 to /4.5 (30% larger)
+          p.noStroke();
+          
+          p.colorMode(p.RGB, 255);
+          anglestep = p.TWO_PI / npoints;
+        };
+
+        p.draw = () => {
+          p.clear();
+          
+          // Slower color cycling (every 3 seconds instead of 1)
+          let timeCycle = (p.millis() * 0.0003) % 3; // Use millis instead of frameCount
+          colorIndex = p.floor(timeCycle);
+          colorProgress = timeCycle - colorIndex; // Progress between colors (0-1)
+          
+          // Get current and next colors for smooth transition
+          let currentColor = COLORS[colorIndex];
+          let nextColor = COLORS[(colorIndex + 1) % 3];
+          
+          // Interpolate between colors for smooth fade
+          let red = p.lerp(currentColor[0], nextColor[0], colorProgress);
+          let green = p.lerp(currentColor[1], nextColor[1], colorProgress);
+          let blue = p.lerp(currentColor[2], nextColor[2], colorProgress);
+          
+          p.fill(red, green, blue);
+          
+          p.translate(p.width / 2, p.height / 2);
+          p.rotate(theta);
+          
+          for (let i = 0; i < npoints; i++) {
+            let angle = anglestart + i * anglestep;
+            p.ellipse(1.2 * r * p.cos(angle), 0.8 * r * p.sin(angle), 2, 2);
+          }
+          
+          anglestart -= 0.02187; // Another 10% slower: 0.0243 * 0.9 = 0.02187
+          theta += 0.00729; // Another 10% slower: 0.0081 * 0.9 = 0.00729
+        };
+
+        p.windowResized = () => {
+          p.resizeCanvas(window.innerWidth, window.innerHeight);
+          r = Math.min(p.width, p.height) / 4.5; // Increased from /6 to /4.5 (30% larger)
+        };
+      };
+
+      p5InstanceRef.current = new window.p5(sketch, containerRef.current);
+    };
+
+    loadP5();
+
+    // Cleanup
+    return () => {
+      if (p5InstanceRef.current) {
+        p5InstanceRef.current.remove();
+        p5InstanceRef.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <div 
+      ref={containerRef} 
+      className="w-full h-full"
+      style={{ width: '100%', height: '100%' }}
+    />
+  );
+}
+
 export default function NowPage() {
   const section = 'Now';
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
@@ -282,6 +390,7 @@ export default function NowPage() {
       });
   }, []);
 
+
   const toggleMonth = (month: string) => {
     setExpandedMonths(prev => {
       const newSet = new Set(prev);
@@ -325,11 +434,15 @@ export default function NowPage() {
 
   return (
     <motion.div 
-      className="pt-16 lg:pt-20"
+      className="pt-16 lg:pt-20 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: isLoaded ? 1 : 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
+      {/* Background Ellipse Animation */}
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" style={{ opacity: 1.0 }}>
+        <EllipseBackground />
+      </div>
       {/* Header */}
       <section className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">

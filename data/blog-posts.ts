@@ -3,7 +3,7 @@ export const blogPosts = [
   {
     slug: "emergent-geometry-midi-sop-reactivity",
     title: "Emergent Geometry: MIDI-Triggered, Event-Based SOP Audio Reactivity",
-    excerpt: "Exploring how simple MIDI inputs create complex, unpredictable visual behaviors through event-based SOP systems in TouchDesigner.",
+    excerpt: "Exploring how simple MIDI inputs create complex, unpredictable visual behaviours through event-based SOP systems in TouchDesigner.",
     date: "January 15, 2025",
     readTime: "12 min read",
     tags: ["TouchDesigner", "Generative Art", "MIDI", "Emergence", "Audio Reactivity"],
@@ -36,7 +36,7 @@ export const blogPosts = [
 
       <br>
 
-      <p>The system is designed as a <strong>modular, event-driven architecture</strong> combining CHOP Execute callbacks, table-driven mappings, and a centralized SOP pool.</p>
+      <p>The system is designed as a <strong>modular, event-driven architecture</strong> combining CHOP Execute callbacks, table-driven mappings, and a centralised SOP pool.</p>
 
       <br>
 
@@ -172,7 +172,7 @@ export const blogPosts = [
       <br>
 
       <p>• Event-based SOP toggling and modulation via MIDI.<br>
-      • Centralized callback logic with improved modularity.<br>
+      • Centralised callback logic with improved modularity.<br>
       • Table-driven configuration for rapid prototyping.<br>
       • Reliable runtime logging for live debugging and feedback.</p>
 
@@ -195,7 +195,7 @@ export const blogPosts = [
       3. Expand the SOP pool for multi-geometry performance control.<br>
       4. Create a visual GUI to monitor active mappings.<br>
       5. Implement preset management for mapping recall.<br>
-      6. Explore generative behaviors — spawning and destroying SOPs dynamically via note sequences.</p>
+      6. Explore generative behaviours — spawning and destroying SOPs dynamically via note sequences.</p>
 
       <br>
 
@@ -278,7 +278,7 @@ export const blogPosts = [
       <ul>
         <li>• Facebook Messenger-style chat widget</li>
         <li>• Persistent conversation history within session</li>
-        <li>• Mobile-optimized touch interactions</li>
+        <li>• Mobile-optimised touch interactions</li>
         <li>• Graceful fallback to text input when voice fails</li>
       </ul>
 
@@ -288,11 +288,11 @@ export const blogPosts = [
 
       <br>
       
-      <p><strong>Cross-browser voice recognition</strong> was the first hurdle. iOS Safari and Chrome handle the Web Speech API differently. Safari requires explicit user gestures and doesn't support continuous listening. The solution: detect browser capabilities and adjust behavior accordingly.</p>
+      <p><strong>Cross-browser voice recognition</strong> was the first hurdle. iOS Safari and Chrome handle the Web Speech API differently. Safari requires explicit user gestures and doesn't support continuous listening. The solution: detect browser capabilities and adjust behaviour accordingly.</p>
 
       <br>
       
-      <p><strong>Mobile performance</strong> required careful optimization. Voice processing, context extraction, and API calls need to complete quickly to feel responsive. The system prioritizes essential context extraction and efficient API communication to maintain good performance across devices.</p>
+      <p><strong>Mobile performance</strong> required careful optimisation. Voice processing, context extraction, and API calls need to complete quickly to feel responsive. The system prioritises essential context extraction and efficient API communication to maintain good performance across devices.</p>
 
       <br>
       

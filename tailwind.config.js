@@ -78,6 +78,8 @@ module.exports = {
         'slide-down': 'slideDown 0.5s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
         'float': 'float 6s ease-in-out infinite',
+        'spin-slow': 'spin 6s linear infinite',
+        'spin-reverse': 'spinReverse 8s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -99,6 +101,10 @@ module.exports = {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        spinReverse: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
         },
       },
       backdropBlur: {
