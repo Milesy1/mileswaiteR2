@@ -59,7 +59,9 @@ export default function ParticleBackground() {
           p.draw = () => {
             p.clear();
             // Position animation perfectly between subtitle and first blog post
-            p.translate(0, -50 + (p.height * 0.025), 0);
+            // Adjust positioning for mobile vs desktop to center between containers
+            let yOffset = p.width < 768 ? -20 + (p.height * 0.015) : -50 + (p.height * 0.025);
+            p.translate(0, yOffset, 0);
             
             for(let i = 0; i < particles.length; i++) {
               let particle = particles[i];
@@ -131,7 +133,9 @@ export default function ParticleBackground() {
               }
               
               p.fill(currentColor[0], currentColor[1], currentColor[2]);
-              p.ellipse(this.loc.x, this.loc.y, 2, 2);
+              // Adjust particle size for mobile vs desktop
+              let particleSize = p.width < 768 ? 1.5 : 2;
+              p.ellipse(this.loc.x, this.loc.y, particleSize, particleSize);
             }
             
             move() {
