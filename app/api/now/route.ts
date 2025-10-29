@@ -20,6 +20,9 @@ if (isProduction) {
   }
 }
 
+// Fallback: if Redis is not available in production, use a simple in-memory store
+let memoryStore: any = null;
+
 // Fallback data structure (matches your current nowData)
 const fallbackData = [
   {
@@ -82,6 +85,9 @@ export async function GET() {
     if (isProduction && redis) {
       // Use Upstash Redis in production
       data = await redis.get('now-data');
+    } else if (isProduction && memoryStore) {
+      // Use memory store as fallback in production
+      data = memoryStore;
     } else {
       // Use file storage locally
       if (fs.existsSync(DATA_FILE)) {
@@ -133,6 +139,9 @@ export async function POST(request: NextRequest) {
     if (isProduction && redis) {
       // Use Upstash Redis in production
       storedData = await redis.get('now-data');
+    } else if (isProduction && memoryStore) {
+      // Use memory store as fallback in production
+      storedData = memoryStore;
     } else {
       // Use file storage locally
       if (fs.existsSync(DATA_FILE)) {
@@ -167,6 +176,9 @@ export async function POST(request: NextRequest) {
     if (isProduction && redis) {
       // Store in Upstash Redis
       await redis.set('now-data', updatedData);
+    } else if (isProduction) {
+      // Store in memory as fallback in production
+      memoryStore = updatedData;
     } else {
       // Store in file locally
       const dataDir = path.dirname(DATA_FILE);
