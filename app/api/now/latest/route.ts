@@ -2,17 +2,21 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// Use KV in production, file storage locally
+// Use Upstash Redis in production, file storage locally
 const isProduction = process.env.NODE_ENV === 'production';
 const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
 
-// Dynamically import KV only in production
-let kv: any = null;
+// Dynamically import Upstash Redis only in production
+let redis: any = null;
 if (isProduction) {
   try {
-    kv = require('@vercel/kv').kv;
+    const { Redis } = require('@upstash/redis');
+    redis = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
   } catch (error) {
-    console.warn('Vercel KV not available, falling back to file storage');
+    console.warn('Upstash Redis not available, falling back to file storage');
   }
 }
 
@@ -57,9 +61,9 @@ export async function GET() {
   try {
     let data = null;
     
-    if (isProduction && kv) {
-      // Use KV in production
-      data = await kv.get('now-data');
+    if (isProduction && redis) {
+      // Use Upstash Redis in production
+      data = await redis.get('now-data');
     } else {
       // Use file storage locally
       if (fs.existsSync(DATA_FILE)) {
