@@ -61,7 +61,7 @@ export default function ParticleBackground() {
             // Position animation perfectly between subtitle and first blog post
             // Adjust positioning for mobile vs desktop to center between containers
             let isMobile = window.innerWidth < 768;
-            let yOffset = isMobile ? -20 + (p.height * 0.015) : -50 + (p.height * 0.025);
+            let yOffset = isMobile ? -40 + (p.height * 0.02) : -50 + (p.height * 0.025);
             p.translate(0, yOffset, 0);
             
             for(let i = 0; i < particles.length; i++) {
