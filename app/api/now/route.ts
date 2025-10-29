@@ -10,13 +10,18 @@ const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
 let redis: any = null;
 if (isProduction) {
   try {
+    console.log('Attempting to connect to Redis...');
+    console.log('Redis URL exists:', !!process.env.UPSTASH_REDIS_REST_URL);
+    console.log('Redis Token exists:', !!process.env.UPSTASH_REDIS_REST_TOKEN);
+    
     const { Redis } = require('@upstash/redis');
     redis = new Redis({
       url: process.env.UPSTASH_REDIS_REST_URL,
       token: process.env.UPSTASH_REDIS_REST_TOKEN,
     });
+    console.log('Redis connected successfully');
   } catch (error) {
-    console.warn('Upstash Redis not available, falling back to file storage');
+    console.warn('Upstash Redis not available, falling back to file storage:', error);
   }
 }
 
@@ -197,7 +202,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error saving Now data:', error);
     return NextResponse.json(
-      { error: 'Failed to save data' },
+      { 
+        error: 'Failed to save data',
+        details: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
