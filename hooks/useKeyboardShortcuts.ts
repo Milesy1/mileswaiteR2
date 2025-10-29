@@ -9,6 +9,32 @@ interface UseKeyboardShortcutsProps {
   isModalOpen?: boolean
 }
 
+// Konami music function
+const triggerKonamiMusic = () => {
+  console.log('Konami code activated! Playing music...');
+  
+  // Your music tracks
+  const musicTracks = [
+    '/music/theremaxmw-edit.mp3',
+    '/music/airychant.mp3',
+    '/music/echobass.mp3'
+  ];
+  
+  // Pick a random track
+  const randomTrack = musicTracks[Math.floor(Math.random() * musicTracks.length)];
+  console.log('Selected track:', randomTrack);
+  
+  // Play the randomly selected track
+  const audio = new Audio(randomTrack);
+  audio.volume = 0.7; // Set volume to 70%
+  
+  audio.play().then(() => {
+    console.log('Audio playing successfully');
+  }).catch(error => {
+    console.log('Audio play failed:', error);
+  });
+};
+
 export function useKeyboardShortcuts({
   onSearchOpen,
   onModalClose,
@@ -44,28 +70,34 @@ export function useKeyboardShortcuts({
 
     // Arrow keys for navigation (when no modal is open)
     if (!isModalOpen) {
-      // Left/Right arrows for project navigation
-      if (e.key === 'ArrowLeft') {
+      // Track Konami sequence for arrow keys
+      const konamiSequence = (window as any).konamiSequence || [];
+      
+      if (e.key === 'ArrowUp') {
+        konamiSequence.push('ArrowUp');
+        (window as any).konamiSequence = konamiSequence;
         e.preventDefault()
-        // Navigate to previous project (if on a project page)
-        const currentPath = window.location.pathname
-        if (currentPath.startsWith('/projects/')) {
-          // This would need to be implemented with project data
-          // For now, just navigate to projects page
-          router.push('/projects')
-        }
+        return
+      }
+      
+      if (e.key === 'ArrowDown') {
+        konamiSequence.push('ArrowDown');
+        (window as any).konamiSequence = konamiSequence;
+        e.preventDefault()
+        return
+      }
+      
+      if (e.key === 'ArrowLeft') {
+        konamiSequence.push('ArrowLeft');
+        (window as any).konamiSequence = konamiSequence;
+        e.preventDefault()
         return
       }
 
       if (e.key === 'ArrowRight') {
+        konamiSequence.push('ArrowRight');
+        (window as any).konamiSequence = konamiSequence;
         e.preventDefault()
-        // Navigate to next project (if on a project page)
-        const currentPath = window.location.pathname
-        if (currentPath.startsWith('/projects/')) {
-          // This would need to be implemented with project data
-          // For now, just navigate to projects page
-          router.push('/projects')
-        }
         return
       }
 
@@ -112,8 +144,44 @@ export function useKeyboardShortcuts({
         return
       }
 
-      // 'A' for about
+      // 'B' for Konami code
+      if (e.key === 'b' || e.key === 'B') {
+        const konamiSequence = (window as any).konamiSequence || [];
+        konamiSequence.push('KeyB');
+        (window as any).konamiSequence = konamiSequence;
+        e.preventDefault()
+        return
+      }
+
+      // 'A' for about (but check for Konami code first)
       if (e.key === 'a' || e.key === 'A') {
+        // Check if this is part of Konami code sequence
+        const konamiSequence = (window as any).konamiSequence || [];
+        konamiSequence.push('KeyA');
+        
+        // Check if we have a complete Konami code
+        const fullKonamiCode = [
+          'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+          'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+          'KeyB', 'KeyA'
+        ];
+        
+        if (konamiSequence.length === fullKonamiCode.length && 
+            konamiSequence.every((key, index) => key === fullKonamiCode[index])) {
+          // Konami code completed!
+          console.log('Konami code completed!');
+          (window as any).konamiSequence = [];
+          // Trigger music
+          triggerKonamiMusic();
+          return;
+        } else if (konamiSequence.length > fullKonamiCode.length) {
+          // Reset sequence if too long
+          (window as any).konamiSequence = ['KeyA'];
+        } else {
+          // Store the sequence
+          (window as any).konamiSequence = konamiSequence;
+        }
+        
         e.preventDefault()
         router.push('/about')
         return
