@@ -7,7 +7,7 @@
     "migrate": "node scripts/run-migrations.js",
     "migrate:prod": "cross-env NODE_ENV=production node scripts/run-migrations.js",
     "dev": "next dev",
-    "build": "npm run migrate && next build",
+    "build": "next build",
     "build:skip-migrate": "next build",
     "start": "next start",
     "lint": "next lint",
