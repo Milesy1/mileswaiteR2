@@ -1,61 +1,76 @@
-# Vercel Stats Setup
+# Vercel Environment Variables Setup
 
-To enable Vercel deployment stats in your ticker, you need to add the following environment variables:
+## Quick Setup Steps
 
-## Required Environment Variables
-
-### 1. Get Your Vercel Token
-
-1. Go to https://vercel.com/account/tokens
-2. Click "Create Token"
-3. Give it a name (e.g., "Portfolio Stats")
-4. Copy the token
-
-### 2. Get Your Vercel Project ID
+### 1. Add DATABASE_URL in Vercel
 
 1. Go to your Vercel project dashboard
-2. Go to Settings
-3. Copy your Project ID from the General tab
+2. Click **Settings** → **Environment Variables**
+3. Click **"Add New"**
+4. **Name:** `DATABASE_URL`
+5. **Value:** Your Neon database connection string (from Neon dashboard)
+6. **Environment:** Select all (Production, Preview, Development)
+7. Click **"Save"**
 
-### 3. Add to Environment Variables
+### 2. Your Neon Database URL
 
-Add these to your `.env.local` file (create it if it doesn't exist):
+Get it from Neon dashboard:
+- Go to your Neon project
+- Click **"Connection Details"**
+- Copy the connection string (starts with `postgresql://...`)
 
-```bash
-# Vercel Stats
-VERCEL_TOKEN=your_vercel_token_here
-VERCEL_PROJECT_ID=your_project_id_here
+It looks like:
+```
+postgresql://neondb_owner:password@ep-calm-wave-abdxkqjz-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require
 ```
 
-### 4. Add to Vercel Dashboard
+### 3. Run Migrations
 
-For production, also add these to your Vercel project:
+**Option A: Manual (One-time)**
 
-1. Go to your Vercel project → Settings → Environment Variables
-2. Add `VERCEL_TOKEN` with your token value
-3. Add `VERCEL_PROJECT_ID` with your project ID
-4. Redeploy your project
+After adding the environment variable, run migrations manually:
 
-## What Stats Will Show
+1. Go to Vercel dashboard → Your project → **Deployments**
+2. Click the **"..."** menu on latest deployment
+3. Click **"Redeploy"** (this will trigger migrations automatically if configured)
 
-Once configured, your ticker will display:
-- **Total deployments** (last 20)
-- **Success rate** (percentage of successful deployments)
+**Option B: Automatic (On Every Deploy)**
 
-These will appear between "projects indexed" and the other stats in your ticker.
+Migrations are configured to run automatically during build (see `vercel.json`).
 
-## Testing Locally
+### 4. Verify Migrations Ran
 
-After adding the environment variables:
-1. Restart your dev server (`npm run dev`)
-2. Wait for the ticker to refresh
-3. You should see deployment stats appear
+After deployment, check the build logs:
+- Go to deployment → **"Build Logs"**
+- Look for: `📄 Running: 001_create_complex_systems_tables.sql...`
+- Should see: `✅ Migration completed successfully`
+
+### 5. Test Your Site
+
+Visit your deployed site and check:
+- `/complex-systems/logistic` - Should show studies
+- `/complex-systems/lorenz/[id]` - Should show 3D visualization
+- `/complex-systems/api` - API documentation should work
+
+---
 
 ## Troubleshooting
 
-If stats don't appear:
-- Check your token has the correct permissions
-- Verify your project ID is correct
-- Check the browser console for any errors
-- Look at the server logs for "Vercel deployment stats fetched"
+**Problem:** "DATABASE_URL not set" error
+- **Solution:** Make sure you added it in Vercel Environment Variables and selected all environments
 
+**Problem:** Migrations not running
+- **Solution:** Check `vercel.json` buildCommand includes `npm run migrate`
+
+**Problem:** Migration errors
+- **Solution:** Check build logs for specific SQL errors. Some migrations might need to be run manually first.
+
+---
+
+## Next Steps
+
+Once migrations are complete:
+1. ✅ Database tables created
+2. ✅ Sample studies seeded
+3. ✅ Trajectory data loaded
+4. ✅ Your site should be fully functional!

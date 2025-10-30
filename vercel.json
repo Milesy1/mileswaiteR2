@@ -1,6 +1,15 @@
 {
-  "crons": [{
-    "path": "/api/curator/cron",
-    "schedule": "0 9 * * 1"
-  }]
+  "buildCommand": "npm run migrate && npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["lhr1"],
+  "env": {
+    "DATABASE_URL": "@database_url"
+  },
+  "build": {
+    "env": {
+      "DATABASE_URL": "@database_url"
+    }
+  }
 }
