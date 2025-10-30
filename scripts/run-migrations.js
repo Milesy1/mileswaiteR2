@@ -15,7 +15,9 @@ const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
   console.error('❌ ERROR: DATABASE_URL environment variable is not set!');
   console.error('Set it like: DATABASE_URL="postgresql://..." node scripts/run-migrations.js');
-  process.exit(1);
+  console.error('⚠️  Skipping migrations - database not configured');
+  console.error('💡 Tip: Add DATABASE_URL to Vercel Environment Variables');
+  process.exit(0); // Exit gracefully instead of failing build
 }
 
 // Create connection pool
@@ -71,7 +73,8 @@ async function runMigration(filename) {
 
 async function main() {
   console.log('🚀 Starting database migrations...\n');
-  console.log(`📊 Database: ${DATABASE_URL.split('@')[1]?.split('/')[0] || 'connected'}\n`);
+  console.log(`📊 Database: ${DATABASE_URL ? DATABASE_URL.split('@')[1]?.split('/')[0] || 'connected' : 'NOT SET'}\n`);
+  console.log(`🔍 DATABASE_URL exists: ${!!DATABASE_URL}\n`);
 
   try {
     // Test connection
