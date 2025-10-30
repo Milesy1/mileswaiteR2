@@ -1,10 +1,22 @@
 
 export const blogPosts = [
   {
+    slug: "complex-systems-platform",
+    title: "Building a Complex Systems Research Platform",
+    excerpt: "A web platform for sharing dynamical systems research data—Lorenz attractors, logistic maps, chaos metrics—with public API access and interactive visualizations.",
+    date: "October 30, 2025",
+    readTime: "8 min read",
+    tags: ["Next.js", "PostgreSQL", "Three.js", "API Design", "Complex Systems"],
+    content: `
+      <p>This post is available as a standalone page with enhanced formatting and interactive elements.</p>
+      <p><a href="/blog/complex-systems-platform">Read the full post →</a></p>
+    `
+  },
+  {
     slug: "emergent-geometry-midi-sop-reactivity",
     title: "Emergent Geometry: MIDI-Triggered, Event-Based SOP Audio Reactivity",
     excerpt: "Exploring how simple MIDI inputs create complex, unpredictable visual behaviours through event-based SOP systems in TouchDesigner.",
-    date: "January 15, 2025",
+    date: "October 27, 2025",
     readTime: "12 min read",
     tags: ["TouchDesigner", "Generative Art", "MIDI", "Emergence", "Audio Reactivity"],
     content: `
