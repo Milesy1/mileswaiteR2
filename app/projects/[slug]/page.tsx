@@ -7,6 +7,10 @@ import { ProjectTechStack } from '@/components/project/ProjectTechStack';
 import { ProjectGallery } from '@/components/project/ProjectGallery';
 import { ProjectLinks } from '@/components/project/ProjectLinks';
 import { ProjectNavigation } from '@/components/project/ProjectNavigation';
+import { ComplexSystemsStudies } from '@/components/project/ComplexSystemsStudies';
+import { PublicAPISection } from '@/components/project/PublicAPISection';
+import { LiveStatsSection } from '@/components/project/LiveStatsSection';
+import { MethodologySection } from '@/components/project/MethodologySection';
 
 interface ProjectPageProps {
   params: Promise<{
@@ -67,48 +71,113 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   // 🎯 FLEXIBLE COMPONENT ARRANGEMENT
   // You can easily reorder, comment out, or duplicate these components
-  const projectComponents = [
-    <ProjectHero 
-      key="hero"
-      title={project.title}
-      image={project.image}
-      heroImage={project.heroImage}
-      category={project.category}
-    />,
-    
-    <ProjectOverview 
-      key="overview"
-      description={project.description}
-      longDescription={project.longDescription}
-      problem={project.problem}
-      solution={project.solution}
-      challenges={project.challenges}
-      results={project.results}
-    />,
-    
-    <ProjectTechStack 
-      key="tech"
-      techStack={project.techStack}
-    />,
-    
-    <ProjectGallery 
-      key="gallery"
-      gallery={project.gallery}
-      title={project.title}
-    />,
-    
-    <ProjectLinks 
-      key="links"
-      liveUrl={project.liveUrl}
-      githubUrl={project.githubUrl}
-      title={project.title}
-    />,
-    
-    <ProjectNavigation 
-      key="navigation"
-      currentSlug={project.slug}
-    />
-  ];
+  let projectComponents;
+  
+  // Special layout for Complex Systems project
+  if (project.slug === 'complex-systems') {
+    projectComponents = [
+      <ProjectHero 
+        key="hero"
+        title={project.title}
+        image={project.image}
+        heroImage={project.heroImage}
+        category={project.category}
+      />,
+      
+      <ProjectOverview 
+        key="overview"
+        description={project.description}
+        longDescription={project.longDescription}
+        problem={project.problem}
+        solution={project.solution}
+        challenges={project.challenges}
+        results={project.results}
+      />,
+      
+      <ComplexSystemsStudies 
+        key="studies"
+      />,
+      
+      <PublicAPISection 
+        key="api"
+      />,
+      
+      <LiveStatsSection 
+        key="stats"
+      />,
+      
+      <MethodologySection 
+        key="methodology"
+      />,
+      
+      <ProjectTechStack 
+        key="tech"
+        techStack={project.techStack}
+      />,
+      
+      <ProjectGallery 
+        key="gallery"
+        gallery={project.gallery}
+        title={project.title}
+      />,
+      
+      <ProjectLinks 
+        key="links"
+        liveUrl={project.liveUrl}
+        githubUrl={project.githubUrl}
+        title={project.title}
+      />,
+      
+      <ProjectNavigation 
+        key="navigation"
+        currentSlug={project.slug}
+      />
+    ];
+  } else {
+    // Default layout for other projects
+    projectComponents = [
+      <ProjectHero 
+        key="hero"
+        title={project.title}
+        image={project.image}
+        heroImage={project.heroImage}
+        category={project.category}
+      />,
+      
+      <ProjectOverview 
+        key="overview"
+        description={project.description}
+        longDescription={project.longDescription}
+        problem={project.problem}
+        solution={project.solution}
+        challenges={project.challenges}
+        results={project.results}
+      />,
+      
+      <ProjectTechStack 
+        key="tech"
+        techStack={project.techStack}
+      />,
+      
+      <ProjectGallery 
+        key="gallery"
+        gallery={project.gallery}
+        title={project.title}
+      />,
+      
+      <ProjectLinks 
+        key="links"
+        liveUrl={project.liveUrl}
+        githubUrl={project.githubUrl}
+        title={project.title}
+      />,
+      
+      <ProjectNavigation 
+        key="navigation"
+        currentSlug={project.slug}
+      />
+    ];
+  }
 
   return (
     <div className="min-h-screen">

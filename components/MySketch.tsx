@@ -34,14 +34,48 @@ export default function MySketch({
         const newWidth = containerWidth > 0 ? containerWidth : width;
         const newHeight = containerHeight > 0 ? containerHeight : height;
         
-        setDimensions({ width: newWidth, height: newHeight });
+        // Only update if dimensions actually changed
+        if (newWidth !== dimensions.width || newHeight !== dimensions.height) {
+          setDimensions({ width: newWidth, height: newHeight });
+        }
       }
     };
 
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
+    // Use requestAnimationFrame to ensure layout is calculated
+    const updateWithRAF = () => {
+      requestAnimationFrame(() => {
+        updateDimensions();
+      });
+    };
+
+    // Initial update with a small delay to ensure parent layout is complete
+    const timeoutId = setTimeout(updateWithRAF, 0);
     
-    return () => window.removeEventListener('resize', updateDimensions);
+    // Use ResizeObserver for better responsiveness (set up after initial render)
+    let resizeObserver: ResizeObserver | null = null;
+    const setupResizeObserver = () => {
+      if (containerRef.current && typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(() => {
+          updateWithRAF();
+        });
+        resizeObserver.observe(containerRef.current);
+      }
+    };
+    
+    // Set up ResizeObserver after a brief delay to ensure container is mounted
+    const observerTimeoutId = setTimeout(setupResizeObserver, 100);
+    
+    // Fallback to window resize listener
+    window.addEventListener('resize', updateWithRAF);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(observerTimeoutId);
+      window.removeEventListener('resize', updateWithRAF);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
   }, [width, height]);
 
   useEffect(() => {
@@ -60,7 +94,17 @@ export default function MySketch({
     };
 
     const initializeSketch = () => {
-      if (!containerRef.current || p5InstanceRef.current) return;
+      if (!containerRef.current) return;
+      
+      // If sketch already exists, just resize it instead of recreating
+      if (p5InstanceRef.current) {
+        const canvasWidth = dimensions.width > 0 ? dimensions.width : containerRef.current.clientWidth || width;
+        const canvasHeight = dimensions.height > 0 ? dimensions.height : containerRef.current.clientHeight || height;
+        if (p5InstanceRef.current.resizeCanvas) {
+          p5InstanceRef.current.resizeCanvas(canvasWidth, canvasHeight);
+        }
+        return;
+      }
 
       // Your sketch code
       const sketch = (p: any) => {
@@ -76,9 +120,21 @@ export default function MySketch({
         ];
 
         p.setup = () => {
-          p.createCanvas(dimensions.width, dimensions.height, p.WEBGL);
+          // Ensure we have valid dimensions
+          const canvasWidth = dimensions.width > 0 ? dimensions.width : containerRef.current?.clientWidth || width;
+          const canvasHeight = dimensions.height > 0 ? dimensions.height : containerRef.current?.clientHeight || height;
+          p.createCanvas(canvasWidth, canvasHeight, p.WEBGL);
           p.strokeWeight(5);
           p.colorMode(p.RGB, 255);
+        };
+
+        p.windowResized = () => {
+          // Handle resize events
+          if (containerRef.current) {
+            const newWidth = containerRef.current.clientWidth || dimensions.width;
+            const newHeight = containerRef.current.clientHeight || dimensions.height;
+            p.resizeCanvas(newWidth, newHeight);
+          }
         };
 
         p.draw = () => {
