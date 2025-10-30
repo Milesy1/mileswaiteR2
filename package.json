@@ -4,6 +4,8 @@
   "description": "Modern portfolio built with Next.js 14+ App Router and Tailwind CSS",
   "main": "index.js",
   "scripts": {
+    "migrate": "node scripts/run-migrations.js",
+    "migrate:prod": "cross-env NODE_ENV=production node scripts/run-migrations.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

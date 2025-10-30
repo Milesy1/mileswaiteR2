@@ -1,0 +1,32 @@
+name: Run Database Migrations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'migrations/**'
+      - 'scripts/run-migrations.js'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run migrate
+        continue-on-error: false
+
