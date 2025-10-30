@@ -15,7 +15,7 @@ export class ComplexSystemsData {
       console.log('Fetching study:', studyId);
       const result = await query(
         `SELECT id, name, system_type, description, date_conducted, metadata, created_at, updated_at
-         FROM studies WHERE id = $1`,
+         FROM studies WHERE id = $1::uuid`,
         [studyId]
       );
 
@@ -31,14 +31,14 @@ export class ComplexSystemsData {
       // Get parameters
       const paramsResult = await query(
         `SELECT parameter_name, value, units
-         FROM system_parameters WHERE study_id = $1`,
+         FROM system_parameters WHERE study_id = $1::uuid`,
         [studyId]
       );
       
       // Get initial conditions
       const initResult = await query(
         `SELECT variable_name, value
-         FROM initial_conditions WHERE study_id = $1`,
+         FROM initial_conditions WHERE study_id = $1::uuid`,
         [studyId]
       );
 
@@ -69,7 +69,7 @@ export class ComplexSystemsData {
       let sql = `
         SELECT timestep, time, x, y, z
         FROM trajectories
-        WHERE study_id = $1
+        WHERE study_id = $1::uuid
         ORDER BY timestep
       `;
 
@@ -77,7 +77,7 @@ export class ComplexSystemsData {
         sql = `
           SELECT timestep, time, x, y, z
           FROM trajectories
-          WHERE study_id = $1 AND timestep % $2 = 0
+          WHERE study_id = $1::uuid AND timestep % $2 = 0
           ORDER BY timestep
         `;
       }
