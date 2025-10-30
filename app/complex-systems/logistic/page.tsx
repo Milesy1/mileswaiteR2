@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { headers } from 'next/headers';
 
+export const dynamic = 'force-dynamic'; // This page uses headers() and fetches dynamic data
+
 export const metadata: Metadata = {
   title: 'Logistic Map Studies | Complex Systems',
   description: 'Explore logistic map studies showing period-doubling cascades, bifurcations, and route to chaos.',
