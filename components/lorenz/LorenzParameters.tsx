@@ -184,3 +184,5 @@ export function LorenzParameters({ parameters, initialConditions, fromCache }: L
 
 
 
+
+

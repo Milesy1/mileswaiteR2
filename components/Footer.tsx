@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import ClientBackToTop from './ClientBackToTop';
 
 interface FooterProps {
   showAdmin?: boolean;
@@ -115,11 +114,12 @@ export function Footer({ showAdmin = false }: FooterProps) {
             <p className="text-neutral-500 dark:text-neutral-400 text-sm">
               © {currentYear} Miles. All rights reserved.
             </p>
-            <ClientBackToTop />
           </div>
         </div>
       </div>
     </footer>
   );
 }
+
+
 

@@ -121,3 +121,5 @@ export default function LogisticLyapunovChart({ points }: LogisticLyapunovChartP
 
 
 
+
+

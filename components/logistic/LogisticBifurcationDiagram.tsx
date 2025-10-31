@@ -164,3 +164,5 @@ export default function LogisticBifurcationDiagram({ points }: LogisticBifurcati
 
 
 
+
+

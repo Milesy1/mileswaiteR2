@@ -248,3 +248,5 @@ export function LorenzMethodology({ study }: LorenzMethodologyProps) {
 
 
 
+
+
