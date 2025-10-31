@@ -200,34 +200,19 @@ export default function MySketch({
           }
         };
 
-        // Frame rate control for performance
-        let lastFrameTime = 0;
-        const targetFPS = 30; // Reduce from 60fps to 30fps for better performance
-        const frameInterval = 1000 / targetFPS;
-
         p.draw = () => {
-          // Throttle frame rate for better performance
-          const now = performance.now();
-          if (now - lastFrameTime < frameInterval) {
-            return; // Skip frame if too soon
-          }
-          lastFrameTime = now;
-
           p.background(0, 0, 0); // Black background
           t += 0.003;
           p.rotateX(t / 2);
           p.rotateY(t);
           p.rotateZ(t / 3);
 
-          // Optimize: cache calculations
-          const numHalf = NUM / 2;
-          
           for (let i = 1; i <= NUM; i++) {
-            const a = i < numHalf ? i : NUM - i;
-            const z = (i - numHalf) * 4;
+            const a = i < NUM / 2 ? i : NUM - i;
 
             const x = RAD * p.cos(t * a);
             const y = RAD * p.sin(t * a);
+            const z = (i - NUM / 2) * 4;
             
             // Use cylinder colors based on z-position (depth) - equal amounts
             let color;
