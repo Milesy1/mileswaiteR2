@@ -8,6 +8,7 @@
     "migrate:prod": "cross-env NODE_ENV=production node scripts/run-migrations.js",
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "build:skip-migrate": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -41,7 +42,8 @@
     "posthog-js": "^1.279.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.0.1",

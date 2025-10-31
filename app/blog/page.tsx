@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { blogPosts } from '../../data/blog-posts';
 import ParticleBackground from '../../components/ParticleBackground';
 
+// Note: Metadata is in app/blog/layout.tsx since this is a client component
+
 export default function BlogPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 

@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import KeyboardShortcutsProvider from '@/components/KeyboardShortcutsProvider';
 import { PersonSchema, OrganizationSchema, WebsiteSchema } from '@/components/JsonLdSchema';
 import ClientBackToTop from '@/components/ClientBackToTop';
+import WebVitals from '@/components/WebVitals';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -71,7 +72,8 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    // Add your Google Search Console verification code here
+    // google: process.env.GOOGLE_SITE_VERIFICATION || '',
   },
 };
 
@@ -98,6 +100,7 @@ export default function RootLayout({
           </KeyboardShortcutsProvider>
         </ThemeProvider>
         <Analytics />
+        <WebVitals />
         
         {/* JSON-LD Schema for SEO */}
         <PersonSchema />

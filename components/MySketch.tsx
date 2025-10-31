@@ -64,55 +64,50 @@ export default function MySketch({
   });
   const [isReady, setIsReady] = useState(false);
 
-  // Handle responsive dimensions - use multiple strategies to ensure accurate sizing
+  // Handle responsive dimensions - optimized for performance
   useEffect(() => {
+    if (!containerRef.current) return;
+
+    let resizeObserver: ResizeObserver | null = null;
+    let rafId: number | null = null;
+    let resizeTimeout: NodeJS.Timeout | null = null;
+
     const updateDimensions = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.clientWidth;
-        const containerHeight = containerRef.current.clientHeight;
-        
-        // Use container dimensions or fallback to props
-        const newWidth = containerWidth > 0 ? containerWidth : width;
-        const newHeight = containerHeight > 0 ? containerHeight : height;
-        
-        // Update dimensions using functional update to avoid stale closure
+      if (!containerRef.current) return;
+      
+      const containerWidth = containerRef.current.clientWidth;
+      const containerHeight = containerRef.current.clientHeight;
+      
+      // Only update if we have valid dimensions
+      if (containerWidth > 0 && containerHeight > 0) {
         setDimensions(prev => {
-          // Only update if dimensions actually changed
-          if (newWidth !== prev.width || newHeight !== prev.height) {
-            // Mark as ready when dimensions are valid
-            if (newWidth > 0 && newHeight > 0) {
-              setTimeout(() => setIsReady(true), 0);
-            }
-            return { width: newWidth, height: newHeight };
+          // Only update if dimensions actually changed significantly (avoid micro-updates)
+          const threshold = 5; // pixels
+          if (
+            Math.abs(containerWidth - prev.width) > threshold ||
+            Math.abs(containerHeight - prev.height) > threshold
+          ) {
+            setIsReady(true);
+            return { width: containerWidth, height: containerHeight };
           }
           return prev;
         });
       }
     };
 
-    // Immediate update attempt
-    updateDimensions();
-
-    // Use requestAnimationFrame to ensure layout is calculated
-    const updateWithRAF = () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // Double RAF for more reliable layout calculation
-          updateDimensions();
-        });
+    // Initial measurement with RAF (single call, more efficient)
+    const measureOnce = () => {
+      rafId = requestAnimationFrame(() => {
+        updateDimensions();
       });
     };
 
-    // Initial update with multiple strategies
-    const timeoutId1 = setTimeout(updateWithRAF, 0);
-    const timeoutId2 = setTimeout(updateWithRAF, 10);
-    const timeoutId3 = setTimeout(updateWithRAF, 50);
-    
-    // Use ResizeObserver for better responsiveness
-    let resizeObserver: ResizeObserver | null = null;
-    const setupResizeObserver = () => {
-      if (containerRef.current && typeof ResizeObserver !== 'undefined') {
-        resizeObserver = new ResizeObserver((entries) => {
+    // Use ResizeObserver (most efficient for size changes)
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver((entries) => {
+        // Debounce resize updates
+        if (resizeTimeout) clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
           for (const entry of entries) {
             const { width: w, height: h } = entry.contentRect;
             if (w > 0 && h > 0) {
@@ -120,28 +115,31 @@ export default function MySketch({
               setIsReady(true);
             }
           }
-        });
-        resizeObserver.observe(containerRef.current);
-      }
+        }, 16); // ~60fps max update rate
+      });
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Initial measurement
+    measureOnce();
+
+    // Fallback: window resize listener (debounced)
+    const handleResize = () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateDimensions, 100);
     };
     
-    // Set up ResizeObserver immediately
-    const observerTimeoutId = setTimeout(setupResizeObserver, 0);
-    
-    // Fallback to window resize listener
-    window.addEventListener('resize', updateWithRAF);
+    window.addEventListener('resize', handleResize, { passive: true });
     
     return () => {
-      clearTimeout(timeoutId1);
-      clearTimeout(timeoutId2);
-      clearTimeout(timeoutId3);
-      clearTimeout(observerTimeoutId);
-      window.removeEventListener('resize', updateWithRAF);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', handleResize);
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
     };
-  }, [width, height]); // Only depend on props, not state
+  }, [width, height]);
 
   useEffect(() => {
     // Load p5.js dynamically
@@ -202,19 +200,34 @@ export default function MySketch({
           }
         };
 
+        // Frame rate control for performance
+        let lastFrameTime = 0;
+        const targetFPS = 30; // Reduce from 60fps to 30fps for better performance
+        const frameInterval = 1000 / targetFPS;
+
         p.draw = () => {
+          // Throttle frame rate for better performance
+          const now = performance.now();
+          if (now - lastFrameTime < frameInterval) {
+            return; // Skip frame if too soon
+          }
+          lastFrameTime = now;
+
           p.background(0, 0, 0); // Black background
           t += 0.003;
           p.rotateX(t / 2);
           p.rotateY(t);
           p.rotateZ(t / 3);
 
+          // Optimize: cache calculations
+          const numHalf = NUM / 2;
+          
           for (let i = 1; i <= NUM; i++) {
-            const a = i < NUM / 2 ? i : NUM - i;
+            const a = i < numHalf ? i : NUM - i;
+            const z = (i - numHalf) * 4;
 
             const x = RAD * p.cos(t * a);
             const y = RAD * p.sin(t * a);
-            const z = (i - NUM / 2) * 4;
             
             // Use cylinder colors based on z-position (depth) - equal amounts
             let color;
@@ -253,8 +266,11 @@ export default function MySketch({
       style={{ 
         width: '100%', 
         height: '100%',
-        minHeight: dimensions.height > 0 ? `${dimensions.height}px` : '400px',
-        minWidth: dimensions.width > 0 ? `${dimensions.width}px` : '400px'
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
       }}
     />
   );

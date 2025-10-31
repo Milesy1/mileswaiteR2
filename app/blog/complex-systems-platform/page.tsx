@@ -1,12 +1,33 @@
 // app/blog/complex-systems-platform/page.tsx
 
-export const metadata = {
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: 'Building a Complex Systems Research Platform',
-  description: 'A web platform for sharing dynamical systems research data with public API access and interactive visualizations.',
+  description: 'A web platform for sharing dynamical systems research data—Lorenz attractors, logistic maps, chaos metrics—with public API access and interactive visualizations.',
+  keywords: ['complex systems', 'Lorenz attractor', 'chaos theory', 'API design', 'PostgreSQL', 'Three.js', 'Next.js'],
+  authors: [{ name: 'Miles Waite' }],
   openGraph: {
     title: 'Building a Complex Systems Research Platform',
-    description: 'Lorenz attractors, logistic maps, and chaos metrics with REST API',
-  }
+    description: 'A web platform for sharing dynamical systems research data—Lorenz attractors, logistic maps, chaos metrics—with public API access and interactive visualizations.',
+    type: 'article',
+    publishedTime: '2025-10-30',
+    authors: ['Miles Waite'],
+    images: [
+      {
+        url: '/op-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Complex Systems Research Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Building a Complex Systems Research Platform',
+    description: 'A web platform for sharing dynamical systems research data with public API access and interactive visualizations.',
+    images: ['/op-image.jpg'],
+  },
 };
 
 export default function ComplexSystemsPlatformPost() {

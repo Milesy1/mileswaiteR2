@@ -127,13 +127,15 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative w-full"
             >
               <div 
-                className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[800px] xl:h-[900px]"
+                className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[800px] xl:h-[900px] relative"
                 style={{ 
                   minHeight: '400px',
-                  position: 'relative'
+                  minWidth: '100%',
+                  position: 'relative',
+                  contain: 'layout style paint'
                 }}
               >
                 <ErrorBoundary fallback={
@@ -141,7 +143,7 @@ export default function AboutPage() {
                     <p className="text-neutral-500 dark:text-neutral-400">Visualization unavailable</p>
                   </div>
                 }>
-                  <MySketch />
+                  <MySketch className="absolute inset-0 w-full h-full" />
                 </ErrorBoundary>
               </div>
             </motion.div>

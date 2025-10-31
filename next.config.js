@@ -24,6 +24,7 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Security headers for all routes
         source: '/:path*',
         headers: [
           {
@@ -45,6 +46,46 @@ const nextConfig = {
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
+          },
+        ],
+      },
+      {
+        // Cache static assets aggressively
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // Cache images for 1 year
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // Cache fonts for 1 year
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // API routes - short cache with revalidation
+        source: '/api/stats',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=90, stale-while-revalidate=180',
           },
         ],
       },
