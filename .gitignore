@@ -91,3 +91,7 @@ jspm_packages/
 # Test folder for experimentation
 Test/
 
+# Large binary files
+*.exe
+public/sketches/js/*.exe
+

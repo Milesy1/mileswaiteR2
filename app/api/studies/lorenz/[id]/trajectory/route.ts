@@ -6,6 +6,23 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      console.warn('DATABASE_URL not set, returning empty trajectory data');
+      return NextResponse.json({
+        study_id: '',
+        points: [],
+        total_points: 0,
+        sampled: false,
+        message: 'Database not configured'
+      }, {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=60'
+        }
+      });
+    }
+
     const { id } = await params;
     console.log('=== TRAJECTORY ROUTE CALLED ===');
     console.log('Study ID:', id);
@@ -25,7 +42,31 @@ export async function GET(
     }
 
     // Validate study exists and is Lorenz type
-    const studyResult = await ComplexSystemsData.getStudy(id);
+    let studyResult;
+    try {
+      studyResult = await ComplexSystemsData.getStudy(id);
+    } catch (dbError) {
+      const errorMessage = dbError instanceof Error ? dbError.message : 'Unknown database error';
+      console.error('Database error when fetching study:', errorMessage);
+      
+      // If database connection error, return empty data gracefully
+      if (errorMessage.includes('DATABASE_URL') || errorMessage.includes('connection')) {
+        return NextResponse.json({
+          study_id: id,
+          points: [],
+          total_points: 0,
+          sampled: false,
+          message: 'Database unavailable'
+        }, {
+          status: 200,
+          headers: {
+            'Cache-Control': 'public, max-age=60'
+          }
+        });
+      }
+      throw dbError; // Re-throw if it's not a connection error
+    }
+
     console.log('Study lookup result:', { id, found: !!studyResult.study, study: studyResult.study });
     
     if (!studyResult.study) {
@@ -52,8 +93,34 @@ export async function GET(
 
     // Get trajectory data
     console.log('Fetching trajectories for study:', id);
-    const trajectoriesResult = await ComplexSystemsData.getTrajectories(id, sample);
-    const totalTrajectoriesResult = await ComplexSystemsData.getTrajectories(id); // Get full count
+    let trajectoriesResult;
+    let totalTrajectoriesResult;
+    
+    try {
+      trajectoriesResult = await ComplexSystemsData.getTrajectories(id, sample);
+      totalTrajectoriesResult = await ComplexSystemsData.getTrajectories(id); // Get full count
+    } catch (trajError) {
+      const errorMessage = trajError instanceof Error ? trajError.message : 'Unknown error';
+      console.error('Error fetching trajectories:', errorMessage);
+      
+      // If database error, return empty data gracefully
+      if (errorMessage.includes('DATABASE_URL') || errorMessage.includes('connection')) {
+        return NextResponse.json({
+          study_id: id,
+          points: [],
+          total_points: 0,
+          sampled: sample !== undefined,
+          sample_size: sample,
+          message: 'Database unavailable'
+        }, {
+          status: 200,
+          headers: {
+            'Cache-Control': 'public, max-age=60'
+          }
+        });
+      }
+      throw trajError; // Re-throw if it's not a connection error
+    }
     
     console.log('Trajectories fetched:', {
       sampledCount: trajectoriesResult.data.trajectories.length,
@@ -80,17 +147,37 @@ export async function GET(
 
   } catch (error) {
     console.error('Error fetching trajectory data:', error);
-    if (error instanceof Error) {
-      console.error('Error stack:', error.stack);
-      console.error('Error name:', error.name);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    // Check if it's a database connection error
+    const isDatabaseError = errorMessage.includes('DATABASE_URL') || 
+                           errorMessage.includes('connection') ||
+                           errorMessage.includes('Database connection');
+    
+    if (isDatabaseError) {
+      console.warn('Database unavailable, returning empty trajectory data');
+      return NextResponse.json({
+        study_id: '',
+        points: [],
+        total_points: 0,
+        sampled: false,
+        message: 'Database unavailable'
+      }, {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=60'
+        }
+      });
     }
     
+    // For other errors, return proper error response
     return NextResponse.json(
       {
         error: 'Failed to fetch trajectory data',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: errorMessage,
         ...(process.env.NODE_ENV === 'development' && { 
-          details: error instanceof Error ? error.stack : String(error),
+          details: errorStack,
           errorType: error instanceof Error ? error.constructor.name : typeof error
         })
       },

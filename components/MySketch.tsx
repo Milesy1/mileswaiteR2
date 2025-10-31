@@ -19,11 +19,27 @@ export default function MySketch({
   height = 400, 
   className = '' 
 }: MySketchProps) {
-  const [dimensions, setDimensions] = useState({ width: 400, height: 400 });
   const containerRef = useRef<HTMLDivElement>(null);
   const p5InstanceRef = useRef<any>(null);
+  const [dimensions, setDimensions] = useState(() => {
+    // Initialize with fallback dimensions that match common container sizes
+    // This prevents layout shift on initial render
+    if (typeof window !== 'undefined') {
+      // Use viewport-based initial size for better UX
+      // Mobile-friendly sizing
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const isMobile = vw < 640; // sm breakpoint
+      return {
+        width: isMobile ? Math.min(vw * 0.95, 400) : Math.min(vw * 0.9, 800),
+        height: isMobile ? Math.min(vh * 0.5, 400) : Math.min(vh * 0.7, 600)
+      };
+    }
+    return { width, height };
+  });
+  const [isReady, setIsReady] = useState(false);
 
-  // Handle responsive dimensions
+  // Handle responsive dimensions - use multiple strategies to ensure accurate sizing
   useEffect(() => {
     const updateDimensions = () => {
       if (containerRef.current) {
@@ -34,49 +50,73 @@ export default function MySketch({
         const newWidth = containerWidth > 0 ? containerWidth : width;
         const newHeight = containerHeight > 0 ? containerHeight : height;
         
-        // Only update if dimensions actually changed
-        if (newWidth !== dimensions.width || newHeight !== dimensions.height) {
-          setDimensions({ width: newWidth, height: newHeight });
-        }
+        // Update dimensions using functional update to avoid stale closure
+        setDimensions(prev => {
+          // Only update if dimensions actually changed
+          if (newWidth !== prev.width || newHeight !== prev.height) {
+            // Mark as ready when dimensions are valid
+            if (newWidth > 0 && newHeight > 0) {
+              setTimeout(() => setIsReady(true), 0);
+            }
+            return { width: newWidth, height: newHeight };
+          }
+          return prev;
+        });
       }
     };
+
+    // Immediate update attempt
+    updateDimensions();
 
     // Use requestAnimationFrame to ensure layout is calculated
     const updateWithRAF = () => {
       requestAnimationFrame(() => {
-        updateDimensions();
+        requestAnimationFrame(() => {
+          // Double RAF for more reliable layout calculation
+          updateDimensions();
+        });
       });
     };
 
-    // Initial update with a small delay to ensure parent layout is complete
-    const timeoutId = setTimeout(updateWithRAF, 0);
+    // Initial update with multiple strategies
+    const timeoutId1 = setTimeout(updateWithRAF, 0);
+    const timeoutId2 = setTimeout(updateWithRAF, 10);
+    const timeoutId3 = setTimeout(updateWithRAF, 50);
     
-    // Use ResizeObserver for better responsiveness (set up after initial render)
+    // Use ResizeObserver for better responsiveness
     let resizeObserver: ResizeObserver | null = null;
     const setupResizeObserver = () => {
       if (containerRef.current && typeof ResizeObserver !== 'undefined') {
-        resizeObserver = new ResizeObserver(() => {
-          updateWithRAF();
+        resizeObserver = new ResizeObserver((entries) => {
+          for (const entry of entries) {
+            const { width: w, height: h } = entry.contentRect;
+            if (w > 0 && h > 0) {
+              setDimensions({ width: w, height: h });
+              setIsReady(true);
+            }
+          }
         });
         resizeObserver.observe(containerRef.current);
       }
     };
     
-    // Set up ResizeObserver after a brief delay to ensure container is mounted
-    const observerTimeoutId = setTimeout(setupResizeObserver, 100);
+    // Set up ResizeObserver immediately
+    const observerTimeoutId = setTimeout(setupResizeObserver, 0);
     
     // Fallback to window resize listener
     window.addEventListener('resize', updateWithRAF);
     
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId1);
+      clearTimeout(timeoutId2);
+      clearTimeout(timeoutId3);
       clearTimeout(observerTimeoutId);
       window.removeEventListener('resize', updateWithRAF);
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
     };
-  }, [width, height]);
+  }, [width, height]); // Only depend on props, not state
 
   useEffect(() => {
     // Load p5.js dynamically
@@ -185,7 +225,12 @@ export default function MySketch({
     <div 
       ref={containerRef} 
       className={`w-full h-full ${className}`}
-      style={{ width: '100%', height: '100%' }}
+      style={{ 
+        width: '100%', 
+        height: '100%',
+        minHeight: dimensions.height > 0 ? `${dimensions.height}px` : '400px',
+        minWidth: dimensions.width > 0 ? `${dimensions.width}px` : '400px'
+      }}
     />
   );
 }

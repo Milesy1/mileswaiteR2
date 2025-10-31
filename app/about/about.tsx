@@ -128,7 +128,13 @@ export default function AboutPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[800px] xl:h-[900px]">
+              <div 
+                className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[800px] xl:h-[900px]"
+                style={{ 
+                  minHeight: '400px',
+                  position: 'relative'
+                }}
+              >
                 <MySketch />
               </div>
             </motion.div>

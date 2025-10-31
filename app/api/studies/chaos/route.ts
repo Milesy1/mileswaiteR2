@@ -3,6 +3,22 @@ import { query } from '@/lib/database';
 
 export async function GET(request: NextRequest) {
   try {
+    // Check if database is available
+    if (!process.env.DATABASE_URL) {
+      console.warn('DATABASE_URL not set, returning empty studies array');
+      return NextResponse.json({
+        studies: [],
+        total: 0,
+        system_type: 'all',
+        message: 'Database not configured'
+      }, {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=3600'
+        }
+      });
+    }
+
     const { searchParams } = new URL(request.url);
     const systemType = searchParams.get('system_type');
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
@@ -58,13 +74,29 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Error fetching chaos studies:', error);
-    if (error instanceof Error) {
-      console.error('Error stack:', error.stack);
-      console.error('Error name:', error.name);
-      console.error('Error message:', error.message);
+    
+    // If database connection error, return empty array gracefully
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const isDatabaseError = errorMessage.includes('DATABASE_URL') || 
+                           errorMessage.includes('connection') ||
+                           errorMessage.includes('Database connection');
+    
+    if (isDatabaseError) {
+      console.warn('Database unavailable, returning empty studies array');
+      return NextResponse.json({
+        studies: [],
+        total: 0,
+        system_type: 'all',
+        message: 'Database unavailable'
+      }, {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=60'
+        }
+      });
     }
     
-    // Always return detailed error in development
+    // For other errors, return error response
     interface ErrorResponse {
       error: string;
       message: string;
@@ -75,7 +107,7 @@ export async function GET(request: NextRequest) {
 
     const errorResponse: ErrorResponse = {
       error: 'Failed to fetch studies',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: errorMessage,
     };
     
     if (process.env.NODE_ENV === 'development') {

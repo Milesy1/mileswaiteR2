@@ -26,13 +26,22 @@ export function ComplexSystemsStudies() {
       try {
         const response = await fetch('/api/studies/chaos?system_type=lorenz&limit=2');
         if (!response.ok) {
-          throw new Error('Failed to fetch studies');
+          // Still try to parse error response for details
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP ${response.status}: Failed to fetch studies`);
         }
         const data = await response.json();
         setStudies(data.studies || []);
+        // Clear error if fetch succeeds
+        if (data.studies && data.studies.length > 0) {
+          setError(null);
+        }
       } catch (err) {
         console.error('Error fetching studies:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+        setError(errorMessage);
+        // Set empty array on error so UI doesn't break
+        setStudies([]);
       } finally {
         setLoading(false);
       }

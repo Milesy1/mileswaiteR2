@@ -4,6 +4,59 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import LorenzAttractor3D, { TrajectoryPoint } from './LorenzAttractor3D';
 
+// Generate demo trajectory data using Lorenz equations
+// This is used as a fallback when database is not available
+function generateDemoTrajectory(): TrajectoryPoint[] {
+  const points: TrajectoryPoint[] = [];
+  const sigma = 10.0;
+  const rho = 28.0;
+  const beta = 8.0 / 3.0;
+  const dt = 0.01;
+  
+  let x = 1.0;
+  let y = 1.0;
+  let z = 1.0;
+  let time = 0.0;
+  
+  // Generate 1000 points (every 10th point from 10,000 steps)
+  for (let timestep = 0; timestep < 10000; timestep++) {
+    // Runge-Kutta 4th order integration
+    const k1x = sigma * (y - x);
+    const k1y = x * (rho - z) - y;
+    const k1z = x * y - beta * z;
+    
+    const k2x = sigma * ((y + dt * k1y / 2) - (x + dt * k1x / 2));
+    const k2y = (x + dt * k1x / 2) * (rho - (z + dt * k1z / 2)) - (y + dt * k1y / 2);
+    const k2z = (x + dt * k1x / 2) * (y + dt * k1y / 2) - beta * (z + dt * k1z / 2);
+    
+    const k3x = sigma * ((y + dt * k2y / 2) - (x + dt * k2x / 2));
+    const k3y = (x + dt * k2x / 2) * (rho - (z + dt * k2z / 2)) - (y + dt * k2y / 2);
+    const k3z = (x + dt * k2x / 2) * (y + dt * k2y / 2) - beta * (z + dt * k2z / 2);
+    
+    const k4x = sigma * ((y + dt * k3y) - (x + dt * k3x));
+    const k4y = (x + dt * k3x) * (rho - (z + dt * k3z)) - (y + dt * k3y);
+    const k4z = (x + dt * k3x) * (y + dt * k3y) - beta * (z + dt * k3z);
+    
+    x += (dt / 6) * (k1x + 2 * k2x + 2 * k3x + k4x);
+    y += (dt / 6) * (k1y + 2 * k2y + 2 * k3y + k4y);
+    z += (dt / 6) * (k1z + 2 * k2z + 2 * k3z + k4z);
+    time += dt;
+    
+    // Sample every 10th point to reduce data size
+    if (timestep % 10 === 0) {
+      points.push({
+        x: Number(x.toFixed(6)),
+        y: Number(y.toFixed(6)),
+        z: Number(z.toFixed(6)),
+        timestep,
+        time: Number(time.toFixed(6))
+      });
+    }
+  }
+  
+  return points;
+}
+
 // Dynamically import the 3D component to avoid SSR issues
 const Lorenz3D = dynamic(() => import('./LorenzAttractor3D'), {
   ssr: false,
@@ -82,10 +135,30 @@ function LorenzVisualization({ studyId }: LorenzVisualizationProps) {
         console.log('Trajectory data received:', { 
           pointCount: data.points?.length, 
           studyId: data.study_id,
-          totalPoints: data.total_points 
+          totalPoints: data.total_points,
+          message: data.message
         });
         
+        // Handle empty data gracefully (e.g., database not configured)
+        if (data.message && (data.message.includes('Database') || data.message.includes('unavailable'))) {
+          console.warn('Database unavailable, generating demo trajectory data');
+          // Generate demo trajectory data using Lorenz equations
+          const demoPoints = generateDemoTrajectory();
+          setTrajectoryData(demoPoints);
+          setError(null); // Clear error since we have demo data
+          return;
+        }
+        
+        // Also check if points array is empty and generate demo data
         if (data.points && Array.isArray(data.points)) {
+          if (data.points.length === 0) {
+            console.warn('Empty trajectory data, generating demo trajectory');
+            const demoPoints = generateDemoTrajectory();
+            setTrajectoryData(demoPoints);
+            setError(null);
+            return;
+          }
+          
           // Map API response to TrajectoryPoint format
           const points: TrajectoryPoint[] = data.points.map((p: any) => ({
             x: Number(p.x),
@@ -95,8 +168,14 @@ function LorenzVisualization({ studyId }: LorenzVisualizationProps) {
             time: p.time
           }));
           setTrajectoryData(points);
+          // Clear any previous errors if we got valid data
+          setError(null);
         } else {
-          throw new Error('Invalid trajectory data format');
+          // If no points array, generate demo data as fallback
+          console.warn('Invalid trajectory data format, generating demo trajectory');
+          const demoPoints = generateDemoTrajectory();
+          setTrajectoryData(demoPoints);
+          setError(null);
         }
       } catch (err) {
         console.error('Error fetching trajectory:', err);
