@@ -276,24 +276,26 @@
 }
 
 .scroll-progress-fill-light {
-  /* Gradient from red to green, matching hero animation colors */
+  /* Gradient from red to green, with white in the middle */
   background: linear-gradient(
     to bottom,
     rgba(255, 0, 0, 0.6),     /* Red (top) */
-    rgba(255, 100, 0, 0.7),    /* Red-orange transition */
-    rgba(128, 255, 0, 0.7),    /* Yellow-green transition */
+    rgba(255, 50, 50, 0.6),   /* Red-light red transition */
+    rgba(255, 255, 255, 0.7),  /* White (middle) */
+    rgba(50, 255, 50, 0.6),   /* Light green transition */
     rgba(0, 255, 0, 0.6)       /* Green (bottom) */
   );
   box-shadow: 0 0 4px rgba(255, 0, 0, 0.3), 0 0 8px rgba(0, 255, 0, 0.2);
 }
 
 .scroll-progress-fill-dark {
-  /* Gradient from red to green, brighter for dark mode */
+  /* Gradient from red to green, with white in the middle, brighter for dark mode */
   background: linear-gradient(
     to bottom,
     rgba(255, 0, 0, 0.7),     /* Red (top) */
-    rgba(255, 120, 0, 0.75),  /* Red-orange transition */
-    rgba(150, 255, 0, 0.75),  /* Yellow-green transition */
+    rgba(255, 80, 80, 0.7),   /* Red-light red transition */
+    rgba(255, 255, 255, 0.8),  /* White (middle) */
+    rgba(80, 255, 80, 0.7),   /* Light green transition */
     rgba(0, 255, 0, 0.7)      /* Green (bottom) */
   );
   box-shadow: 0 0 4px rgba(255, 0, 0, 0.4), 0 0 8px rgba(0, 255, 0, 0.3);

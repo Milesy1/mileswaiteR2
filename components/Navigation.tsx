@@ -19,7 +19,13 @@ export function Navigation() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { openSearch } = useKeyboardShortcutsContext();
+
+  // Ensure component is mounted before using pathname-dependent rendering
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,13 +109,13 @@ export function Navigation() {
                 key={item.name}
                 href={item.href}
                 className={`relative text-sm lg:text-base font-medium transition-colors duration-200 ${
-                  pathname === item.href
+                  mounted && pathname === item.href
                     ? 'text-primary-600 dark:text-primary-400'
                     : 'text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400'
                 }`}
               >
                 {item.name}
-                {pathname === item.href && (
+                {mounted && pathname === item.href && (
                   <motion.div
                     layoutId="activeTab"
                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-600 dark:bg-primary-400 rounded-full"
@@ -236,7 +242,7 @@ export function Navigation() {
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 ${
-                        pathname === item.href
+                        mounted && pathname === item.href
                           ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
                           : 'text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
                       }`}
