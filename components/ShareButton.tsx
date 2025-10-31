@@ -8,10 +8,11 @@ interface ShareButtonProps {
   url?: string;
   title: string;
   slug?: string;
+  type?: 'project' | 'blog'; // Type of content being shared
   className?: string;
 }
 
-export function ShareButton({ url, title, slug, className = '' }: ShareButtonProps) {
+export function ShareButton({ url, title, slug, type = 'project', className = '' }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
@@ -21,9 +22,10 @@ export function ShareButton({ url, title, slug, className = '' }: ShareButtonPro
     if (url) {
       setShareUrl(url);
     } else if (slug && typeof window !== 'undefined') {
-      setShareUrl(`${window.location.origin}/projects/${slug}`);
+      const basePath = type === 'blog' ? '/blog' : '/projects';
+      setShareUrl(`${window.location.origin}${basePath}/${slug}`);
     }
-  }, [url, slug]);
+  }, [url, slug, type]);
 
   const handleCopyLink = async () => {
     if (!shareUrl) return;
@@ -36,7 +38,7 @@ export function ShareButton({ url, title, slug, className = '' }: ShareButtonPro
       // Track share event
       event({
         action: 'share',
-        category: 'Project',
+        category: type === 'blog' ? 'Blog' : 'Project',
         label: `Copy link: ${title}`,
       });
 
@@ -62,7 +64,7 @@ export function ShareButton({ url, title, slug, className = '' }: ShareButtonPro
         // Track share event
         event({
           action: 'share',
-          category: 'Project',
+          category: type === 'blog' ? 'Blog' : 'Project',
           label: `Native share: ${title}`,
         });
       } catch (err) {
@@ -84,7 +86,7 @@ export function ShareButton({ url, title, slug, className = '' }: ShareButtonPro
         className="group flex items-center space-x-2 px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors duration-200"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        aria-label="Share project"
+        aria-label={`Share ${type === 'blog' ? 'blog post' : 'project'}`}
       >
         {copied ? (
           <svg

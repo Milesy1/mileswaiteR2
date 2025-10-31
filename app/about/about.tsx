@@ -35,8 +35,17 @@ const ChatBot = dynamic(
 export default function AboutPage() {
   const [shouldLoadSketch, setShouldLoadSketch] = useState(false);
 
+  // Ensure page starts at top when navigating to about page
   useEffect(() => {
-    // Defer MySketch loading slightly to prioritize initial content render
+    // Use requestAnimationFrame to ensure this runs after any layout shifts
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+  }, []);
+
+  // Defer MySketch loading slightly to prioritize initial content render
+  useEffect(() => {
+    // Use double requestAnimationFrame to ensure skeleton has rendered
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setShouldLoadSketch(true);
@@ -65,8 +74,9 @@ export default function AboutPage() {
       }, 100); // Small delay to ensure page is loaded
     }
   }, []);
+
   return (
-    <div className="pt-16 lg:pt-20 scroll-padding-top-32">
+    <div className="pt-16 lg:pt-20">
       {/* Hero Section */}
       <section className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -170,7 +180,7 @@ export default function AboutPage() {
                   minHeight: '400px',
                   minWidth: '100%',
                   position: 'relative',
-                  contain: 'layout style paint'
+                  willChange: 'auto' // Optimize for smooth scrolling
                 }}
               >
                 <ErrorBoundary fallback={
@@ -179,7 +189,9 @@ export default function AboutPage() {
                   </div>
                 }>
                   {shouldLoadSketch ? (
-                    <MySketch className="absolute inset-0 w-full h-full" />
+                    <div className="absolute inset-0 w-full h-full pointer-events-none">
+                      <MySketch className="w-full h-full" />
+                    </div>
                   ) : (
                     <SkeletonSketch className="absolute inset-0 w-full h-full" />
                   )}

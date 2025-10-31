@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ShareButton } from '@/components/ShareButton';
 
 import { blogPosts } from '../../../data/blog-posts';
 
@@ -104,6 +105,20 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   {tag}
                 </span>
               ))}
+            </motion.div>
+
+            {/* Share Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex justify-center pt-4"
+            >
+              <ShareButton
+                title={post.title}
+                slug={post.slug}
+                type="blog"
+              />
             </motion.div>
           </motion.div>
         </div>

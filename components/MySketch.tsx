@@ -189,6 +189,13 @@ export default function MySketch({
           p.createCanvas(canvasWidth, canvasHeight, p.WEBGL);
           p.strokeWeight(5);
           p.colorMode(p.RGB, 255);
+          
+          // Disable pointer events on canvas to allow scrolling through it
+          const canvas = containerRef.current?.querySelector('canvas');
+          if (canvas) {
+            canvas.style.pointerEvents = 'none';
+            canvas.style.touchAction = 'pan-y';
+          }
         };
 
         p.windowResized = () => {
@@ -256,6 +263,8 @@ export default function MySketch({
         left: 0,
         right: 0,
         bottom: 0,
+        pointerEvents: 'none', // Allow scroll/touch events to pass through
+        touchAction: 'pan-y', // Allow vertical scrolling through canvas
       }}
     />
   );
