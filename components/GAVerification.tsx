@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { isGALoaded } from '@/lib/analytics';
 
-export function GAVerification() {
+export default function GAVerification() {
   const [gaStatus, setGaStatus] = useState<'checking' | 'loaded' | 'not-loaded'>('checking');
 
   useEffect(() => {

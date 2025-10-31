@@ -1,14 +1,49 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
-import MySketch from '../../components/MySketch';
-import { ChatBot } from '../../components/ChatBot';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { BackToProjectLink } from '../../components/BackToProjectLink';
-import StatsTicker from '../../components/StatsTicker';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { SkeletonSketch } from '../../components/SkeletonSketch';
+import { LazyStatsTicker } from '../../components/LazyStatsTicker';
+
+// Lazy load heavy components with loading states
+const MySketch = dynamic(
+  () => import('../../components/MySketch'),
+  { 
+    ssr: false,
+    loading: () => <SkeletonSketch className="absolute inset-0 w-full h-full" />
+  }
+);
+
+const ChatBot = dynamic(
+  () => import('../../components/ChatBot').then(mod => ({ default: mod.ChatBot })),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="w-full max-w-2xl mx-auto bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-6 min-h-[400px] flex items-center justify-center">
+        <div className="text-center space-y-2">
+          <div className="w-8 h-8 border-2 border-neutral-300 dark:border-neutral-600 border-t-primary-500 dark:border-t-primary-400 rounded-full mx-auto animate-spin"></div>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">Loading chat...</p>
+        </div>
+      </div>
+    )
+  }
+);
 
 export default function AboutPage() {
+  const [shouldLoadSketch, setShouldLoadSketch] = useState(false);
+
+  useEffect(() => {
+    // Defer MySketch loading slightly to prioritize initial content render
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setShouldLoadSketch(true);
+      });
+    });
+  }, []);
+
   useEffect(() => {
     // Handle chatbot hash navigation
     if (window.location.hash === '#chatbot') {
@@ -143,7 +178,11 @@ export default function AboutPage() {
                     <p className="text-neutral-500 dark:text-neutral-400">Visualization unavailable</p>
                   </div>
                 }>
-                  <MySketch className="absolute inset-0 w-full h-full" />
+                  {shouldLoadSketch ? (
+                    <MySketch className="absolute inset-0 w-full h-full" />
+                  ) : (
+                    <SkeletonSketch className="absolute inset-0 w-full h-full" />
+                  )}
                 </ErrorBoundary>
               </div>
             </motion.div>
@@ -217,14 +256,14 @@ export default function AboutPage() {
             <ChatBot />
           </motion.div>
 
-          {/* Stats Ticker */}
+          {/* Stats Ticker - Lazy loaded with intersection observer */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <ErrorBoundary>
-              <StatsTicker />
+              <LazyStatsTicker />
             </ErrorBoundary>
           </motion.div>
 
