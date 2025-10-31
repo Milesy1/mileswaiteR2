@@ -52,3 +52,4 @@ DATABASE_URL="your-production-url" npm run migrate
 
 
 
+

@@ -51,14 +51,30 @@ export default function MySketch({
     // This prevents layout shift on initial render
     if (typeof window !== 'undefined') {
       // Use viewport-based initial size for better UX
-      // Mobile-friendly sizing
+      // Mobile-friendly sizing with desktop optimization
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const isMobile = vw < 640; // sm breakpoint
-      return {
-        width: isMobile ? Math.min(vw * 0.95, 400) : Math.min(vw * 0.9, 800),
-        height: isMobile ? Math.min(vh * 0.5, 400) : Math.min(vh * 0.7, 600)
-      };
+      const isTablet = vw >= 640 && vw < 1024; // md breakpoint
+      const isDesktop = vw >= 1024; // lg breakpoint
+      
+      if (isMobile) {
+        return {
+          width: Math.min(vw * 0.95, 400),
+          height: Math.min(vh * 0.5, 400)
+        };
+      } else if (isTablet) {
+        return {
+          width: Math.min(vw * 0.9, 600),
+          height: Math.min(vh * 0.6, 500)
+        };
+      } else {
+        // Desktop: Optimize to reasonable size (not too large)
+        return {
+          width: Math.min(vw * 0.45, 650), // Reduced from 0.9 * vw, max 650 instead of 800
+          height: Math.min(vh * 0.6, 550) // Reduced from 0.7 * vh, max 550 instead of 600
+        };
+      }
     }
     return { width, height };
   });
@@ -186,7 +202,14 @@ export default function MySketch({
           // Ensure we have valid dimensions
           const canvasWidth = dimensions.width > 0 ? dimensions.width : containerRef.current?.clientWidth || width;
           const canvasHeight = dimensions.height > 0 ? dimensions.height : containerRef.current?.clientHeight || height;
-          p.createCanvas(canvasWidth, canvasHeight, p.WEBGL);
+          
+          // Cap maximum canvas size for performance (especially on desktop)
+          const maxWidth = 700;
+          const maxHeight = 600;
+          const finalWidth = Math.min(canvasWidth, maxWidth);
+          const finalHeight = Math.min(canvasHeight, maxHeight);
+          
+          p.createCanvas(finalWidth, finalHeight, p.WEBGL);
           p.strokeWeight(5);
           p.colorMode(p.RGB, 255);
           
@@ -195,6 +218,9 @@ export default function MySketch({
           if (canvas) {
             canvas.style.pointerEvents = 'none';
             canvas.style.touchAction = 'pan-y';
+            // Performance optimizations for desktop
+            canvas.style.imageRendering = 'optimizeSpeed';
+            canvas.style.willChange = 'transform';
           }
         };
 

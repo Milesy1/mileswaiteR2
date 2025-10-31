@@ -7,6 +7,7 @@ import { BackToProjectLink } from '../../components/BackToProjectLink';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { SkeletonSketch } from '../../components/SkeletonSketch';
 import { LazyStatsTicker } from '../../components/LazyStatsTicker';
+import { HeavyContentLoader } from '../../components/HeavyContentLoader';
 
 // Lazy load heavy components with loading states
 const MySketch = dynamic(
@@ -175,7 +176,7 @@ export default function AboutPage() {
               className="relative w-full"
             >
               <div 
-                className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[800px] xl:h-[900px] relative"
+                className="w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[600px] xl:h-[700px] relative"
                 style={{ 
                   minHeight: '400px',
                   minWidth: '100%',
@@ -189,9 +190,11 @@ export default function AboutPage() {
                   </div>
                 }>
                   {shouldLoadSketch ? (
-                    <div className="absolute inset-0 w-full h-full pointer-events-none">
-                      <MySketch className="w-full h-full" />
-                    </div>
+                    <HeavyContentLoader threshold={800}>
+                      <div className="absolute inset-0 w-full h-full pointer-events-none">
+                        <MySketch className="w-full h-full" />
+                      </div>
+                    </HeavyContentLoader>
                   ) : (
                     <SkeletonSketch className="absolute inset-0 w-full h-full" />
                   )}
