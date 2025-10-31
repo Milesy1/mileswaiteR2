@@ -2,6 +2,14 @@ import { NextResponse } from 'next/server';
 import { query, testConnection } from '@/lib/database';
 
 export async function GET() {
+  // Only allow in development
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'Not found' },
+      { status: 404 }
+    );
+  }
+
   try {
     // Test connection
     const connectionTest = await testConnection();

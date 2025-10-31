@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 
 export default function ClientBackToTop() {
   const [isVisible, setIsVisible] = useState(false)
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -23,7 +24,7 @@ export default function ClientBackToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: shouldReduceMotion ? 'auto' : 'smooth'
     })
   }
 
@@ -31,12 +32,12 @@ export default function ClientBackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+          animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+          exit={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+          transition={shouldReduceMotion ? {} : { duration: 0.2, ease: "easeOut" }}
           onClick={scrollToTop}
-          className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900 rounded"
+          className="fixed bottom-6 right-6 z-50 p-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full shadow-lg hover:shadow-xl text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900"
           aria-label="Back to top"
         >
           <svg

@@ -6,8 +6,13 @@ import path from 'path';
 const isProduction = process.env.NODE_ENV === 'production';
 const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
 
+// Type for Redis client
+type RedisClient = {
+  get: (key: string) => Promise<unknown>;
+};
+
 // Dynamically import Upstash Redis only in production
-let redis: any = null;
+let redis: RedisClient | null = null;
 if (isProduction) {
   try {
     const { Redis } = require('@upstash/redis');

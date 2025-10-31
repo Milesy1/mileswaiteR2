@@ -41,6 +41,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function OPTIONS() {
-  return handleOptions();
+export async function OPTIONS(request: NextRequest) {
+  return handleOptions(request);
 }

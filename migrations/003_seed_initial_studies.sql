@@ -47,3 +47,5 @@ ON CONFLICT (study_id, parameter_name) DO NOTHING;
 
 COMMIT;
 
+
+

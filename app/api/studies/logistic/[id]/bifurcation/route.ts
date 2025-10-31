@@ -11,7 +11,7 @@ export async function GET(
     const rMin = searchParams.get('r_min');
     const rMax = searchParams.get('r_max');
 
-    const queryParams: any[] = [id];
+    const queryParams: (string | number)[] = [id];
     let where = 'WHERE study_id = $1';
     if (rMin) { queryParams.push(parseFloat(rMin)); where += ` AND parameter_value >= $${queryParams.length}`; }
     if (rMax) { queryParams.push(parseFloat(rMax)); where += ` AND parameter_value <= $${queryParams.length}`; }

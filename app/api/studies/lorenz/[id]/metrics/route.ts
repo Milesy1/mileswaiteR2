@@ -71,6 +71,6 @@ export async function GET(
   }
 }
 
-export async function OPTIONS() {
-  return handleOptions();
+export async function OPTIONS(request: NextRequest) {
+  return handleOptions(request);
 }

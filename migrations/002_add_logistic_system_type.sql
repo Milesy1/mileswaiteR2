@@ -18,3 +18,5 @@ WHERE name ILIKE '%logistic%' AND system_type = 'other';
 
 COMMIT;
 
+
+

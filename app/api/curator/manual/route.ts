@@ -7,11 +7,18 @@ import { curateWithGroq } from '@/lib/curator'
 
 export const runtime = 'nodejs'
 
+interface CuratedItem {
+  title: string
+  url: string
+  topic: string
+  summary?: string
+}
+
 export async function POST(request: NextRequest) {
   console.log('Manual curation triggered...')
   
   try {
-    const allCurated: any[] = []
+    const allCurated: CuratedItem[] = []
     
     for (const category of Object.values(TECH_STACK)) {
       for (const tech of category) {

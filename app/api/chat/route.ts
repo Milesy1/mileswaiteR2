@@ -5,8 +5,40 @@ import { trackServerEvent } from '@/lib/posthog';
 import fs from 'fs';
 import path from 'path';
 
+// Type definitions
+interface Book {
+  title: string;
+  author: string;
+}
+
+interface NowEntry {
+  month: string;
+  lastUpdated: string;
+  building?: string[];
+  exploring?: string[];
+  reading?: Book[];
+  listening?: {
+    title: string;
+    artist?: string;
+    link?: string;
+  };
+  using?: string[];
+  location?: string;
+  openTo?: string[];
+}
+
+interface PageContext {
+  pathname: string;
+  pageType: string;
+  pageContent?: string;
+  metadata?: {
+    title?: string;
+    description?: string;
+  };
+}
+
 // Function to get current Now page data
-function getCurrentNowData() {
+function getCurrentNowData(): NowEntry[] | null {
   try {
     const dataFile = path.join(process.cwd(), 'public', 'data', 'now.json');
     if (fs.existsSync(dataFile)) {
@@ -21,18 +53,22 @@ function getCurrentNowData() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('Chat API called');
+    // Development-only logging
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Chat API called');
+    }
     
     // Get raw body text first for debugging
     const rawBody = await request.text();
-    console.log('Raw body:', rawBody);
     
     let body;
     try {
       body = JSON.parse(rawBody);
     } catch (parseError) {
-      console.error('JSON parse error:', parseError);
-      console.error('Raw body that failed to parse:', rawBody);
+      // Only log errors in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error('JSON parse error:', parseError);
+      }
       return NextResponse.json(
         { error: 'Invalid JSON format' },
         { status: 400 }
@@ -50,26 +86,30 @@ export async function POST(request: NextRequest) {
       messages = [{ role: 'user', content: body.message }];
       pageContext = body.context || body.pageContext;
     } else {
-      console.log('Invalid request format');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Invalid request format');
+      }
       return NextResponse.json(
         { error: 'Invalid request format. Expected either messages array or message with context.' },
         { status: 400 }
       );
     }
     
-    console.log('Messages received:', messages);
-    console.log('Context received:', pageContext);
+    // Development-only logging (avoid logging user messages in production)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Messages received:', messages.length, 'messages');
+      console.log('Context received:', pageContext ? 'Yes' : 'No');
+    }
 
     const groqApiKey = process.env.GROQ_API_KEY;
-    console.log('API Key exists:', !!groqApiKey);
-    console.log('API Key value:', groqApiKey ? groqApiKey.substring(0, 10) + '...' : 'null');
-    console.log('All env vars:', Object.keys(process.env).filter(key => key.includes('GROQ') || key.includes('AXIOM')));
     
     // Get the last user message
     const lastUserMessage = messages[messages.length - 1]?.content;
     
     if (!groqApiKey) {
-      console.log('No API key found - returning mock response');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('No API key found - returning mock response');
+      }
       
       // Return a mock response for testing
       const mockResponse = pageContext && pageContext.pathname 
@@ -85,7 +125,10 @@ export async function POST(request: NextRequest) {
     
     // Log to Axiom (async - won't slow down response)
     if (process.env.AXIOM_TOKEN && process.env.AXIOM_DATASET) {
-      console.log('Logging to Axiom:', process.env.AXIOM_DATASET);
+      // Don't log dataset name in production
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Logging to Axiom');
+      }
       fetch(`https://api.axiom.co/v1/datasets/${process.env.AXIOM_DATASET}/ingest`, {
         method: 'POST',
         headers: {
@@ -219,7 +262,7 @@ Specialties: ${context.techStack.specialties.join(', ')}
       systemPrompt += `\n\nCURRENT NOW PAGE DATA (Latest Update - ${latestEntry.month}):\n`;
       systemPrompt += `Building: ${latestEntry.building ? latestEntry.building.join(', ') : 'Not specified'}\n`;
       systemPrompt += `Exploring: ${latestEntry.exploring ? latestEntry.exploring.join(', ') : 'Not specified'}\n`;
-      systemPrompt += `Reading: ${latestEntry.reading ? latestEntry.reading.map((book: any) => book.title).join(', ') : 'Not specified'}\n`;
+      systemPrompt += `Reading: ${latestEntry.reading ? latestEntry.reading.map((book: Book) => book.title).join(', ') : 'Not specified'}\n`;
       systemPrompt += `Listening: ${latestEntry.listening ? latestEntry.listening.title : 'Not specified'}\n`;
       systemPrompt += `Using: ${latestEntry.using ? latestEntry.using.join(', ') : 'Not specified'}\n`;
       systemPrompt += `Location: ${latestEntry.location || 'Not specified'}\n`;
@@ -341,7 +384,7 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
 
     systemPrompt += `\n\nAnswer questions using the specific information provided above. Be conversational, helpful, and reference actual projects and expertise when relevant. Keep responses concise but informative.`;
 
-    console.log('Making request to Groq API...');
+    // Make request to Groq API
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -359,12 +402,14 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
       }),
     });
 
-    console.log('Groq API response status:', response.status);
     if (!response.ok) {
       const errorData = await response.text();
-      console.error('Groq API error:', errorData);
+      // Only log detailed errors in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Groq API error:', response.status, errorData);
+      }
       return NextResponse.json(
-        { error: `Failed to get response from AI: ${response.status} ${errorData}` },
+        { error: `Failed to get response from AI` },
         { status: response.status }
       );
     }
@@ -436,7 +481,7 @@ ${context.philosophy.principles.map(p => `- ${p}`).join('\n')}
 }
 
 // Helper function to build page context prompt
-function getPageContextPrompt(context: any): string {
+function getPageContextPrompt(context: PageContext): string {
   const { pathname, pageType, pageContent, metadata } = context;
   
   let pageContext = `User is currently on: ${pathname}\n`;

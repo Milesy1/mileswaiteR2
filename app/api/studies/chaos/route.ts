@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     // For now, we'll use a simple query approach
     // TODO: Implement proper listAllStudies method in ComplexSystemsData
     let sql = 'SELECT id, name, system_type, description, date_conducted, metadata, created_at, updated_at FROM studies';
-    const params: any[] = [];
+    const params: (string | number)[] = [];
     
     if (systemType) {
       sql += ' WHERE system_type = $1';
@@ -28,7 +28,18 @@ export async function GET(request: NextRequest) {
     console.log('Executing query:', sql, 'with params:', params);
     const result = await query(sql, params);
 
-    const studies = result.rows.map((row: any) => ({
+    interface StudyRow {
+      id: string;
+      name: string;
+      system_type: string;
+      description?: string;
+      date_conducted?: string;
+      metadata?: unknown;
+      created_at?: string;
+      updated_at?: string;
+    }
+
+    const studies = result.rows.map((row: StudyRow) => ({
       ...row,
       parameters: [], // Will be loaded separately if needed
       initial_conditions: []
@@ -54,7 +65,15 @@ export async function GET(request: NextRequest) {
     }
     
     // Always return detailed error in development
-    const errorResponse: any = {
+    interface ErrorResponse {
+      error: string;
+      message: string;
+      details?: string;
+      errorType?: string;
+      hasDatabaseUrl?: boolean;
+    }
+
+    const errorResponse: ErrorResponse = {
       error: 'Failed to fetch studies',
       message: error instanceof Error ? error.message : 'Unknown error',
     };

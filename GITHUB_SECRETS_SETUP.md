@@ -47,3 +47,5 @@ If you prefer not to use GitHub Actions, you can always run migrations manually:
 DATABASE_URL="your-production-url" npm run migrate
 ```
 
+
+

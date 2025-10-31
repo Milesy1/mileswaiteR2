@@ -9,8 +9,34 @@ import {
 } from './rate-limit';
 
 // CORS headers for public API access
+// Restrict to your domain for security
+const getAllowedOrigin = (request: NextRequest): string => {
+  const origin = request.headers.get('origin');
+  const allowedOrigins = [
+    'https://mileswaite.net',
+    'https://www.mileswaite.net',
+    'http://localhost:3000',
+    'http://localhost:3001',
+  ];
+  
+  if (origin && allowedOrigins.includes(origin)) {
+    return origin;
+  }
+  
+  // Default to your production domain
+  return 'https://mileswaite.net';
+};
+
+export const getCorsHeaders = (request: NextRequest) => ({
+  'Access-Control-Allow-Origin': getAllowedOrigin(request),
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Credentials': 'true',
+});
+
+// Legacy export for backwards compatibility (deprecated - use getCorsHeaders)
 export const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://mileswaite.net',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
@@ -33,7 +59,7 @@ export async function createAPIResponse<T>(
   
   // Create headers
   const headers = {
-    ...corsHeaders,
+    ...getCorsHeaders(request),
     ...createRateLimitHeaders(rateLimitResult),
     ...additionalHeaders
   };
@@ -70,7 +96,7 @@ export async function createErrorResponse(
 
   // Create headers
   const headers = {
-    ...corsHeaders,
+    ...getCorsHeaders(request),
     ...createRateLimitHeaders(rateLimitResult),
     'Content-Type': 'application/json'
   };
@@ -96,7 +122,7 @@ export async function checkRateLimit(
 /**
  * Wrapper for API route handlers that automatically applies rate limiting
  */
-export function withRateLimit<T extends any[]>(
+export function withRateLimit<T extends unknown[]>(
   handler: (request: NextRequest, ...args: T) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, ...args: T): Promise<NextResponse> => {
@@ -136,11 +162,13 @@ export async function getRateLimitInfo(request: NextRequest): Promise<{
 /**
  * Handle preflight requests with rate limiting
  */
-export async function handleOptions(): Promise<NextResponse> {
+export async function handleOptions(request: NextRequest): Promise<NextResponse> {
   return new NextResponse(null, {
     status: 200,
-    headers: corsHeaders
+    headers: getCorsHeaders(request)
   });
 }
+
+
 
 

@@ -4,9 +4,23 @@ import { fetchAllSources } from '@/lib/contentSources'
 
 export const runtime = 'nodejs'
 
+interface DebugResults {
+  techName: string;
+  keywords: string[];
+  rawContentCount: number;
+  sampleContent: unknown[];
+  groqApiKey: string;
+}
+
 export async function GET() {
   try {
-    const results: any = {}
+    const results: DebugResults = {
+      techName: '',
+      keywords: [],
+      rawContentCount: 0,
+      sampleContent: [],
+      groqApiKey: 'Not set'
+    }
     
     // Test just one tech to see what's happening
     const testTech = TECH_STACK.web[0] // Next.js

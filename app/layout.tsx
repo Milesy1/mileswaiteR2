@@ -9,6 +9,7 @@ import CustomCursor from '@/components/CustomCursor';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import KeyboardShortcutsProvider from '@/components/KeyboardShortcutsProvider';
 import { PersonSchema, OrganizationSchema, WebsiteSchema } from '@/components/JsonLdSchema';
+import ClientBackToTop from '@/components/ClientBackToTop';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -92,6 +93,7 @@ export default function RootLayout({
               <Navigation />
               <main className="flex-1">{children}</main>
               <ClientFooter />
+              <ClientBackToTop />
             </div>
           </KeyboardShortcutsProvider>
         </ThemeProvider>

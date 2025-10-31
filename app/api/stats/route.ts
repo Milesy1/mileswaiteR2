@@ -4,6 +4,29 @@ import { retryWithBackoff, fetchWithTimeout } from '@/lib/stats-utils';
 // Cache responses for 90 seconds (stale-while-revalidate)
 export const revalidate = 90;
 
+// Type definitions
+interface GitHubRepo {
+  stargazers_count: number;
+  [key: string]: unknown;
+}
+
+interface GitHubUser {
+  followers: number;
+  [key: string]: unknown;
+}
+
+interface VercelDeployment {
+  state: string;
+  [key: string]: unknown;
+}
+
+interface VercelDeploymentsResponse {
+  deployments: VercelDeployment[];
+  pagination?: {
+    next?: string;
+  };
+}
+
 export async function GET() {
   try {
     const axiomToken = process.env.AXIOM_TOKEN;
@@ -36,7 +59,7 @@ export async function GET() {
           const userData = await userResponse.json();
           
           // Fetch all repositories with pagination
-          let allRepos: any[] = [];
+          let allRepos: GitHubRepo[] = [];
           let page = 1;
           let hasMore = true;
           
@@ -56,7 +79,7 @@ export async function GET() {
               });
 
               if (reposResponse.ok) {
-                const reposData = await reposResponse.json();
+                const reposData = await reposResponse.json() as GitHubRepo[];
                 
                 if (reposData.length === 0) {
                   hasMore = false;
@@ -77,13 +100,13 @@ export async function GET() {
             }
           }
           
-          const totalStars = allRepos.reduce((sum: number, repo: any) => sum + repo.stargazers_count, 0);
+          const totalStars = allRepos.reduce((sum: number, repo: GitHubRepo) => sum + repo.stargazers_count, 0);
           
           githubStats = {
             totalStars,
             totalRepos: allRepos.length,
             totalCommits: 0, // Would need to fetch from each repo
-            followers: userData.followers
+            followers: (userData as GitHubUser).followers
           };
           
           console.log('GitHub stats fetched:', githubStats);
@@ -105,7 +128,7 @@ export async function GET() {
     if (vercelToken && vercelProjectId) {
       try {
         // Fetch all deployments with pagination and retry logic
-        let allDeployments: any[] = [];
+        let allDeployments: VercelDeployment[] = [];
         let until: string | undefined = undefined;
         let hasMore = true;
         let pageCount = 0;
@@ -127,7 +150,7 @@ export async function GET() {
             });
 
             if (deploymentsResponse.ok) {
-              const deploymentsData = await deploymentsResponse.json();
+              const deploymentsData = await deploymentsResponse.json() as VercelDeploymentsResponse;
               const deployments = deploymentsData.deployments || [];
               
               if (deployments.length === 0) {
@@ -155,7 +178,7 @@ export async function GET() {
         
         vercelDeploymentStats = {
           totalDeployments: allDeployments.length,
-          successfulDeployments: allDeployments.filter((d: any) => d.state === 'READY').length,
+          successfulDeployments: allDeployments.filter((d: VercelDeployment) => d.state === 'READY').length,
           lastDeploymentStatus: allDeployments[0]?.state || 'READY'
         };
         

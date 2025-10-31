@@ -25,7 +25,7 @@ interface Stats {
 }
 
 // Configuration: refresh interval in milliseconds
-const REFRESH_INTERVAL = 10000; // 10 seconds
+const REFRESH_INTERVAL = 30000; // 30 seconds
 
 export default function StatsTicker() {
   const [stats, setStats] = useState<Stats | null>(null);

@@ -64,3 +64,5 @@ After running migrations, test these endpoints:
 
 Vercel auto-detects Next.js and might not run custom build commands. Running migrations via API after deployment is a common pattern and gives you more control.
 
+
+

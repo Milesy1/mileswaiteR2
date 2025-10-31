@@ -7,6 +7,13 @@ import { curateWithGroq } from '@/lib/curator'
 
 export const runtime = 'nodejs'
 
+interface CuratedItem {
+  title: string
+  url: string
+  topic: string
+  summary?: string
+}
+
 export async function GET(request: NextRequest) {
   // Verify cron secret
   const authHeader = request.headers.get('authorization')
@@ -17,7 +24,7 @@ export async function GET(request: NextRequest) {
   console.log('Starting weekly curation...')
   
   try {
-    const allCurated: any[] = []
+    const allCurated: CuratedItem[] = []
     
     // Process each tech category
     for (const category of Object.values(TECH_STACK)) {
