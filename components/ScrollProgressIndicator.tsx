@@ -1,16 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
 
 export default function ScrollProgressIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(true);
 
   // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
     setMounted(true);
+    // Check for reduced motion preference on client only
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setShouldReduceMotion(prefersReducedMotion);
   }, []);
 
   useEffect(() => {
@@ -55,11 +57,7 @@ export default function ScrollProgressIndicator() {
     };
   }, [shouldReduceMotion, mounted]);
 
-  // Don't render if user prefers reduced motion or not mounted
-  if (shouldReduceMotion || !mounted) {
-    return null;
-  }
-
+  // Always render the same structure to prevent hydration mismatch
   return (
     <div className="hidden md:block fixed left-0 top-0 bottom-0 w-[2px] z-[60] pointer-events-none">
       {/* Background line - subtle track that's always visible */}
@@ -69,22 +67,24 @@ export default function ScrollProgressIndicator() {
       />
       
       {/* Progress line - fills as you scroll with subtle gradient */}
-      <div 
-        className="absolute top-0 left-0 w-full transition-all duration-500 ease-out"
-        style={{
-          height: `${scrollProgress * 100}%`,
-        }}
-        aria-hidden="true"
-      >
-        {/* Light mode - subtle gradient with soft glow */}
+      {mounted && !shouldReduceMotion && (
         <div 
-          className="absolute inset-0 w-full h-full scroll-progress-fill-light dark:hidden"
-        />
-        {/* Dark mode - lighter, more ethereal */}
-        <div 
-          className="absolute inset-0 w-full h-full scroll-progress-fill-dark hidden dark:block"
-        />
-      </div>
+          className="absolute top-0 left-0 w-full transition-all duration-500 ease-out"
+          style={{
+            height: `${scrollProgress * 100}%`,
+          }}
+          aria-hidden="true"
+        >
+          {/* Light mode - subtle gradient with soft glow */}
+          <div 
+            className="absolute inset-0 w-full h-full scroll-progress-fill-light dark:hidden"
+          />
+          {/* Dark mode - lighter, more ethereal */}
+          <div 
+            className="absolute inset-0 w-full h-full scroll-progress-fill-dark hidden dark:block"
+          />
+        </div>
+      )}
     </div>
   );
 }
