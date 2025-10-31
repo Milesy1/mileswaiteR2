@@ -177,3 +177,5 @@ lighthouse http://localhost:3000 \
 - [Image Optimization Guide](https://nextjs.org/docs/app/building-your-application/optimizing/images)
 
 
+
+

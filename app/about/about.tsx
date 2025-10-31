@@ -7,7 +7,6 @@ import { BackToProjectLink } from '../../components/BackToProjectLink';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { SkeletonSketch } from '../../components/SkeletonSketch';
 import { LazyStatsTicker } from '../../components/LazyStatsTicker';
-import { HeavyContentLoader } from '../../components/HeavyContentLoader';
 
 // Lazy load heavy components with loading states
 const MySketch = dynamic(
@@ -190,11 +189,9 @@ export default function AboutPage() {
                   </div>
                 }>
                   {shouldLoadSketch ? (
-                    <HeavyContentLoader threshold={800}>
-                      <div className="absolute inset-0 w-full h-full pointer-events-none">
-                        <MySketch className="w-full h-full" />
-                      </div>
-                    </HeavyContentLoader>
+                    <div className="absolute inset-0 w-full h-full pointer-events-none">
+                      <MySketch className="w-full h-full" />
+                    </div>
                   ) : (
                     <SkeletonSketch className="absolute inset-0 w-full h-full" />
                   )}
