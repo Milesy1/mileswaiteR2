@@ -11,6 +11,7 @@ import KeyboardShortcutsProvider from '@/components/KeyboardShortcutsProvider';
 import { PersonSchema, OrganizationSchema, WebsiteSchema } from '@/components/JsonLdSchema';
 import ClientBackToTop from '@/components/ClientBackToTop';
 import WebVitals from '@/components/WebVitals';
+import { GAVerification } from '@/components/GAVerification';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -101,6 +102,7 @@ export default function RootLayout({
         </ThemeProvider>
         <Analytics />
         <WebVitals />
+        <GAVerification />
         
         {/* JSON-LD Schema for SEO */}
         <PersonSchema />

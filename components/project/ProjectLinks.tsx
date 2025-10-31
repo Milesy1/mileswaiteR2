@@ -1,15 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ShareButton } from '@/components/ShareButton';
 
 interface ProjectLinksProps {
   liveUrl?: string;
   githubUrl?: string;
   title: string;
+  slug?: string;
 }
 
-export function ProjectLinks({ liveUrl, githubUrl, title }: ProjectLinksProps) {
-  if (!liveUrl && !githubUrl) return null;
+export function ProjectLinks({ liveUrl, githubUrl, title, slug }: ProjectLinksProps) {
+  if (!liveUrl && !githubUrl && !slug) return null;
 
   return (
     <section className="py-20 lg:py-32 bg-neutral-50 dark:bg-neutral-950">
@@ -76,6 +78,14 @@ export function ProjectLinks({ liveUrl, githubUrl, title }: ProjectLinksProps) {
                   <span>View Source Code</span>
                 </div>
               </motion.a>
+            )}
+
+            {slug && (
+              <ShareButton
+                title={title}
+                slug={slug}
+                className="sm:ml-4"
+              />
             )}
           </div>
 

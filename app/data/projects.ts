@@ -67,7 +67,7 @@ export const projectsData: Project[] = [
     title: 'String Field Theories',
     description: 'A comprehensive independent record label and artist collective designed to champion experimental musicians pushing the boundaries of electronic music production.',
     longDescription: 'Built as a sustainable ecosystem that celebrates creative risk-taking, technical innovation, and unconventional approaches to sound design. Functions as both a distribution platform and creative community for artists who treat music production as a form of technological research.',
-    image: '/images/string_field_theory2.png',
+    image: '/images/string_field_theory2.webp',
     heroImage: '/images/string_field_theory-hero.png',
     gallery: [
       '/images/sft1.png',
@@ -125,9 +125,9 @@ export const projectsData: Project[] = [
     description: 'My work in complex systems focuses on understanding how order, intelligence, and adaptability arise from seemingly chaotic interactions.',
     longDescription: 'I earned a Certificate in Complex Systems from the Santa Fe Institute, where I studied the foundations of emergent behavior, nonlinear dynamics, and network theory—learning how simple local rules can generate global patterns. This academic work is paired with hands-on application. I have designed antifragile systems within risk management—frameworks that respond to volatility by adapting and strengthening over time. That experience shaped my ongoing interest in how complex systems can be modeled, simulated, and optimized in real-world contexts. I\'m currently developing deeper technical and mathematical skills to expand this work, exploring tools from computational modeling, agent-based simulation, and statistical mechanics to data visualization and algorithmic design. My goal is to bridge theory and practice—building systems that don\'t just resist disruption but evolve through it.',
     image: '/images/lorenz6.png',
-    heroImage: '/images/network.png',
+    heroImage: '/images/network.webp',
     gallery: [
-      '/images/complexsystems2.png',
+      '/images/complexsystems2.webp',
       '/images/complexsystems4.png',
       '/images/complexsystems1.png'
     ],
@@ -249,7 +249,7 @@ export const projectsData: Project[] = [
     gallery: [
       '/images/rag3.png',
       '/images/rag8.png',
-      '/images/rag9.png'
+      '/images/rag9.webp'
     ],
     techStack: ['Power Laws', 'SOC'],
     liveUrl: 'https://api.example.com/docs',

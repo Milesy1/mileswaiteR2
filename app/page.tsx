@@ -3,14 +3,14 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { getProjectsByCategory } from './data/projects';
 import { ProjectCard } from '@/components/ProjectCard';
 import { CubeScene } from '@/components/CubeScene';
 import { Skeleton3D } from '@/components/Skeleton3D';
 
-// Dynamically import heavy 3D component for better performance
+// Dynamically import heavy 3D component with deferred loading for better performance
 const RotatingCylinderLinesR3F = dynamic(
   () => import('@/components/RotatingCylinderLinesR3F'),
   { 
@@ -20,11 +20,23 @@ const RotatingCylinderLinesR3F = dynamic(
 );
 
 export default function HomePage() {
+  const [shouldLoad3D, setShouldLoad3D] = useState(false);
+
   // Ensure page starts at top when navigating to homepage
   useEffect(() => {
     // Use requestAnimationFrame to ensure this runs after any layout shifts
     requestAnimationFrame(() => {
       window.scrollTo(0, 0);
+    });
+  }, []);
+
+  // Load 3D component after initial paint to ensure skeleton renders first (LCP optimization)
+  useEffect(() => {
+    // Use double requestAnimationFrame to ensure skeleton has rendered
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setShouldLoad3D(true);
+      });
     });
   }, []);
 
@@ -42,7 +54,11 @@ export default function HomePage() {
           >
             {/* 3D Rotating Cylinder - Large and prominent against black background */}
             <div className="w-80 h-80 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] lg:w-[32rem] lg:h-[32rem] xl:w-[36rem] xl:h-[36rem] mx-auto">
-              <RotatingCylinderLinesR3F />
+              {shouldLoad3D ? (
+                <RotatingCylinderLinesR3F />
+              ) : (
+                <Skeleton3D size="large" />
+              )}
             </div>
           </motion.div>
 
@@ -247,6 +263,8 @@ export default function HomePage() {
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 sizes="100vw"
+                                loading="lazy"
+                                decoding="async"
                               />
                             </div>
 

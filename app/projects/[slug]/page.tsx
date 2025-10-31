@@ -126,6 +126,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         liveUrl={project.liveUrl}
         githubUrl={project.githubUrl}
         title={project.title}
+        slug={project.slug}
       />,
       
       <ProjectNavigation 
@@ -170,6 +171,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         liveUrl={project.liveUrl}
         githubUrl={project.githubUrl}
         title={project.title}
+        slug={project.slug}
       />,
       
       <ProjectNavigation 
