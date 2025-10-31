@@ -11,6 +11,7 @@ import KeyboardShortcutsProvider from '@/components/KeyboardShortcutsProvider';
 import { PersonSchema, OrganizationSchema, WebsiteSchema } from '@/components/JsonLdSchema';
 import ClientBackToTop from '@/components/ClientBackToTop';
 import WebVitals from '@/components/WebVitals';
+import ScrollProgressIndicator from '@/components/ScrollProgressIndicator';
 // import GAVerificationWrapper from '@/components/GAVerificationWrapper'; // Temporarily disabled due to SSR issues
 
 const inter = Inter({ 
@@ -92,6 +93,7 @@ export default function RootLayout({
         <ThemeProvider>
           <KeyboardShortcutsProvider>
             <CustomCursor />
+            <ScrollProgressIndicator />
             <div className="relative flex min-h-screen flex-col">
               <Navigation />
               <main className="flex-1">{children}</main>

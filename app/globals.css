@@ -265,3 +265,36 @@
   width: 0;
   height: 0;
 }
+
+/* Scroll Progress Indicator */
+.scroll-progress-track {
+  background-color: rgba(163, 163, 163, 0.1);
+}
+
+.dark .scroll-progress-track {
+  background-color: rgba(100, 100, 100, 0.1);
+}
+
+.scroll-progress-fill-light {
+  /* Gradient from red to green, matching hero animation colors */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 0, 0, 0.6),     /* Red (top) */
+    rgba(255, 100, 0, 0.7),    /* Red-orange transition */
+    rgba(128, 255, 0, 0.7),    /* Yellow-green transition */
+    rgba(0, 255, 0, 0.6)       /* Green (bottom) */
+  );
+  box-shadow: 0 0 4px rgba(255, 0, 0, 0.3), 0 0 8px rgba(0, 255, 0, 0.2);
+}
+
+.scroll-progress-fill-dark {
+  /* Gradient from red to green, brighter for dark mode */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 0, 0, 0.7),     /* Red (top) */
+    rgba(255, 120, 0, 0.75),  /* Red-orange transition */
+    rgba(150, 255, 0, 0.75),  /* Yellow-green transition */
+    rgba(0, 255, 0, 0.7)      /* Green (bottom) */
+  );
+  box-shadow: 0 0 4px rgba(255, 0, 0, 0.4), 0 0 8px rgba(0, 255, 0, 0.3);
+}
