@@ -6,6 +6,7 @@ import MySketch from '../../components/MySketch';
 import { ChatBot } from '../../components/ChatBot';
 import { BackToProjectLink } from '../../components/BackToProjectLink';
 import StatsTicker from '../../components/StatsTicker';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 export default function AboutPage() {
   useEffect(() => {
@@ -135,7 +136,13 @@ export default function AboutPage() {
                   position: 'relative'
                 }}
               >
-                <MySketch />
+                <ErrorBoundary fallback={
+                  <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                    <p className="text-neutral-500 dark:text-neutral-400">Visualization unavailable</p>
+                  </div>
+                }>
+                  <MySketch />
+                </ErrorBoundary>
               </div>
             </motion.div>
           </div>
@@ -214,7 +221,9 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <StatsTicker />
+            <ErrorBoundary>
+              <StatsTicker />
+            </ErrorBoundary>
           </motion.div>
 
           {/* Back to Project Link */}

@@ -2,11 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-declare global {
-  interface Window {
-    p5: any;
-  }
-}
+// Type definitions for p5.js - using any for p5 instance since types are declared elsewhere
+type P5Instance = any;
 
 export default function FibonacciSphereBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,14 +30,16 @@ export default function FibonacciSphereBackground() {
           p5InstanceRef.current.remove();
         }
 
-        const sketch = (p: any) => {
-          let R, rotationX, rotationY, velocityX, velocityY, pushBack;
-          let phi, ga;
-          let kMaxPoints, nbrPoints, addPoints;
-          let pts = [];
+        const sketch = (p: P5Instance) => {
+          let R: number, rotationX: number, rotationY: number, velocityX: number, velocityY: number, pushBack: number;
+          let phi: number, ga: number;
+          let kMaxPoints: number, nbrPoints: number, addPoints: boolean;
+          let pts: SpherePoint[] = [];
 
           // SpherePoint class
           class SpherePoint {
+            lat: number;
+            lon: number;
             constructor(lat: number, lon: number) {
               this.lat = lat;
               this.lon = lon;

@@ -53,15 +53,14 @@ export async function GET(
 
     const response: LorenzStudyResponse = {
       study: studyResult.study,
-      parameters: parametersResult.parameters,
-      initial_conditions: initialConditionsResult.conditions,
-      metrics: metricsResult.metrics,
-      trajectory_count: trajectoriesResult.trajectories.length
+      parameters: parametersResult.data.parameters,
+      initial_conditions: initialConditionsResult.data.conditions,
+      metrics: metricsResult.data.metrics,
+      trajectory_count: trajectoriesResult.data.trajectories.length
     };
 
     // Determine cache status (HIT if any data came from cache)
-    const fromCache = studyResult.fromCache || 
-                     parametersResult.fromCache || 
+    const fromCache = parametersResult.fromCache || 
                      initialConditionsResult.fromCache || 
                      metricsResult.fromCache || 
                      trajectoriesResult.fromCache;

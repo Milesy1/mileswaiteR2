@@ -2,11 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-declare global {
-  interface Window {
-    p5: any;
-  }
-}
+// Type definitions for p5.js - using any for p5 instance since types are declared elsewhere
+type P5Instance = any;
 
 export default function ParticleBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +31,7 @@ export default function ParticleBackground() {
         }
 
         const sketch = (p: any) => {
-          let particles = [];
+          let particles: any[] = [];
           let am = 360;
 
           p.setup = () => {
@@ -77,6 +74,13 @@ export default function ParticleBackground() {
           };
 
           class Particle {
+            loc: any;
+            limit: any;
+            vel: any;
+            acc: any;
+            startLocation: any;
+            delay: number;
+            color: number[] = [0, 0, 0];
             constructor(l: any, lim: any, d: number) {
               this.loc = p.createVector(l.x, l.y);
               this.limit = lim;

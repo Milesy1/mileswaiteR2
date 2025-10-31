@@ -99,7 +99,7 @@ export default function AdminNowPage() {
       // Pre-fill form with latest data
       setFormData({
         month: data.month || '',
-        lastUpdated: data.lastUpdated || data.timestamp || '',
+        lastUpdated: data.lastUpdated || '',
         building: data.building?.join('\n') || '',
         exploring: data.exploring?.join('\n') || '',
         reading: data.reading?.map(book => `${book.title} — ${book.author}`).join('\n') || '',

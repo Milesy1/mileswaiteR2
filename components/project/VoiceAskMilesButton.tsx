@@ -4,11 +4,51 @@ import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '../../contexts/ThemeContext';
 
-// Extend the Window interface to include SpeechRecognition
+// Type definitions for SpeechRecognition API
+interface SpeechRecognitionResult {
+  [key: number]: {
+    [key: number]: {
+      transcript: string;
+      confidence: number;
+    };
+  };
+  isFinal: boolean;
+  length: number;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+  resultIndex: number;
+  error?: string;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: 'no-speech' | 'aborted' | 'audio-capture' | 'network' | 'not-allowed' | 'service-not-allowed';
+  message?: string;
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  maxAlternatives: number;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+  onstart: ((this: SpeechRecognition, ev: Event) => void) | null;
+  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => void) | null;
+  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => void) | null;
+  onend: ((this: SpeechRecognition, ev: Event) => void) | null;
+}
+
+interface SpeechRecognitionConstructor {
+  new (): SpeechRecognition;
+}
+
 declare global {
   interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
+    SpeechRecognition: SpeechRecognitionConstructor;
+    webkitSpeechRecognition: SpeechRecognitionConstructor;
   }
 }
 
@@ -31,7 +71,7 @@ export default function VoiceAskMilesButton() {
   const [textInput, setTextInput] = useState('');
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const [messages, setMessages] = useState<Array<{id: string, type: 'user' | 'ai', content: string, timestamp: Date}>>([]);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Get page context for AI
@@ -66,13 +106,15 @@ export default function VoiceAskMilesButton() {
           recognitionRef.current.maxAlternatives = 1;
 
           recognitionRef.current.onstart = () => {
-            console.log('Speech recognition started');
+            if (process.env.NODE_ENV === 'development') {
+              console.log('Speech recognition started');
+            }
             setIsListening(true);
             setButtonText('Listening... (Click to stop)');
             setError(null);
           };
 
-          recognitionRef.current.onresult = (event: any) => {
+          recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
             const transcript = event.results[0][0].transcript;
             
             // Add user message to chat
@@ -87,7 +129,7 @@ export default function VoiceAskMilesButton() {
             handleVoiceQuery(transcript);
           };
 
-          recognitionRef.current.onerror = (event: any) => {
+          recognitionRef.current.onerror = (event: SpeechRecognitionErrorEvent) => {
             // Handle different error types silently
             let errorMessage = '';
             switch (event.error) {

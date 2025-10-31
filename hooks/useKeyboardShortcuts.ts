@@ -167,7 +167,7 @@ export function useKeyboardShortcuts({
         ];
         
         if (konamiSequence.length === fullKonamiCode.length && 
-            konamiSequence.every((key, index) => key === fullKonamiCode[index])) {
+            konamiSequence.every((key: string, index: number) => key === fullKonamiCode[index])) {
           // Konami code completed!
           console.log('Konami code completed!');
           (window as any).konamiSequence = [];

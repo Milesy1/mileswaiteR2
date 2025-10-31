@@ -21,7 +21,6 @@ interface LorenzAttractor3DProps {
 }
 
 function LorenzTrajectory({ points, lineColor = '#6366f1', lineWidth = 1.5 }: { points: TrajectoryPoint[]; lineColor: string; lineWidth: number }) {
-  const lineRef = useRef<THREE.Line>(null!);
   
   const geometry = useMemo(() => {
     const positions = new Float32Array(points.length * 3);
@@ -71,7 +70,7 @@ function LorenzTrajectory({ points, lineColor = '#6366f1', lineWidth = 1.5 }: { 
   }, [points]);
   
   return (
-    <line ref={lineRef}>
+    <line>
       <primitive object={geometry} />
       <lineBasicMaterial 
         vertexColors 
@@ -139,6 +138,7 @@ export default function LorenzAttractor3D({
     </div>
   );
 }
+
 
 
 

@@ -25,7 +25,9 @@ export async function GET() {
     // Test just one tech to see what's happening
     const testTech = TECH_STACK.web[0] // Next.js
     
-    console.log(`Testing content fetch for ${testTech.name}...`)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Testing content fetch for ${testTech.name}...`)
+    }
     
     const rawContent = await fetchAllSources(testTech)
     

@@ -197,7 +197,7 @@ export async function getCacheStats(): Promise<{
     }
 
     // Get memory usage and key count
-    const info = await redis.info('memory');
+    const info = await (redis as any).info('memory');
     const keyCount = await redis.dbsize();
     
     return {

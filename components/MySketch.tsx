@@ -2,9 +2,34 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+// Type definitions for p5.js
+interface P5Instance {
+  createCanvas: (width: number, height: number, renderer?: string) => void;
+  resizeCanvas: (width: number, height: number) => void;
+  strokeWeight: (weight: number) => void;
+  colorMode: (mode: string, max: number) => void;
+  background: (r: number, g: number, b: number) => void;
+  rotateX: (angle: number) => void;
+  rotateY: (angle: number) => void;
+  rotateZ: (angle: number) => void;
+  cos: (angle: number) => number;
+  sin: (angle: number) => number;
+  stroke: (r: number, g: number, b: number) => void;
+  point: (x: number, y: number, z: number) => void;
+  setup: () => void;
+  draw: () => void;
+  WEBGL: string;
+  remove: () => void;
+  [key: string]: any; // Allow other p5.js methods
+}
+
+interface P5Constructor {
+  new (sketch: (p: P5Instance) => void, element: HTMLElement | null): P5Instance;
+}
+
 declare global {
   interface Window {
-    p5: any;
+    p5: P5Constructor;
   }
 }
 
@@ -20,7 +45,7 @@ export default function MySketch({
   className = '' 
 }: MySketchProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const p5InstanceRef = useRef<any>(null);
+  const p5InstanceRef = useRef<P5Instance | null>(null);
   const [dimensions, setDimensions] = useState(() => {
     // Initialize with fallback dimensions that match common container sizes
     // This prevents layout shift on initial render
@@ -147,7 +172,7 @@ export default function MySketch({
       }
 
       // Your sketch code
-      const sketch = (p: any) => {
+      const sketch = (p: P5Instance) => {
         const RAD = 100;
         let t = 0;
         const NUM = 60;

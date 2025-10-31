@@ -67,7 +67,7 @@ export async function rateLimit(
     const pipeline = redis.pipeline();
     
     // Remove old entries outside the window
-    pipeline.zremrangebyscore(key, '-inf', windowStart);
+    (pipeline as any).zremrangebyscore(key, '-inf', windowStart.toString());
     
     // Count current entries in the window
     pipeline.zcard(key);
@@ -94,7 +94,7 @@ export async function rateLimit(
       };
     } else {
       // Rate limit exceeded
-      const oldestEntry = await redis.zrange(key, 0, 0, { withScores: true });
+      const oldestEntry = await redis.zrange(key, 0, 0, { withScores: true }) as Array<{ value: string; score: number }>;
       const oldestTimestamp = oldestEntry.length > 0 ? oldestEntry[0].score : now;
       const retryAfter = Math.ceil((oldestTimestamp + (window * 1000) - now) / 1000);
       
@@ -273,7 +273,7 @@ export async function getRateLimitStatus(
   
   try {
     // Remove old entries and get current count
-    await redis.zremrangebyscore(key, '-inf', windowStart);
+    await (redis as any).zremrangebyscore(key, '-inf', windowStart.toString());
     const current = await redis.zcard(key);
     
     return {

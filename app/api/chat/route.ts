@@ -495,15 +495,7 @@ function getPageContextPrompt(context: PageContext): string {
   }
   
   if (pageContent) {
-    if (pageContent.title) {
-      pageContext += `Content title: ${pageContent.title}\n`;
-    }
-    if (pageContent.headers && pageContent.headers.length > 0) {
-      pageContext += `Page headers: ${pageContent.headers.join(', ')}\n`;
-    }
-    if (pageContent.summary) {
-      pageContext += `Content summary: ${pageContent.summary}\n`;
-    }
+    pageContext += `Page content: ${pageContent}\n`;
   }
   
   // Add page-specific guidance

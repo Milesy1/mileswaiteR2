@@ -116,7 +116,11 @@ export async function checkRateLimit(
   pathname: string
 ): Promise<NextResponse | null> {
   const rateLimitResponse = await rateLimitMiddleware(request, pathname);
-  return rateLimitResponse?.response || null;
+  if (!rateLimitResponse?.response) return null;
+  
+  // Convert Response to NextResponse
+  const responseBody = await rateLimitResponse.response.json();
+  return NextResponse.json(responseBody, { status: 429 });
 }
 
 /**

@@ -46,8 +46,8 @@ export async function GET(
 
     const response: MetricsResponse = {
       study_id: id,
-      metrics: metricsResult.metrics,
-      total_metrics: metricsResult.metrics.length
+      metrics: metricsResult.data.metrics,
+      total_metrics: metricsResult.data.metrics.length
     };
 
     // Add cache headers

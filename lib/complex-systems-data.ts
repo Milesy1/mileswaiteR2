@@ -1,5 +1,5 @@
 import { query } from './database';
-import { TrajectoryPoint, Study } from './types/complex-systems';
+import { TrajectoryPoint, Study, Metric } from './types/complex-systems';
 
 interface CacheResult<T> {
   data: T;
@@ -104,5 +104,79 @@ export class ComplexSystemsData {
         fromCache: false
       };
     }
+  }
+
+  /**
+   * Get chaos metrics for a study
+   */
+  static async getMetrics(studyId: string): Promise<CacheResult<{ metrics: Metric[] }>> {
+    try {
+      // TODO: Implement metrics query when metrics table is available
+      // For now, return empty array
+      return {
+        data: { metrics: [] },
+        fromCache: false
+      };
+    } catch (error) {
+      console.error('Error fetching metrics:', error);
+      return {
+        data: { metrics: [] },
+        fromCache: false
+      };
+    }
+  }
+
+  /**
+   * Get system parameters for a study
+   */
+  static async getParameters(studyId: string): Promise<CacheResult<{ parameters: any[] }>> {
+    try {
+      const result = await query(
+        `SELECT parameter_name, value, units
+         FROM system_parameters WHERE study_id = $1::uuid`,
+        [studyId]
+      );
+      return {
+        data: { parameters: result.rows },
+        fromCache: false
+      };
+    } catch (error) {
+      console.error('Error fetching parameters:', error);
+      return {
+        data: { parameters: [] },
+        fromCache: false
+      };
+    }
+  }
+
+  /**
+   * Get initial conditions for a study
+   */
+  static async getInitialConditions(studyId: string): Promise<CacheResult<{ conditions: any[] }>> {
+    try {
+      const result = await query(
+        `SELECT variable_name, value
+         FROM initial_conditions WHERE study_id = $1::uuid`,
+        [studyId]
+      );
+      return {
+        data: { conditions: result.rows },
+        fromCache: false
+      };
+    } catch (error) {
+      console.error('Error fetching initial conditions:', error);
+      return {
+        data: { conditions: [] },
+        fromCache: false
+      };
+    }
+  }
+
+  /**
+   * Seed sample data for testing
+   */
+  static async seedSampleData(): Promise<void> {
+    // TODO: Implement seeding logic when needed
+    return Promise.resolve();
   }
 }

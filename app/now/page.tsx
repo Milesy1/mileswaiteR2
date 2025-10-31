@@ -264,9 +264,9 @@ function EllipseBackground() {
       const sketch = (p: any) => {
         let theta = 0;
         let npoints = 60;
-        let anglestep;
+        let anglestep: number;
         let anglestart = 0;
-        let r;
+        let r: number;
         let colorIndex = 0;
         let colorProgress = 0;
 

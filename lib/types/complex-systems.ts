@@ -44,3 +44,27 @@ export interface ErrorResponse {
   status: number;
   details?: any;
 }
+
+export interface Metric {
+  metric_name: string;
+  value: number;
+  units?: string;
+  description?: string;
+  computation_method?: string;
+}
+
+export type ChaosMetric = Metric;
+
+export interface MetricsResponse {
+  study_id: string;
+  metrics: Metric[];
+  total_metrics: number;
+}
+
+export interface LorenzStudyResponse {
+  study: Study;
+  parameters: SystemParameter[];
+  initial_conditions: InitialCondition[];
+  metrics: Metric[];
+  trajectory_count: number;
+}

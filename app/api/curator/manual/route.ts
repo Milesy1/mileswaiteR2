@@ -15,29 +15,39 @@ interface CuratedItem {
 }
 
 export async function POST(request: NextRequest) {
-  console.log('Manual curation triggered...')
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Manual curation triggered...')
+  }
   
   try {
     const allCurated: CuratedItem[] = []
     
     for (const category of Object.values(TECH_STACK)) {
       for (const tech of category) {
-        console.log(`Fetching content for ${tech.name}...`)
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Fetching content for ${tech.name}...`)
+        }
         
         const rawContent = await fetchAllSources(tech)
-        console.log(`Found ${rawContent.length} items for ${tech.name}`)
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Found ${rawContent.length} items for ${tech.name}`)
+        }
         
         if (rawContent.length === 0) continue
         
         const curated = await curateWithGroq(tech.name, rawContent)
-        console.log(`Curated ${curated.length} items for ${tech.name}`)
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Curated ${curated.length} items for ${tech.name}`)
+        }
         
         allCurated.push(...curated)
       }
     }
     
     const topLearning = allCurated.slice(0, 5)
-    console.log(`Total curated items: ${topLearning.length}`)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Total curated items: ${topLearning.length}`)
+    }
     
     const nowPath = path.join(process.cwd(), 'public/data/now.json')
     const nowData = JSON.parse(await fs.readFile(nowPath, 'utf-8'))
@@ -47,9 +57,13 @@ export async function POST(request: NextRequest) {
       nowData.currentEntry.learningUpdatedAt = new Date().toISOString()
       
       await fs.writeFile(nowPath, JSON.stringify(nowData, null, 2))
-      console.log('Successfully updated now.json')
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Successfully updated now.json')
+      }
     } else {
-      console.log('No quality content found, keeping existing learning section')
+      if (process.env.NODE_ENV === 'development') {
+        console.log('No quality content found, keeping existing learning section')
+      }
     }
     
     return Response.json({ 
@@ -59,7 +73,13 @@ export async function POST(request: NextRequest) {
     })
     
   } catch (error) {
-    console.error('Manual curation failed:', error)
+    // Always log errors, but conditionally format them
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Manual curation failed:', error)
+    } else {
+      // In production, log minimal error info
+      console.error('Manual curation failed')
+    }
     return Response.json({ 
       success: false, 
       error: error instanceof Error ? error.message : 'Unknown error'

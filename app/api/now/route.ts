@@ -37,7 +37,35 @@ if (isProduction) {
 }
 
 // Fallback: if Redis is not available in production, use a simple in-memory store
-let memoryStore: Record<string, string> | null = null;
+let memoryStore: NowDataStore | null = null;
+
+// Type for NowEntry
+interface NowEntry {
+  month: string;
+  lastUpdated: string;
+  building?: string[];
+  exploring?: string[];
+  reading?: { title: string; author: string }[];
+  listening?: {
+    title: string;
+    artist?: string;
+    link?: string;
+  };
+  producing?: {
+    title: string;
+    file: string;
+  }[];
+  using?: string[];
+  location?: string;
+  openTo?: string[];
+}
+
+// Type for stored data structure
+interface NowDataStore {
+  currentEntry: NowEntry | null;
+  history: NowEntry[];
+  lastUpdated?: string;
+}
 
 // Fallback data structure (matches your current nowData)
 const fallbackData = [
@@ -149,8 +177,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Read existing data
-    let existingData = { currentEntry: null, history: [] };
-    let storedData = null;
+    let existingData: NowDataStore = { currentEntry: null, history: [] };
+    let storedData: unknown = null;
     
     if (isProduction && redis) {
       // Use Upstash Redis in production
@@ -168,13 +196,13 @@ export async function POST(request: NextRequest) {
     
     if (storedData) {
       // Handle new structure with currentEntry
-      if (storedData.currentEntry) {
-        existingData = storedData;
+      if (typeof storedData === 'object' && storedData !== null && 'currentEntry' in storedData) {
+        existingData = storedData as NowDataStore;
       } else if (Array.isArray(storedData)) {
         // Convert old array format to new structure
         existingData = {
-          currentEntry: storedData[0] || null,
-          history: storedData.slice(1) || []
+          currentEntry: (storedData[0] as NowEntry) || null,
+          history: (storedData.slice(1) as NowEntry[]) || []
         };
       }
     }
@@ -192,15 +220,15 @@ export async function POST(request: NextRequest) {
     if (isProduction && redis) {
       try {
         // Store in Upstash Redis
-        await redis.set('now-data', updatedData);
+        await redis.set('now-data', JSON.stringify(updatedData));
         console.log('Data stored in Redis successfully');
       } catch (redisError) {
         console.warn('Redis storage failed, using memory store:', redisError);
-        memoryStore = updatedData;
+        memoryStore = updatedData as NowDataStore;
       }
     } else if (isProduction) {
       // Store in memory as fallback in production
-      memoryStore = updatedData;
+      memoryStore = updatedData as NowDataStore;
       console.log('Data stored in memory store');
     } else {
       // Store in file locally

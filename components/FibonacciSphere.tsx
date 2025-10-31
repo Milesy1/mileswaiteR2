@@ -2,11 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-declare global {
-  interface Window {
-    p5: any;
-  }
-}
+// Type definitions for p5.js - using any for p5 instance since types are declared elsewhere
+type P5Instance = any;
 
 interface FibonacciSphereProps {
   width?: number;
