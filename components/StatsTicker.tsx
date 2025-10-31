@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { getDisplayableStats, STATS_CONFIG } from '@/lib/stats-config';
 
 interface Stats {
   totalConversations: number;
@@ -20,44 +21,59 @@ interface Stats {
   followers?: number;
   dataSource?: string;
   error?: string;
+  fetchedAt?: string;
 }
+
+// Configuration: refresh interval in milliseconds
+const REFRESH_INTERVAL = 10000; // 10 seconds
 
 export default function StatsTicker() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastError, setLastError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/stats');
+        const response = await fetch('/api/stats', {
+          // Use stale-while-revalidate pattern
+          next: { revalidate: 90 },
+        });
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        
         const data = await response.json();
         setStats(data);
+        setLastError(null);
         setLoading(false);
       } catch (error) {
         console.error('Failed to fetch stats:', error);
-        // Set fallback stats instead of leaving it null
-        setStats({
-          totalConversations: 0,
-          todayConversations: 0,
-          avgResponseTime: 0,
-          projectsIndexed: 47,
-          accuracy: 89,
-          pageviews: 0,
-          visitors: 0,
-          bounceRate: 0,
-          avgSessionDuration: 0,
-          totalDeployments: 0,
-          successfulDeployments: 0,
-          lastDeploymentStatus: 'READY',
-          totalStars: 0,
-          totalRepos: 0,
-          followers: 0,
-          error: 'Stats temporarily unavailable'
-        });
+        setLastError(error instanceof Error ? error : new Error(String(error)));
+        
+        // Keep last known stats if available, otherwise set fallback
+        if (!stats) {
+          setStats({
+            totalConversations: 0,
+            todayConversations: 0,
+            avgResponseTime: 0,
+            projectsIndexed: 47,
+            accuracy: 89,
+            pageviews: 0,
+            visitors: 0,
+            bounceRate: 0,
+            avgSessionDuration: 0,
+            totalDeployments: 0,
+            successfulDeployments: 0,
+            lastDeploymentStatus: 'READY',
+            totalStars: 0,
+            totalRepos: 0,
+            followers: 0,
+            error: 'Stats temporarily unavailable'
+          });
+        }
         setLoading(false);
       }
     };
@@ -65,24 +81,22 @@ export default function StatsTicker() {
     // Initial fetch
     fetchStats();
 
-    // Combined refresh with fade animation every 10 seconds
+    // Refresh with fade animation
     const interval = setInterval(() => {
-      // Start fade
       setIsRefreshing(true);
-      
-      // Fetch new data immediately
       fetchStats();
       
-      // End fade after 800ms
+      // End fade after animation
       setTimeout(() => {
         setIsRefreshing(false);
       }, 800);
-    }, 10000);
+    }, REFRESH_INTERVAL);
 
     return () => {
       clearInterval(interval);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   if (loading) {
     return (
@@ -94,13 +108,23 @@ export default function StatsTicker() {
     );
   }
 
-  if (!stats || stats.error) {
-    return null; // Hide ticker if there's an error
+  if (!stats) {
+    return null; // Hide ticker if no stats available
   }
+
+  // Get displayable stats based on configuration
+  const displayableStats = getDisplayableStats(stats);
+
+  if (displayableStats.length === 0) {
+    return null; // Hide if no stats to display
+  }
+
+  // Create ticker items - duplicate for seamless loop
+  const tickerItems = [...displayableStats, ...displayableStats];
 
   return (
     <div className="w-full max-w-4xl mx-auto border-t border-neutral-200 dark:border-neutral-800 bg-white/30 dark:bg-neutral-900/30 py-3 overflow-hidden relative transition-colors duration-300">
-      {/* Fade overlay - doesn't affect the animation */}
+      {/* Fade overlay for refresh animation */}
       <div 
         className="absolute inset-0 bg-white/80 dark:bg-neutral-900/80 pointer-events-none transition-opacity duration-500 z-10"
         style={{ opacity: isRefreshing ? 1 : 0 }}
@@ -109,172 +133,18 @@ export default function StatsTicker() {
         key="ticker-content"
         className="flex items-center gap-6 text-sm text-neutral-600 dark:text-neutral-400 animate-scroll"
       >
-        {/* Ticker speed: 12.96s (30% faster total) */}
-        {/* Always show Google Analytics data, even if 0 */}
-        {true ? (
-          <>
-            <StatItem 
-              value={stats.pageviews.toLocaleString()} 
-              label="pageviews"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.visitors.toLocaleString()} 
-              label="active now"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.bounceRate.toFixed(0) + '%'} 
-              label="bounce rate"
-            />
-            <Separator />
-            <StatItem 
-              value={Math.round(stats.avgSessionDuration / 60) + 'm'} 
-              label="avg session"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.projectsIndexed} 
-              label="projects indexed"
-            />
-
-            <Separator />
-            <StatItem 
-              value={stats.totalDeployments || 0} 
-              label="deployments"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalDeployments ? `${Math.round((stats.successfulDeployments! / stats.totalDeployments) * 100)}%` : '0%'} 
-              label="success rate"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalStars || 0} 
-              label="github stars"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalRepos || 0} 
-              label="repositories"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.followers || 0} 
-              label="followers"
-            />
-            <Separator />
-            {/* Duplicate for seamless loop */}
-            <StatItem 
-              value={stats.pageviews.toLocaleString()} 
-              label="pageviews"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.visitors.toLocaleString()} 
-              label="active now"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.bounceRate.toFixed(0) + '%'} 
-              label="bounce rate"
-            />
-            <Separator />
-            <StatItem 
-              value={Math.round(stats.avgSessionDuration / 60) + 'm'} 
-              label="avg session"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.projectsIndexed} 
-              label="projects indexed"
-            />
-
-            <Separator />
-            <StatItem 
-              value={stats.totalDeployments || 0} 
-              label="deployments"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalDeployments ? `${Math.round((stats.successfulDeployments! / stats.totalDeployments) * 100)}%` : '0%'} 
-              label="success rate"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalStars || 0} 
-              label="github stars"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalRepos || 0} 
-              label="repositories"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.followers || 0} 
-              label="followers"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.totalConversations.toLocaleString()} 
-              label="total conversations"
-            />
-            <Separator />
-            <StatItem 
-              value={`${stats.avgResponseTime}s`} 
-              label="avg response time"
-            />
-            <Separator />
-            <StatItem 
-              value={stats.accuracy + '%'} 
-              label="accuracy rate"
-            />
-          </>
-        ) : (
-          <>
-            <StatItem 
-              value={stats?.totalConversations.toLocaleString() ?? '0'} 
-              label="conversations"
-            />
-            <Separator />
-            <StatItem 
-              value={`${stats?.avgResponseTime ?? 0}s`} 
-              label="avg response"
-            />
-            <Separator />
-            <StatItem 
-              value={(stats?.accuracy ?? 0) + '%'} 
-              label="accuracy"
-            />
-            <Separator />
-            <StatItem 
-              value={stats?.projectsIndexed ?? 0} 
-              label="projects indexed"
-            />
-            <Separator />
-            {/* Duplicate for seamless loop */}
-            <StatItem 
-              value={stats?.totalConversations.toLocaleString() ?? '0'} 
-              label="conversations"
-            />
-            <Separator />
-            <StatItem 
-              value={`${stats?.avgResponseTime ?? 0}s`} 
-              label="avg response"
-            />
-            <Separator />
-            <StatItem 
-              value={(stats?.accuracy ?? 0) + '%'} 
-              label="accuracy"
-            />
-            <Separator />
-            <StatItem 
-              value={stats?.projectsIndexed ?? 0} 
-              label="projects indexed"
-            />
-          </>
-        )}
+        {tickerItems.map((config, index) => {
+          const value = config.key === 'deploymentSuccessRate' 
+            ? config.format?.(stats.totalDeployments, stats) || '0%'
+            : config.format?.(stats[config.key as keyof Stats], stats) || String(stats[config.key as keyof Stats] || 0);
+          
+          return (
+            <div key={`${config.key}-${index}`} className="flex items-center gap-6">
+              <StatItem value={value} label={config.label} />
+              <Separator />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
