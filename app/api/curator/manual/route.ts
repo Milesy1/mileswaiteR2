@@ -33,11 +33,19 @@ export async function POST(request: NextRequest) {
           console.log(`Found ${rawContent.length} items for ${tech.name}`)
         }
         
-        if (rawContent.length === 0) continue
+        if (rawContent.length === 0) {
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`No content found for ${tech.name}, skipping...`)
+          }
+          continue
+        }
         
         const curated = await curateWithGroq(tech.name, rawContent)
         if (process.env.NODE_ENV === 'development') {
-          console.log(`Curated ${curated.length} items for ${tech.name}`)
+          console.log(`Curated ${curated.length} items for ${tech.name} (from ${rawContent.length} raw items)`)
+          if (curated.length === 0) {
+            console.log(`Groq filtered out all items for ${tech.name} - may be too strict`)
+          }
         }
         
         allCurated.push(...curated)
@@ -69,7 +77,11 @@ export async function POST(request: NextRequest) {
     return Response.json({ 
       success: true, 
       itemsAdded: topLearning.length,
-      items: topLearning
+      items: topLearning,
+      debug: process.env.NODE_ENV === 'development' ? {
+        totalRawContent: allCurated.length,
+        techStackCount: Object.values(TECH_STACK).flat().length
+      } : undefined
     })
     
   } catch (error) {

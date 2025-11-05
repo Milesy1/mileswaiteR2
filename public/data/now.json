@@ -54,7 +54,35 @@
     "openTo": [
       "Live 12.3",
       "TouchDesigner"
-    ]
+    ],
+    "learning": [
+      {
+        "title": "Breaking Code, Building Skills: Lessons from My Early JavaScript Errors",
+        "url": "https://dev.to/shubhradev/breaking-code-building-skills-lessons-from-my-early-javascript-errors-491n",
+        "topic": "Next.js"
+      },
+      {
+        "title": "🚀How I released Chrome Extensions (💪🧠Muscle Brain v4)",
+        "url": "https://dev.to/webdeveloperhyper/how-i-released-chrome-extensions-muscle-brain-v4-3ijn",
+        "topic": "Next.js"
+      },
+      {
+        "title": "Building Our Own `create-app` CLI — A Custom NPX Script for Fast Project Bootstrapping",
+        "url": "https://dev.to/arjunsanthosh/building-our-own-create-app-cli-a-custom-npx-script-for-fast-project-bootstrapping-18l8",
+        "topic": "Next.js"
+      },
+      {
+        "title": "Beat Me If You Can",
+        "url": "https://dev.to/liquidcode/beat-me-if-you-can-31ab",
+        "topic": "React"
+      },
+      {
+        "title": "Breaking Code, Building Skills: Lessons from My Early JavaScript Errors",
+        "url": "https://dev.to/shubhradev/breaking-code-building-skills-lessons-from-my-early-javascript-errors-491n",
+        "topic": "React"
+      }
+    ],
+    "learningUpdatedAt": "2025-11-05T16:03:58.593Z"
   },
   "history": [
     {

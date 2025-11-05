@@ -23,7 +23,20 @@ export async function curateWithGroq(
 ): Promise<CuratedItem[]> {
   
   // If no content, return empty
-  if (rawContent.length === 0) return []
+  if (rawContent.length === 0) {
+    console.log(`No raw content provided for ${techName}`)
+    return []
+  }
+  
+  // Check if Groq API key is available
+  if (!process.env.GROQ_API_KEY) {
+    console.warn('GROQ_API_KEY not set, using fallback: returning top 3 raw items')
+    return rawContent.slice(0, 3).map(item => ({
+      title: item.title,
+      url: item.url,
+      topic: techName
+    }))
+  }
   
   // Limit to 20 items for context window
   const contentToEvaluate = rawContent.slice(0, 20)
@@ -38,7 +51,11 @@ Evaluate each item on:
 2. Quality (0-10): Well-written, accurate, valuable?
 3. Novelty (0-10): New information, not beginner content?
 
-Return ONLY items scoring 7+ on all three metrics.
+Score each item on all three metrics (0-10).
+
+If any items score 7+ on all three metrics, return those (max 5).
+Otherwise, return the top 3-5 items that have the highest average score across all three metrics.
+Always return at least 3 items if content is available.
 Maximum 5 items total.
 
 Output format (valid JSON array only):
@@ -84,18 +101,56 @@ Return valid JSON array only. No markdown, no additional text.`
       .replace(/```\n?/g, '')
       .trim()
     
-    const curated = JSON.parse(jsonText)
+    let curated = []
+    try {
+      curated = JSON.parse(jsonText)
+    } catch (parseError) {
+      console.error('Failed to parse Groq response as JSON:', jsonText)
+      // Fallback: return first 3 items from raw content if Groq fails
+      return rawContent.slice(0, 3).map(item => ({
+        title: item.title,
+        url: item.url,
+        topic: techName
+      }))
+    }
     
     // Validate structure
     if (!Array.isArray(curated)) {
-      console.error('Curation did not return array')
-      return []
+      console.error('Curation did not return array, got:', typeof curated)
+      // Fallback: return first 3 items from raw content
+      return rawContent.slice(0, 3).map(item => ({
+        title: item.title,
+        url: item.url,
+        topic: techName
+      }))
+    }
+    
+    // If Groq returned empty array, use fallback
+    if (curated.length === 0 && rawContent.length > 0) {
+      console.log('Groq returned empty array, using fallback: top 3 raw items')
+      return rawContent.slice(0, 3).map(item => ({
+        title: item.title,
+        url: item.url,
+        topic: techName
+      }))
     }
     
     return curated.slice(0, 5) // Ensure max 5 items
     
   } catch (error) {
     console.error('Groq curation failed:', error)
+    if (error instanceof Error) {
+      console.error('Error details:', error.message)
+    }
+    // Fallback: return top 3 raw items if Groq fails
+    console.log('Using fallback: returning top 3 raw items due to Groq error')
+    if (rawContent.length > 0) {
+      return rawContent.slice(0, 3).map(item => ({
+        title: item.title,
+        url: item.url,
+        topic: techName
+      }))
+    }
     return []
   }
 }

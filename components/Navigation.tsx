@@ -16,16 +16,21 @@ const navItems = [
 ];
 
 export function Navigation() {
-  const pathname = usePathname();
+  const pathnameRaw = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [currentPathname, setCurrentPathname] = useState('');
   const { openSearch } = useKeyboardShortcutsContext();
 
   // Ensure component is mounted before using pathname-dependent rendering
   useEffect(() => {
     setMounted(true);
-  }, []);
+    setCurrentPathname(pathnameRaw || '');
+  }, [pathnameRaw]);
+
+  // Use stable pathname value - only update after mount
+  const pathname = mounted ? currentPathname : '';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +44,7 @@ export function Navigation() {
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
-  }, [pathname]);
+  }, [pathnameRaw]);
 
   // Close mobile menu on ESC key
   useEffect(() => {
@@ -91,9 +96,10 @@ export function Navigation() {
           ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-soft border-b border-neutral-200 dark:border-neutral-800'
           : 'bg-transparent'
       }`}
+      suppressHydrationWarning
     >
-      <nav className="w-full">
-        <div className="flex justify-between items-center h-16 lg:h-20 px-[10%] sm:px-[8%] lg:px-[5%]">
+      <nav className="w-full" suppressHydrationWarning>
+        <div className="flex justify-between items-center h-16 lg:h-20 px-[10%] sm:px-[8%] lg:px-[5%]" suppressHydrationWarning>
           {/* Logo */}
           <Link
             href="/"
@@ -103,16 +109,13 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8" suppressHydrationWarning>
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`relative text-sm lg:text-base font-medium transition-colors duration-200 ${
-                  mounted && pathname === item.href
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400'
-                }`}
+                className="relative text-sm lg:text-base font-medium transition-colors duration-200 text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400"
+                data-active={pathname === item.href ? 'true' : 'false'}
               >
                 {item.name}
                 {mounted && pathname === item.href && (
@@ -241,11 +244,8 @@ export function Navigation() {
                     <Link
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 ${
-                        mounted && pathname === item.href
-                          ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
-                          : 'text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
-                      }`}
+                      className="block px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 data-[active=true]:text-primary-600 dark:data-[active=true]:text-primary-400 data-[active=true]:bg-primary-50 dark:data-[active=true]:bg-primary-900/30"
+                      data-active={pathname === item.href ? 'true' : 'false'}
                     >
                       {item.name}
                     </Link>

@@ -45,6 +45,9 @@ export default function AdminNowPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isCurating, setIsCurating] = useState(false);
+  const [curationStatus, setCurationStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [curationResult, setCurationResult] = useState<string>('');
   const [formData, setFormData] = useState<FormData>({
     month: '',
     lastUpdated: '',
@@ -192,6 +195,44 @@ export default function AdminNowPage() {
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleCurateArticles = async () => {
+    setIsCurating(true);
+    setCurationStatus('idle');
+    setCurationResult('');
+
+    try {
+      const response = await fetch('/api/curator/manual', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setCurationStatus('success');
+        setCurationResult(`✅ Successfully curated ${data.itemsAdded} article${data.itemsAdded !== 1 ? 's' : ''}!`);
+        // Reload the latest data to show the new learning section
+        await loadLatestData();
+      } else {
+        setCurationStatus('error');
+        setCurationResult(`❌ Error: ${data.error || 'Failed to curate articles'}`);
+      }
+    } catch (error) {
+      console.error('Error curating articles:', error);
+      setCurationStatus('error');
+      setCurationResult('❌ Error: Failed to connect to curation service');
+    } finally {
+      setIsCurating(false);
+      // Clear status message after 5 seconds
+      setTimeout(() => {
+        setCurationStatus('idle');
+        setCurationResult('');
+      }, 5000);
+    }
   };
 
   if (!isAuthenticated) {
@@ -434,6 +475,39 @@ export default function AdminNowPage() {
                 className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-neutral-700 dark:text-white"
                 placeholder="Opportunity 1&#10;Opportunity 2&#10;Opportunity 3"
               />
+            </div>
+
+            {/* Curate Articles Button */}
+            <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+              <div className="mb-4">
+                <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                  Article Curation
+                </h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-4">
+                  Manually trigger the weekly article curation to find and add interesting tech articles to the LEARNING section.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCurateArticles}
+                  disabled={isCurating}
+                  className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-neutral-400 text-white py-2 px-4 rounded-md transition-colors duration-200 font-medium text-sm"
+                >
+                  {isCurating ? 'Curating Articles...' : '🔄 Curate Articles Now'}
+                </button>
+                {curationResult && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`mt-2 text-sm py-2 px-3 rounded-md ${
+                      curationStatus === 'success'
+                        ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+                        : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+                    }`}
+                  >
+                    {curationResult}
+                  </motion.div>
+                )}
+              </div>
             </div>
 
             {/* Submit Button */}
