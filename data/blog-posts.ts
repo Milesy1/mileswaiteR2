@@ -1,6 +1,133 @@
 
 export const blogPosts = [
   {
+    slug: "modular-emergent-midi-mapping-updates",
+    title: "Recent Updates: Modular Emergent MIDI Mapping System",
+    excerpt: "Event-driven geometry control continues to evolve — new features expand expressive control and system flexibility.",
+    date: "November 2025",
+    readTime: "10 min read",
+    tags: ["TouchDesigner", "MIDI", "Generative Art", "Audio Reactivity", "Python"],
+    content: `
+      <h1>Recent Updates: Modular Emergent MIDI Mapping System</h1>
+
+      <br>
+
+      <p><em>Event-driven geometry control continues to evolve — new features expand expressive control and system flexibility.</em></p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Velocity Sensitivity</strong></h2>
+
+      <br>
+
+      <p>The system now supports velocity-sensitive parameter modulation. MIDI note velocity (0-127) scales parameter values between defined min/max ranges, enabling expressive control where harder hits produce larger effects and softer touches produce subtle changes.</p>
+
+      <br>
+
+      <p>Velocity sensitivity can be enabled per-mapping via a <code>use_velocity</code> column in mapping tables, maintaining backward compatibility with existing configurations.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>One-to-Many Geometry Mappings</strong></h2>
+
+      <br>
+
+      <p>Geometry mappings now support one-to-many relationships, allowing a single MIDI note to control multiple parameters simultaneously. This matches the existing CC mapping behaviour and enables complex, synchronised parameter changes from a single trigger.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Enhanced Parameter Support</strong></h2>
+
+      <br>
+
+      <p>The system now supports decimal parameter values (e.g., 0.1, 2.0) for precise control of continuous parameters. Random value generation automatically uses uniform distribution for float ranges and integer distribution for whole number ranges.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Multi-Mode MIDI Control</strong></h2>
+
+      <br>
+
+      <p>Three distinct MIDI note control modes are available:</p>
+
+      <br>
+
+      <p><strong>Mode 1 (Momentary):</strong> Parameter is ON while note is held, OFF on release.</p>
+
+      <br>
+
+      <p><strong>Mode 2 (Note-based Toggle):</strong> Pressing a note turns parameter ON; pressing a different note turns the previous parameter OFF and the new one ON.</p>
+
+      <br>
+
+      <p><strong>Mode 3 (Any Note Toggle):</strong> Any MIDI note press toggles the parameter state, with state persisting until another note press.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Performance Optimizations</strong></h2>
+
+      <br>
+
+      <p>The system includes caching for mapping tables, reducing table I/O operations. SOP cooking has been optimised to allow natural TouchDesigner cook cycles while maintaining immediate parameter updates.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>CC Control</strong></h2>
+
+      <br>
+
+      <p>Control Change (CC) messages are fully supported with one-to-many mapping capabilities, enabling continuous parameter control via MIDI faders, knobs, and automation.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Current State</strong></h2>
+
+      <br>
+
+      <p>The modular rewrite simplifies extending functionality — each layer operates independently, allowing flexible expansion of the control network. Runtime performance remains stable during live performance scenarios.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <p><strong>Technical Stack:</strong> TouchDesigner, Python (callbacks & parameter control), CHOP Execute, Table DAT, SOP modulation, modular render pipeline.</p>
+
+      <br>
+
+      <p><strong>Codebase:</strong> <a href="https://github.com/Milesy1/emergent-geometry" target="_blank" rel="noopener noreferrer">https://github.com/Milesy1/emergent-geometry</a></p>
+    `
+  },
+  {
     slug: "complex-systems-platform",
     title: "Building a Complex Systems Research Platform",
     excerpt: "A web platform for sharing dynamical systems research data—Lorenz attractors, logistic maps, chaos metrics—with public API access and interactive visualizations.",
