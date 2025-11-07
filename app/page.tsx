@@ -123,7 +123,7 @@ export default function HomePage() {
               className="mt-4"
             >
               <Link 
-                href="/about#chatbot"
+                href="/assistant"
                 className="inline-block px-6 py-2 text-sm font-medium text-white bg-neutral-900 dark:bg-white dark:text-neutral-900 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-colors duration-200"
               >
                 Ask Miles
@@ -318,12 +318,12 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="md:hidden text-center pt-12 pb-8"
           >
-            <button 
-              onClick={() => window.location.href = '/about#chatbot'}
-              className="inline-block text-lg font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
+            <Link 
+              href="/assistant"
+              className="inline-block text-lg font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200"
             >
               Ask Miles
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>

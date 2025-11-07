@@ -1,12 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { BackToProjectLink } from '../../components/BackToProjectLink';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { SkeletonSketch } from '../../components/SkeletonSketch';
-import { LazyStatsTicker } from '../../components/LazyStatsTicker';
 
 // Lazy load heavy components with loading states
 const MySketch = dynamic(
@@ -14,21 +13,6 @@ const MySketch = dynamic(
   { 
     ssr: false,
     loading: () => <SkeletonSketch className="absolute inset-0 w-full h-full" />
-  }
-);
-
-const ChatBot = dynamic(
-  () => import('../../components/ChatBot').then(mod => ({ default: mod.ChatBot })),
-  { 
-    ssr: false,
-    loading: () => (
-      <div className="w-full max-w-2xl mx-auto bg-white dark:bg-neutral-800 rounded-lg shadow-lg p-6 min-h-[400px] flex items-center justify-center">
-        <div className="text-center space-y-2">
-          <div className="w-8 h-8 border-2 border-neutral-300 dark:border-neutral-600 border-t-primary-500 dark:border-t-primary-400 rounded-full mx-auto animate-spin"></div>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">Loading chat...</p>
-        </div>
-      </div>
-    )
   }
 );
 
@@ -51,28 +35,6 @@ export default function AboutPage() {
         setShouldLoadSketch(true);
       });
     });
-  }, []);
-
-  useEffect(() => {
-    // Handle chatbot hash navigation
-    if (window.location.hash === '#chatbot') {
-      setTimeout(() => {
-        const chatbotElement = document.getElementById('chatbot');
-        if (chatbotElement) {
-          // Get the input field within the chatbot
-          const inputElement = chatbotElement.querySelector('input');
-          
-          // Scroll to show header content above the chatbot
-          const elementPosition = chatbotElement.offsetTop;
-          const offsetPosition = elementPosition - 100; // 100px above the chatbot
-          
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 100); // Small delay to ensure page is loaded
-    }
   }, []);
 
   return (
@@ -207,108 +169,25 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-center pt-16"
           >
-            <a
-              href="/cv/Miles-Waite-CV.pdf"
-              download
-              className="inline-block px-6 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-base text-neutral-700 dark:text-neutral-300 hover:border-primary-200 hover:text-primary-600 dark:hover:border-primary-400 dark:hover:text-primary-400 transition-colors duration-200 font-medium"
-            >
-              Download CV / Resume
-            </a>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ChatBot Section */}
-      <section id="chatbot" className="py-20 px-4 sm:px-6 lg:px-8 bg-neutral-50 dark:bg-neutral-900 scroll-mt-32">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-base font-light text-[#666] dark:text-neutral-400 lowercase tracking-[0.1em] mb-4">
-              mileswaite.net
-            </h2>
-            <div className="text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-              <motion.span
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
-                className="inline-block"
+            <div className="flex flex-col items-center gap-4">
+              <a
+                href="/cv/Miles-Waite-CV.pdf"
+                download
+                className="inline-block px-6 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-full text-base text-neutral-700 dark:text-neutral-300 hover:border-primary-200 hover:text-primary-600 dark:hover:border-primary-400 dark:hover:text-primary-400 transition-colors duration-200 font-medium"
               >
-                Robust.
-              </motion.span>
-              {' '}
-              <motion.span
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-                className="inline-block"
+                Download CV / Resume
+              </a>
+              <Link
+                href="/assistant"
+                className="inline-flex items-center px-6 py-3 rounded-full text-base font-medium transition-colors duration-200 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:bg-neutral-700 dark:hover:bg-neutral-200"
               >
-                Antifragile.
-              </motion.span>
-              {' '}
-              <motion.span
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-                className="inline-block"
-              >
-                Emergent.
-              </motion.span>
+                Ask Miles
+              </Link>
             </div>
           </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <ChatBot />
-          </motion.div>
-
-          {/* Stats Ticker - Lazy loaded with intersection observer */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <ErrorBoundary>
-              <LazyStatsTicker />
-            </ErrorBoundary>
-          </motion.div>
-
-          {/* Back to Project Link */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-center mt-8"
-          >
-            <BackToProjectLink />
-          </motion.div>
-
-          {/* Back to Home Link */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-center mt-4"
-          >
-            <a 
-              href="/" 
-              className="inline-flex items-center text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors duration-200"
-            >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              Back to Home
-            </a>
-          </motion.div>
         </div>
       </section>
-
+      
     </div>
   );
 }

@@ -13,6 +13,7 @@ const navItems = [
   { name: 'Code', href: '/code' },
   { name: 'About', href: '/about' },
   { name: 'Now', href: '/now' },
+  { name: '?', href: '/assistant', srLabel: 'Portfolio assistant', mobileLabel: 'Assistant' },
 ];
 
 export function Navigation() {
@@ -114,10 +115,12 @@ export function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
+                aria-label={item.srLabel ?? item.name}
                 className="relative text-sm lg:text-base font-medium transition-colors duration-200 text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400"
                 data-active={pathname === item.href ? 'true' : 'false'}
               >
-                {item.name}
+                <span aria-hidden={item.srLabel ? 'true' : undefined}>{item.name}</span>
+                {item.srLabel && <span className="sr-only">{item.srLabel}</span>}
                 {mounted && pathname === item.href && (
                   <motion.div
                     layoutId="activeTab"
@@ -244,10 +247,11 @@ export function Navigation() {
                     <Link
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
+                      aria-label={item.srLabel ?? item.name}
                       className="block px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 data-[active=true]:text-primary-600 dark:data-[active=true]:text-primary-400 data-[active=true]:bg-primary-50 dark:data-[active=true]:bg-primary-900/30"
                       data-active={pathname === item.href ? 'true' : 'false'}
                     >
-                      {item.name}
+                      {item.mobileLabel ?? item.name}
                     </Link>
                   </motion.div>
                 ))}
