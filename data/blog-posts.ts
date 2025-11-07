@@ -1,6 +1,237 @@
 
 export const blogPosts = [
   {
+    slug: "temporal-control-midi-visual-systems",
+    title: "Temporal Control in MIDI-Driven Visual Systems",
+    excerpt: "Extending event-driven parameter control with time-based behaviour to unlock automated motion and evolving visual responses.",
+    date: "November 2025",
+    readTime: "14 min read",
+    tags: ["TouchDesigner", "MIDI", "Temporal Control", "Generative Art", "Python"],
+    content: `
+      <h1>Temporal Control in MIDI-Driven Visual Systems</h1>
+
+      <br>
+
+      <p><em>Extending event-driven parameter control with time-based behavior.</em></p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Limitation</strong></h2>
+
+      <br>
+
+      <p>Event-driven MIDI mapping systems provide immediate parameter control. A note triggers, a parameter changes. The relationship is instantaneous — binary states that flip on command. This directness serves many purposes but constrains expressive range. Complex visual sequences require either manual performance across multiple controllers or acceptance of abrupt transitions.</p>
+
+      <br>
+
+      <p>The system responds but does not evolve.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Concept</strong></h2>
+
+      <br>
+
+      <p>Temporal control introduces duration as a controllable dimension. Rather than setting parameters to fixed values, MIDI events initiate time-based transformations. A single trigger can generate smooth transitions, choreographed sequences, or continuous modulation — motion that unfolds automatically once initiated.</p>
+
+      <br>
+
+      <p>The distinction matters. Manual control via continuous controllers (CC messages) allows smooth parameter changes through real-time performance. The performer creates motion by physically moving faders and knobs. Temporal control automates this motion. The performer triggers behavior; the system executes the temporal dimension.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Implementation Architecture</strong></h2>
+
+      <br>
+
+      <p>The approach divides responsibility between decision logic and execution.</p>
+
+      <br>
+
+      <p><strong>Python layer:</strong> Routing and orchestration. MIDI events are evaluated, mapping tables consulted, target values calculated. When temporal behavior is specified, Python configures the animation system rather than setting parameters directly.</p>
+
+      <br>
+
+      <p><strong>CHOP layer:</strong> Time-based interpolation. Speed CHOPs generate smooth ramps between values. LFO CHOPs produce continuous oscillation. Filter CHOPs apply smoothing. These operators handle frame-accurate updates at native performance levels without Python overhead.</p>
+
+      <br>
+
+      <p>Parameters reference CHOP outputs through expressions. The system updates continuously without additional scripting.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Temporal Behaviors</strong></h2>
+
+      <br>
+
+      <h3><strong>Ramps and Transitions</strong></h3>
+
+      <br>
+
+      <p>Parameters transition smoothly over specified durations. A sphere's scale grows from 1.0 to 3.0 across two seconds. The interpolation curve can be linear, exponential, or custom — defining the character of motion. Hard triggers produce fast ramps; soft triggers extend duration, creating velocity-sensitive temporal expression.</p>
+
+      <br>
+
+      <h3><strong>Continuous Modulation</strong></h3>
+
+      <br>
+
+      <p>LFO oscillators layer periodic variation onto base values. A geometry breathes — scale pulsing rhythmically while rotation drifts. Multiple frequencies combine to produce complex organic motion. The modulation runs continuously until disabled, requiring no ongoing input.</p>
+
+      <br>
+
+      <h3><strong>Choreographed Sequences</strong></h3>
+
+      <br>
+
+      <p>Multi-step animations unfold from single triggers. Keyframe systems coordinate parameter changes across timelines. Object A scales up over one second, holds for two, then scales down — while simultaneously, Object B follows an offset sequence. The choreography maintains precise synchronization without manual coordination.</p>
+
+      <br>
+
+      <h3><strong>Musical Synchronization</strong></h3>
+
+      <br>
+
+      <p>Temporal durations map to musical time rather than clock time. Animation lengths measured in beats adapt to tempo changes. A four-beat sequence remains musically aligned whether the BPM shifts from 120 to 140. The system listens to MIDI clock or Ableton Link, maintaining rhythmic coherence.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Visual Implications</strong></h2>
+
+      <br>
+
+      <p>Temporal control enables effects impossible through instantaneous parameter changes alone.</p>
+
+      <br>
+
+      <p><strong>Organic motion:</strong> Geometries pulse and breathe. Smooth oscillation at sub-perceptual frequencies creates living quality. Objects appear to inhale and exhale rather than snap between states.</p>
+
+      <br>
+
+      <p><strong>Cinematic transitions:</strong> Camera movements dolly smoothly across seconds. Reveals unfold gradually — opacity fading in while scale grows and rotation accelerates. The composition directs attention through time rather than commanding it instantly.</p>
+
+      <br>
+
+      <p><strong>Impact dynamics:</strong> Sharp transients spike parameters, then decay naturally. A kick drum hit produces an instant scale surge followed by exponential decay, mimicking physical impact. The motion feels natural because the temporal curve matches expectation.</p>
+
+      <br>
+
+      <p><strong>Layered complexity:</strong> Multiple timescales operate simultaneously. Background elements evolve slowly over eight seconds while foreground hits respond instantly. Mid-layer elements pulse at medium frequency. The temporal stratification creates depth — visual parallax in time.</p>
+
+      <br>
+
+      <p><strong>Physics simulation:</strong> Spring systems overshoot targets and oscillate with damping. Objects bounce, recoil, settle. The motion obeys intuitive physical laws, lending credibility to abstract forms.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Complementary Control Paradigms</strong></h2>
+
+      <br>
+
+      <p>Temporal control supplements rather than replaces continuous controller input. The approaches serve distinct purposes.</p>
+
+      <br>
+
+      <p><strong>CC control:</strong> Real-time manual expression. The performer shapes parameters moment to moment, responding to musical energy or improvising variations. The human touch provides nuance and spontaneity.</p>
+
+      <br>
+
+      <p><strong>Temporal control:</strong> Automated complexity. Pre-choreographed sequences execute reliably. Complex multi-parameter animations run hands-free. The performer triggers sophisticated behavior while remaining available for other controls.</p>
+
+      <br>
+
+      <p>Combined, they multiply control bandwidth. One hand manipulates a fader for continuous camera movement while MIDI pads trigger temporal sequences on other parameters. The hybrid approach balances human expression with automated precision.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Technical Considerations</strong></h2>
+
+      <br>
+
+      <p><strong>Performance:</strong> CHOP-based interpolation runs at native frame rates without Python overhead. Multiple simultaneous ramps execute efficiently in parallel. The system maintains stability during dense visual sections.</p>
+
+      <br>
+
+      <p><strong>Flexibility:</strong> Mapping tables store temporal parameters alongside existing configuration. Ramp durations, LFO frequencies, and curve types are specified per-mapping. The system accommodates both instant and temporal behaviors within a unified architecture.</p>
+
+      <br>
+
+      <p><strong>State management:</strong> Active ramps track start times, target values, and progress. The system handles interruption gracefully — new triggers can restart or blend with ongoing motion. State persists correctly through parameter updates.</p>
+
+      <br>
+
+      <p><strong>Extensibility:</strong> The modular design allows progressive enhancement. Basic ramp systems implement quickly. LFO layers, sequence systems, and BPM synchronization extend capability without architectural revision.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Implementation Scope</strong></h2>
+
+      <br>
+
+      <p>A minimal temporal system requires 6-8 hours: CHOP network construction, Python routing modification, mapping table extension, parameter expression linking. The result provides smooth transitions and basic temporal behavior.</p>
+
+      <br>
+
+      <p>Full-featured systems with LFO modulation, animation sequences, and BPM synchronization require 15-20 hours. The investment scales with complexity requirements and desired feature depth.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Distinction</strong></h2>
+
+      <br>
+
+      <p>Temporal control transforms MIDI from trigger mechanism to timeline initiator. Events become verbs rather than states — <em>transition</em> rather than <em>set</em>, <em>grow</em> rather than <em>is</em>. The shift enables visual systems to compose in time, creating motion that develops, evolves, and breathes.</p>
+
+      <br>
+
+      <p>The geometry doesn't just respond to music. It emerges.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <p><strong>Technical Stack:</strong> TouchDesigner, CHOP-based animation, Python orchestration, MIDI protocol.</p>
+    `
+  },
+  {
     slug: "modular-emergent-midi-mapping-updates",
     title: "Recent Updates: Modular Emergent MIDI Mapping System",
     excerpt: "Event-driven geometry control continues to evolve — new features expand expressive control and system flexibility.",
