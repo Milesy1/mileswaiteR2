@@ -59,7 +59,7 @@ export default function ScrollProgressIndicator() {
 
   // Always render the same structure to prevent hydration mismatch
   return (
-    <div className="hidden md:block fixed left-0 top-0 bottom-0 w-[2px] z-[60] pointer-events-none">
+    <div className="hidden md:block fixed left-0 top-0 bottom-0 w-[3px] z-[60] pointer-events-none">
       {/* Background line - subtle track that's always visible */}
       <div 
         className="absolute inset-0 scroll-progress-track"
