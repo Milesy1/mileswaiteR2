@@ -193,6 +193,8 @@ export default function AdminNowPage() {
         setSaveStatus('success');
         // Clear localStorage draft
         localStorage.removeItem('nowAdminDraft');
+        // Refresh with latest persisted data
+        await loadLatestData();
         // Reset form to show success
         setTimeout(() => setSaveStatus('idle'), 3000);
       } else {
