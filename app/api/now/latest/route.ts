@@ -6,8 +6,8 @@ import path from 'path';
 const isProduction = process.env.NODE_ENV === 'production';
 const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
 
-// Type for Redis client
-type RedisClient = {
+// Type for KV client
+type KVClient = {
   get: (key: string) => Promise<unknown>;
 };
 
@@ -19,35 +19,23 @@ const resolveEnv = (...keys: string[]) => {
   return null;
 };
 
-// Dynamically import Upstash Redis only in production
-let redis: RedisClient | null = null;
+let kvClient: KVClient | null = null;
 if (isProduction) {
   try {
-    const redisUrl = resolveEnv(
-      'UPSTASH_REDIS_REST_URL',
-      'UPSTASH__REDIS_REST_URL',
-      'UPSTASH__REDIS_URL'
-    );
-    const redisToken = resolveEnv(
-      'UPSTASH_REDIS_REST_TOKEN',
-      'UPSTASH__REDIS_REST_TOKEN',
-      'UPSTASH__REDIS_TOKEN'
-    );
+    const kvUrl = resolveEnv('KV_REST_API_URL', 'UPSTASH__KV_REST_API_URL');
+    const kvToken = resolveEnv('KV_REST_API_TOKEN', 'UPSTASH__KV_REST_API_TOKEN');
 
-    if (redisUrl && redisToken) {
-      const { Redis } = require('@upstash/redis');
-      const client = new Redis({
-        url: redisUrl,
-        token: redisToken,
+    if (kvUrl && kvToken) {
+      const { createClient } = require('@vercel/kv');
+      kvClient = createClient({
+        url: kvUrl,
+        token: kvToken,
       });
-      redis = {
-        get: (key: string) => client.get(key),
-      };
     } else {
-      console.warn('Redis environment variables not set, falling back to file storage');
+      console.warn('KV environment variables not set, falling back to file storage');
     }
   } catch (error) {
-    console.warn('Upstash Redis not available, falling back to file storage', error);
+    console.warn('KV client initialization failed, falling back to file storage', error);
   }
 }
 
@@ -92,9 +80,9 @@ export async function GET() {
   try {
     let data = null;
     
-    if (isProduction && redis) {
-      // Use Upstash Redis in production
-      const raw = await redis.get('now-data');
+    if (isProduction && kvClient) {
+      // Use Vercel KV in production
+      const raw = await kvClient.get('now-data');
       if (typeof raw === 'string') {
         data = JSON.parse(raw);
       } else {

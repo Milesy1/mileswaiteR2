@@ -6,10 +6,10 @@ import path from 'path';
 const isProduction = process.env.NODE_ENV === 'production';
 const DATA_FILE = path.join(process.cwd(), 'public', 'data', 'now.json');
 
-// Type for Redis client
-type RedisClient = {
+// Type for KV client
+type KVClient = {
   get: (key: string) => Promise<unknown>;
-  set: (key: string, value: string) => Promise<string>;
+  set: (key: string, value: unknown) => Promise<void>;
 };
 
 const resolveEnv = (...keys: string[]) => {
@@ -20,37 +20,24 @@ const resolveEnv = (...keys: string[]) => {
   return null;
 };
 
-// Dynamically import Upstash Redis only in production
-let redis: RedisClient | null = null;
+let kvClient: KVClient | null = null;
 if (isProduction) {
   try {
-    const redisUrl = resolveEnv(
-      'UPSTASH_REDIS_REST_URL',
-      'UPSTASH__REDIS_REST_URL',
-      'UPSTASH__REDIS_URL'
-    );
-    const redisToken = resolveEnv(
-      'UPSTASH_REDIS_REST_TOKEN',
-      'UPSTASH__REDIS_REST_TOKEN',
-      'UPSTASH__REDIS_TOKEN'
-    );
+    const kvUrl = resolveEnv('KV_REST_API_URL', 'UPSTASH__KV_REST_API_URL');
+    const kvToken = resolveEnv('KV_REST_API_TOKEN', 'UPSTASH__KV_REST_API_TOKEN');
 
-    if (!redisUrl || !redisToken) {
-      console.warn('Redis environment variables not set, using memory store');
-    } else {
-      const { Redis } = require('@upstash/redis');
-      const client = new Redis({
-        url: redisUrl,
-        token: redisToken,
+    if (kvUrl && kvToken) {
+      const { createClient } = require('@vercel/kv');
+      kvClient = createClient({
+        url: kvUrl,
+        token: kvToken,
       });
-      redis = {
-        get: (key: string) => client.get(key),
-        set: (key: string, value: string) => client.set(key, value),
-      };
-      console.log('Redis connected successfully');
+      console.log('Connected to Vercel KV');
+    } else {
+      console.warn('KV environment variables not set, using memory store fallback');
     }
   } catch (error) {
-    console.warn('Upstash Redis not available, falling back to memory storage:', error);
+    console.warn('KV client initialization failed, using memory fallback:', error);
   }
 }
 
@@ -144,9 +131,9 @@ export async function GET() {
   try {
     let data = null;
     
-    if (isProduction && redis) {
-      // Use Upstash Redis in production
-      const raw = await redis.get('now-data');
+    if (isProduction && kvClient) {
+      // Use Vercel KV in production
+      const raw = await kvClient.get('now-data');
       if (typeof raw === 'string') {
         data = JSON.parse(raw);
       } else {
@@ -203,9 +190,9 @@ export async function POST(request: NextRequest) {
     let existingData: NowDataStore = { currentEntry: null, history: [] };
     let storedData: unknown = null;
     
-    if (isProduction && redis) {
-      // Use Upstash Redis in production
-      const raw = await redis.get('now-data');
+    if (isProduction && kvClient) {
+      // Use Vercel KV in production
+      const raw = await kvClient.get('now-data');
       if (typeof raw === 'string') {
         storedData = JSON.parse(raw);
       } else {
@@ -245,13 +232,13 @@ export async function POST(request: NextRequest) {
     };
 
     // Store data
-    if (isProduction && redis) {
+    if (isProduction && kvClient) {
       try {
-        // Store in Upstash Redis
-        await redis.set('now-data', JSON.stringify(updatedData));
-        console.log('Data stored in Redis successfully');
+        // Store in Vercel KV
+        await kvClient.set('now-data', JSON.stringify(updatedData));
+        console.log('Data stored in KV successfully');
       } catch (redisError) {
-        console.warn('Redis storage failed, using memory store:', redisError);
+        console.warn('KV storage failed, using memory store:', redisError);
         memoryStore = updatedData as NowDataStore;
       }
     } else if (isProduction) {
