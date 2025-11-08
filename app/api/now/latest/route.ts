@@ -11,17 +11,43 @@ type RedisClient = {
   get: (key: string) => Promise<unknown>;
 };
 
+const resolveEnv = (...keys: string[]) => {
+  for (const key of keys) {
+    const value = process.env[key];
+    if (value) return value;
+  }
+  return null;
+};
+
 // Dynamically import Upstash Redis only in production
 let redis: RedisClient | null = null;
 if (isProduction) {
   try {
-    const { Redis } = require('@upstash/redis');
-    redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    });
+    const redisUrl = resolveEnv(
+      'UPSTASH_REDIS_REST_URL',
+      'UPSTASH__REDIS_REST_URL',
+      'UPSTASH__REDIS_URL'
+    );
+    const redisToken = resolveEnv(
+      'UPSTASH_REDIS_REST_TOKEN',
+      'UPSTASH__REDIS_REST_TOKEN',
+      'UPSTASH__REDIS_TOKEN'
+    );
+
+    if (redisUrl && redisToken) {
+      const { Redis } = require('@upstash/redis');
+      const client = new Redis({
+        url: redisUrl,
+        token: redisToken,
+      });
+      redis = {
+        get: (key: string) => client.get(key),
+      };
+    } else {
+      console.warn('Redis environment variables not set, falling back to file storage');
+    }
   } catch (error) {
-    console.warn('Upstash Redis not available, falling back to file storage');
+    console.warn('Upstash Redis not available, falling back to file storage', error);
   }
 }
 
@@ -68,7 +94,12 @@ export async function GET() {
     
     if (isProduction && redis) {
       // Use Upstash Redis in production
-      data = await redis.get('now-data');
+      const raw = await redis.get('now-data');
+      if (typeof raw === 'string') {
+        data = JSON.parse(raw);
+      } else {
+        data = raw;
+      }
     } else {
       // Use file storage locally
       if (fs.existsSync(DATA_FILE)) {

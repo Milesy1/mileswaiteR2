@@ -12,23 +12,41 @@ type RedisClient = {
   set: (key: string, value: string) => Promise<string>;
 };
 
+const resolveEnv = (...keys: string[]) => {
+  for (const key of keys) {
+    const value = process.env[key];
+    if (value) return value;
+  }
+  return null;
+};
+
 // Dynamically import Upstash Redis only in production
 let redis: RedisClient | null = null;
 if (isProduction) {
   try {
-    console.log('Attempting to connect to Redis...');
-    console.log('Redis URL exists:', !!process.env.UPSTASH_REDIS_REST_URL);
-    console.log('Redis Token exists:', !!process.env.UPSTASH_REDIS_REST_TOKEN);
-    
-    // Check if environment variables are properly set
-    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    const redisUrl = resolveEnv(
+      'UPSTASH_REDIS_REST_URL',
+      'UPSTASH__REDIS_REST_URL',
+      'UPSTASH__REDIS_URL'
+    );
+    const redisToken = resolveEnv(
+      'UPSTASH_REDIS_REST_TOKEN',
+      'UPSTASH__REDIS_REST_TOKEN',
+      'UPSTASH__REDIS_TOKEN'
+    );
+
+    if (!redisUrl || !redisToken) {
       console.warn('Redis environment variables not set, using memory store');
     } else {
       const { Redis } = require('@upstash/redis');
-      redis = new Redis({
-        url: process.env.UPSTASH_REDIS_REST_URL,
-        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      const client = new Redis({
+        url: redisUrl,
+        token: redisToken,
       });
+      redis = {
+        get: (key: string) => client.get(key),
+        set: (key: string, value: string) => client.set(key, value),
+      };
       console.log('Redis connected successfully');
     }
   } catch (error) {
@@ -128,7 +146,12 @@ export async function GET() {
     
     if (isProduction && redis) {
       // Use Upstash Redis in production
-      data = await redis.get('now-data');
+      const raw = await redis.get('now-data');
+      if (typeof raw === 'string') {
+        data = JSON.parse(raw);
+      } else {
+        data = raw;
+      }
     } else if (isProduction && memoryStore) {
       // Use memory store as fallback in production
       data = memoryStore;
@@ -182,7 +205,12 @@ export async function POST(request: NextRequest) {
     
     if (isProduction && redis) {
       // Use Upstash Redis in production
-      storedData = await redis.get('now-data');
+      const raw = await redis.get('now-data');
+      if (typeof raw === 'string') {
+        storedData = JSON.parse(raw);
+      } else {
+        storedData = raw;
+      }
     } else if (isProduction && memoryStore) {
       // Use memory store as fallback in production
       storedData = memoryStore;
