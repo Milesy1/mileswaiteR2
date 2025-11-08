@@ -39,6 +39,20 @@ interface FormData {
   openTo: string;
 }
 
+const getTodayString = () =>
+  new Date().toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
+const getCurrentMonthString = () => {
+  const now = new Date();
+  const month = now.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
+  const year = now.getFullYear();
+  return `${month} ${year}`;
+};
+
 export default function AdminNowPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
@@ -48,9 +62,9 @@ export default function AdminNowPage() {
   const [isCurating, setIsCurating] = useState(false);
   const [curationStatus, setCurationStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [curationResult, setCurationResult] = useState<string>('');
-  const [formData, setFormData] = useState<FormData>({
-    month: '',
-    lastUpdated: '',
+  const [formData, setFormData] = useState<FormData>(() => ({
+    month: getCurrentMonthString(),
+    lastUpdated: getTodayString(),
     building: '',
     exploring: '',
     reading: '',
@@ -61,7 +75,7 @@ export default function AdminNowPage() {
     using: '',
     location: '',
     openTo: ''
-  });
+  }));
 
   // Simple password protection (you can enhance this later) - v1.1
   const ADMIN_PASSWORD = 'milesadmin2025';
@@ -86,7 +100,11 @@ export default function AdminNowPage() {
     if (savedDraft) {
       try {
         const draft = JSON.parse(savedDraft);
-        setFormData(draft);
+        setFormData({
+          ...draft,
+          month: getCurrentMonthString(),
+          lastUpdated: getTodayString()
+        });
       } catch (error) {
         console.error('Error loading draft:', error);
       }
@@ -101,8 +119,8 @@ export default function AdminNowPage() {
       
       // Pre-fill form with latest data
       setFormData({
-        month: data.month || '',
-        lastUpdated: data.lastUpdated || '',
+        month: getCurrentMonthString(),
+        lastUpdated: getTodayString(),
         building: data.building?.join('\n') || '',
         exploring: data.exploring?.join('\n') || '',
         reading: data.reading?.map(book => `${book.title} — ${book.author}`).join('\n') || '',
