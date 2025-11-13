@@ -1,6 +1,82 @@
 
 export const blogPosts = [
   {
+    slug: "procedural-geometry-controls-midi-driven-arc-systems",
+    title: "Procedural Geometry Controls: MIDI-Driven Arc Systems",
+    excerpt: "Lag-driven Carve SOP animation, velocity-scaled sweeps, concentric arc variants, and reusable SOP pool randomisation.",
+    date: "November 2025",
+    readTime: "11 min read",
+    tags: ["TouchDesigner", "MIDI", "Procedural Geometry", "Generative Art"],
+    content: `
+      <h1>Procedural Geometry Controls: MIDI-Driven Arc Systems</h1>
+
+      <br>
+
+      <h2><strong>Arc Animation Architecture</strong></h2>
+      <br>
+      <p>The implementation centers on a dual-lag chain driving Carve SOP parameters. The first lag operator establishes the leading edge response, while a second lag trails behind with longer decay. Math CHOPs scale and offset the lag outputs before clamping to the 0-1 range required by Carve's domain parameters. The configuration produces a controlled three-quarter circle sweep&mdash;large enough for visual clarity while maintaining headroom for velocity modulation.</p>
+
+      <br>
+
+      <p>Draw speed derives from lag coefficient adjustment. Lower values yield faster response; higher values extend the sweep duration. Optional low-pass filtering smooths abrupt transitions when needed.</p>
+
+      <br>
+
+      <h2><strong>Velocity-Sensitive Variants</strong></h2>
+      <br>
+      <p>Velocity normalization feeds a multiplier stage that maps MIDI input intensity to arc length. Harder strikes expand the sweep range proportionally. The system maintains musical correlation: dynamic performance produces dynamic visuals.</p>
+
+      <br>
+
+      <p>Concentric ring variants duplicate the lag/math chain with staggered Carve offsets. Each ring maintains independent temporal behavior while sharing the same trigger source. The result: expanding waves of geometry radiating from origin on each note event.</p>
+
+      <br>
+
+      <h2><strong>SOP Pool Randomization</strong></h2>
+      <br>
+      <p>A reusable selection system routes a single MIDI impulse through:</p>
+      <ul>
+        <li>Math CHOP (random value generation)</li>
+        <li>Quantize CHOP (discrete integer conversion)</li>
+        <li>Limit CHOP (constraint to pool size)</li>
+        <li>Switch SOP (indexed geometry selection)</li>
+      </ul>
+
+      <br>
+
+      <p>The wiring enables non-deterministic selection from a pool of static and procedural geometries without manual intervention. Adding new variants requires only expanding the Switch SOP input count.</p>
+
+      <br>
+
+      <h2><strong>System Integration</strong></h2>
+      <br>
+      <p>The animated arc preset shares the established CHOP structure: <code>select &rarr; lag/filter &rarr; math &rarr; limit &rarr; export</code>. This pattern proved compatible with existing line-animation pathways, confirming the architecture's modularity. Each geometry type can implement the same signal flow with type-specific parameter mapping.</p>
+
+      <br>
+
+      <p>Reference networks, Carve configurations, and implementation details are documented in <code>ADDITIONAL_SUGGESTIONS.md</code> for rollout to additional primitive types.</p>
+
+      <br>
+
+      <h2><strong>Technical Notes</strong></h2>
+      <br>
+      <ul>
+        <li>Carve SOP instances remain efficient at reasonable curve resolutions.</li>
+        <li>Multiple concurrent lag chains scale linearly with geometry complexity.</li>
+        <li>Switch SOP branching requires verification that unused inputs don't cook unnecessarily.</li>
+        <li>Velocity normalization ranges may require per-instrument calibration.</li>
+      </ul>
+
+      <br>
+
+      <p>The modular approach establishes a reusable framework: MIDI input, CHOP processing chain, SOP parameter driving. Future geometry types inherit the architecture with minimal rewiring.</p>
+
+      <br>
+
+      <p><a href="https://vimeo.com/1136427891?share=copy" target="_blank" rel="noopener noreferrer">Process demonstration</a></p>
+    `,
+  },
+  {
     slug: "temporal-control-midi-visual-systems",
     title: "Temporal Control in MIDI-Driven Visual Systems",
     excerpt: "Extending event-driven parameter control with time-based behaviour to unlock automated motion and evolving visual responses.",
