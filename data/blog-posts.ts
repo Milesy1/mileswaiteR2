@@ -1,6 +1,297 @@
 
 export const blogPosts = [
   {
+    slug: "vector-database-financial-services-rag-challenges",
+    title: "Building a Vector Database for Financial Services: RAG System Challenges",
+    excerpt: "Implementing semantic search for enterprise financial platforms reveals domain-specific challenges in chunking, retrieval accuracy, and knowledge curation.",
+    date: "December 2024",
+    readTime: "12 min read",
+    tags: ["RAG", "Vector Database", "Financial Services", "LangChain", "ChromaDB"],
+    content: `
+      <h1>Building a Vector Database for Financial Services: RAG System Challenges</h1>
+
+      <br>
+
+      <p><em>Lessons from implementing semantic search for an enterprise financial platform.</em></p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Problem Space</strong></h2>
+
+      <br>
+
+      <p>Enterprise financial platforms accumulate tribal knowledge at scale. Experienced practitioners hold critical understanding of platform constraints, query patterns, and troubleshooting approaches — knowledge that takes months to transfer through traditional onboarding. New contractors face 3-4 week ramp-up periods. Senior resources spend 40-50% of their time answering repetitive technical queries.</p>
+
+      <br>
+
+      <p>The hypothesis: a Retrieval-Augmented Generation system could capture institutional knowledge in a vector database, enabling semantic search and AI-synthesized responses. The implementation revealed several domain-specific challenges not apparent in standard RAG tutorials.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Technical Architecture</strong></h2>
+
+      <br>
+
+      <p>The system follows a standard RAG pattern with modifications for financial domain content:</p>
+
+      <br>
+
+      <ul>
+        <li><strong>Embeddings:</strong> OpenAI text-embedding-3-small — cost-effective at $0.02/1M tokens</li>
+        <li><strong>Vector Store:</strong> ChromaDB — zero infrastructure, local persistence</li>
+        <li><strong>LLM:</strong> GPT-4o — best quality/latency balance for financial accuracy</li>
+        <li><strong>Framework:</strong> LangChain for pipeline orchestration</li>
+      </ul>
+
+      <br>
+
+      <p>Documents flow through ingestion (load → chunk → embed → store), then queries trigger retrieval (embed query → similarity search → context injection → LLM synthesis).</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Challenge 1: Chunking Strategy for Financial Documentation</strong></h2>
+
+      <br>
+
+      <p>Standard chunking approaches fragment financial content in problematic ways. A 500-token chunk mid-calculation loses context about what the calculation achieves. Code examples split across chunks become syntactically incomplete.</p>
+
+      <br>
+
+      <p><strong>The issue:</strong> Financial platform documentation contains interconnected concepts — FX rates reference currency pairs, consolidation logic references entity hierarchies, query patterns reference dimensional constraints. Naive chunking severs these relationships.</p>
+
+      <br>
+
+      <p><strong>Mitigation attempted:</strong></p>
+      <ul>
+        <li>Larger chunk sizes (800-1000 tokens) to preserve context</li>
+        <li>Overlap increased to 100+ tokens for boundary recovery</li>
+        <li>Semantic separators prioritising section headers over arbitrary splits</li>
+        <li>Metadata enrichment to tag chunks with document-level context</li>
+      </ul>
+
+      <br>
+
+      <p>Chunking remains an active challenge. The optimal strategy appears content-type dependent — different parameters for code patterns versus conceptual explanations versus troubleshooting guides.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Challenge 2: Domain Terminology and Retrieval Relevance</strong></h2>
+
+      <br>
+
+      <p>Financial platforms develop internal vocabulary. "Intersection" means something specific. "Slices" have platform-defined semantics. "Elimination entries" reference consolidation concepts not present in general embeddings.</p>
+
+      <br>
+
+      <p><strong>The issue:</strong> Embedding models trained on general corpora lack domain-specific semantic proximity. A query about "elimination entries" may not retrieve documents about "intercompany adjustments" despite functional equivalence.</p>
+
+      <br>
+
+      <p><strong>Observations:</strong></p>
+      <ul>
+        <li>Retrieval relevance targets (≥80%) proved optimistic for specialised terminology</li>
+        <li>Synonym expansion in knowledge base content improved matching</li>
+        <li>Explicit terminology sections per document aided retrieval</li>
+        <li>Query reformulation by the LLM (before embedding) showed promise</li>
+      </ul>
+
+      <br>
+
+      <p>Fine-tuned embeddings would address this systematically but require substantial training data and compute budget — outside POC scope.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Challenge 3: Proprietary Query Languages in Vector Space</strong></h2>
+
+      <br>
+
+      <p>Many enterprise platforms implement proprietary query languages. These share structural similarity with SQL but carry platform-specific semantics, constraints, and syntax requirements.</p>
+
+      <br>
+
+      <p><strong>The issue:</strong> Embedding a code block captures syntax but loses constraint knowledge. The system retrieves similar-looking queries without understanding platform-specific rules — no aliasing permitted, explicit column specification required, character limits enforced.</p>
+
+      <br>
+
+      <p><strong>Approaches tested:</strong></p>
+      <ul>
+        <li>Annotated code blocks with prose explanations preceding each example</li>
+        <li>Constraint documentation embedded alongside patterns</li>
+        <li>Separate retrieval paths for "explain this code" versus "generate code for X"</li>
+      </ul>
+
+      <br>
+
+      <p>Code generation remains higher-risk than code explanation. The system performs better at interpreting existing queries than generating compliant new ones.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Challenge 4: Knowledge Base Curation</strong></h2>
+
+      <br>
+
+      <p>RAG system quality depends fundamentally on knowledge base quality. This dependency was intellectually understood but practically underestimated.</p>
+
+      <br>
+
+      <p><strong>The issue:</strong> Curating 10-15 seed documents required significantly more time than technical implementation. Historical issue resolutions existed in tickets, Slack threads, and undocumented team memory — not in embeddable markdown.</p>
+
+      <br>
+
+      <p><strong>Content gaps identified:</strong></p>
+      <ul>
+        <li>Common troubleshooting paths existed only as oral tradition</li>
+        <li>Edge cases (missing FX rates, type mismatches) lacked documented solutions</li>
+        <li>Platform constraints spread across multiple source documents</li>
+        <li>Code patterns required extraction from production repositories</li>
+      </ul>
+
+      <br>
+
+      <p>The POC validated retrieval mechanics but exposed that production deployment requires sustained content curation effort — a people problem, not a technology problem.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Challenge 5: Financial Accuracy Requirements</strong></h2>
+
+      <br>
+
+      <p>Financial services domains carry higher accuracy requirements than typical RAG applications. An incorrect consolidation explanation or flawed FX conversion pattern creates real business risk.</p>
+
+      <br>
+
+      <p><strong>The issue:</strong> LLM hallucination — even at low temperature settings — produces plausible-sounding but incorrect financial calculations. Users may trust AI-generated content that contains subtle errors.</p>
+
+      <br>
+
+      <p><strong>Mitigations implemented:</strong></p>
+      <ul>
+        <li>Source citations mandatory in every response</li>
+        <li>System prompt explicitly constrains answers to retrieved context</li>
+        <li>Graceful handling when context insufficient: "I don't have enough information in my knowledge base"</li>
+        <li>Low temperature (0.1) to reduce creative variation</li>
+      </ul>
+
+      <br>
+
+      <p>Complete hallucination prevention remains impossible. The system design assumes human review of AI-generated content before production use.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Enterprise Deployment Considerations</strong></h2>
+
+      <br>
+
+      <p>Production deployment introduces constraints absent in local POC development:</p>
+
+      <br>
+
+      <ul>
+        <li><strong>Data residency:</strong> Financial content may require on-premises vector storage rather than cloud services</li>
+        <li><strong>API governance:</strong> LLM API calls transmit query content externally — potentially problematic for sensitive financial data</li>
+        <li><strong>Access control:</strong> Knowledge base content requires SSO integration and role-based permissions</li>
+        <li><strong>Audit requirements:</strong> Financial services may require logging of all AI interactions</li>
+      </ul>
+
+      <br>
+
+      <p>Production architecture likely requires self-hosted embeddings and potentially on-premises LLM deployment — significantly increasing infrastructure complexity.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Current State</strong></h2>
+
+      <br>
+
+      <p>The POC validated core RAG mechanics for financial domain content. Retrieval relevance reached approximately 75% on test queries — below the 80% target but demonstrating feasibility. Answer accuracy rated "helpful" on 70% of evaluated responses.</p>
+
+      <br>
+
+      <p><strong>Key learnings:</strong></p>
+      <ul>
+        <li>Chunking strategy requires domain-specific tuning</li>
+        <li>Knowledge curation effort exceeds technical implementation effort</li>
+        <li>Code generation carries higher risk than code explanation</li>
+        <li>Financial accuracy requirements demand conservative system design</li>
+        <li>Enterprise deployment introduces significant infrastructure complexity</li>
+      </ul>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Recommendations</strong></h2>
+
+      <br>
+
+      <p>For teams considering RAG implementations in regulated industries:</p>
+
+      <br>
+
+      <ul>
+        <li><strong>Start with knowledge curation.</strong> The vector database is only as good as the content it indexes. Budget more time for content than code.</li>
+        <li><strong>Prioritise explanation over generation.</strong> Helping users understand existing systems carries less risk than generating new artifacts.</li>
+        <li><strong>Build feedback loops early.</strong> Retrieval quality degrades invisibly without measurement infrastructure.</li>
+        <li><strong>Plan for self-hosting.</strong> Regulated industries often cannot transmit sensitive queries to external APIs.</li>
+        <li><strong>Assume human review.</strong> Design systems that augment expert judgement rather than replace it.</li>
+      </ul>
+
+      <br>
+
+      <p>The technology works. The challenge is institutional: capturing knowledge that exists only in people's heads and maintaining it as systems evolve.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <p><strong>Technical Stack:</strong> Python, LangChain, ChromaDB, OpenAI GPT-4o, OpenAI text-embedding-3-small, Streamlit, FastAPI</p>
+
+      <br>
+
+      <p><strong>Domain:</strong> Enterprise financial platforms, consolidation systems, proprietary query languages</p>
+    `
+  },
+  {
     slug: "procedural-geometry-controls-midi-driven-arc-systems",
     title: "Procedural Geometry Controls: MIDI-Driven Arc Systems",
     excerpt: "Lag-driven Carve SOP animation, velocity-scaled sweeps, concentric arc variants, and reusable SOP pool randomisation.",
