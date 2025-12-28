@@ -4,7 +4,7 @@ export const blogPosts = [
     slug: "vector-database-financial-services-rag-challenges",
     title: "Building a Vector Database for Financial Services: RAG System Challenges",
     excerpt: "Implementing semantic search for enterprise financial platforms reveals domain-specific challenges in chunking, retrieval accuracy, and knowledge curation.",
-    date: "December 2024",
+    date: "December 2025",
     readTime: "12 min read",
     tags: ["RAG", "Vector Database", "Financial Services", "LangChain", "ChromaDB"],
     content: `
