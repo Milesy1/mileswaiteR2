@@ -1,6 +1,602 @@
 
 export const blogPosts = [
   {
+    slug: "conveying-information-in-two-dimensions",
+    title: "String Field Theories: Conveying Information in 2 Dimensions",
+    excerpt: "Exploring how emergent writing systems encode meaning spatially rather than sequentially—inspired by the computational linguistics of Arrival and Wolfram's analysis of alien logograms.",
+    date: "December 2025",
+    readTime: "16 min read",
+    tags: ["Generative Design", "Cellular Automata", "Wolfram", "Visual Semiotics", "Emergence"],
+    content: `
+      <h1>String Field Theories: Conveying Information in 2 Dimensions</h1>
+
+      <br>
+
+      <img src="/images/arrival-logogram.png" alt="Heptapod logogram from Arrival - a circular ink-like symbol divided into 12 segments, demonstrating non-linear 2D information encoding" style="max-width: 100%; height: auto; margin: 2rem auto; display: block;" />
+
+      <br>
+
+      <p><em>On spatial encoding, alien semiotics, and the computational universe of possible writing systems.</em></p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Limitation of Linear Text</strong></h2>
+
+      <br>
+
+      <p>Human writing systems are fundamentally one-dimensional. Whether read left-to-right, right-to-left, or top-to-bottom, text unfolds as a sequence—a stream of symbols parsed in order. This linearity mirrors speech: phonemes arranged temporally, decoded one after another.</p>
+
+      <br>
+
+      <p>But screens are not pages. The web is an inherently two-dimensional medium. Yet digital interfaces largely replicate the sequential logic of print—paragraphs, bullet points, scrolling text. The spatial dimension of the screen remains underutilised for information encoding.</p>
+
+      <br>
+
+      <p>What would it mean to convey information in two dimensions? Not text arranged spatially, but symbols where <strong>spatial relationships constitute meaning</strong>—where position, proximity, and form encode semantics simultaneously rather than sequentially.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Wolfram and the Logograms of Arrival</strong></h2>
+
+      <br>
+
+      <p>The 2016 film <em>Arrival</em>, directed by Denis Villeneuve, presented this exact problem. The alien heptapods communicate through circular logograms—complete thoughts rendered as ink-like symbols, perceived holistically rather than read linearly.</p>
+
+      <br>
+
+      <p>Director Villeneuve approached Stephen Wolfram to consult on the linguistic and computational aspects of the alien language. Wolfram, creator of Mathematica, Wolfram|Alpha, and author of <em>A New Kind of Science</em>, brought a unique perspective: the idea that the universe of possible computational systems is vast, and human mathematics represents only a small, historically contingent sample of it.</p>
+
+      <br>
+
+      <p>In a 2016 interview with Space.com, Wolfram articulated this directly:</p>
+
+      <br>
+
+      <blockquote>"The things we've been interested in in math are just samplings of the set of all possible mathematical facts... The particular ones that one has sampled are very dependent on the detailed history of a civilization."</blockquote>
+
+      <br>
+
+      <p>This insight applies equally to writing systems. Human scripts evolved to represent speech—a fundamentally sequential medium. An alien species with different perceptual apparatus, or one that evolved visual communication before auditory, might develop writing that encodes information spatially from the outset.</p>
+
+      <br>
+
+      <h3>Christopher Wolfram's Computational Analysis</h3>
+
+      <br>
+
+      <p>Stephen Wolfram's son, Christopher Wolfram, was commissioned to build the actual code that appears on screen in <em>Arrival</em>. His task: create computational tools to analyse the fictional logogram language and generate visualisations for the film's scientists to interact with.</p>
+
+      <br>
+
+      <p>Christopher's approach, documented in a Wolfram U course titled <em>"The Code Behind Arrival"</em>, treated the logograms as computational objects. Using Wolfram Language, he built tools to:</p>
+
+      <br>
+
+      <ul>
+        <li>Decompose logograms into constituent visual elements</li>
+        <li>Analyse symmetry, density, and structural relationships</li>
+        <li>Generate variations and interpolations between symbols</li>
+        <li>Visualise the "grammar" of spatial arrangements</li>
+      </ul>
+
+      <br>
+
+      <p>The code demonstrated that even fictional writing systems become tractable when treated computationally—as rule-governed generative systems rather than arbitrary drawings.</p>
+
+      <br>
+
+      <pre><code>// Wolfram Language pseudocode (conceptual)
+// Analysing logogram structure
+
+logograms = Import["logograms/*.png"];
+contours = ImageContour /@ logograms;
+symmetryScores = RotationalSymmetry /@ contours;
+densityMaps = ImageData[GaussianFilter[#, 5]] & /@ logograms;
+
+// Cluster by structural similarity
+clusters = FindClusters[logograms, 
+  DistanceFunction -> ImageDistance,
+  Method -> "KMeans"
+];</code></pre>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Computational Universe of Writing Systems</strong></h2>
+
+      <br>
+
+      <p>Wolfram's broader research programme—exploring the computational universe through cellular automata, Turing machines, and simple programs—provides a framework for thinking about emergent writing systems.</p>
+
+      <br>
+
+      <p>In <em>A New Kind of Science</em>, Wolfram demonstrated that extremely simple rules can generate extraordinary complexity. Rule 30, a one-dimensional cellular automaton with only three inputs and two states, produces patterns indistinguishable from randomness yet entirely deterministic. Rule 110 is proven to be Turing-complete—capable, in principle, of universal computation.</p>
+
+      <br>
+
+      <p>If simple rules can generate such complexity, they can also generate writing. Not writing that humans designed, but writing that <strong>emerges</strong>—symbols with internal structure, consistency, and the capacity to encode information, even if that encoding is alien to human parsing.</p>
+
+      <br>
+
+      <pre><code>// Elementary Cellular Automaton (Rule 30)
+// Generates complex, pseudorandom patterns from simple rules
+
+function rule30(left, center, right) {
+  const neighborhood = (left << 2) | (center << 1) | right;
+  const rule = 30; // Binary: 00011110
+  return (rule >> neighborhood) & 1;
+}
+
+function generateCA(width, height, seed) {
+  let grid = Array(height).fill(null).map(() => Array(width).fill(0));
+  
+  // Seed initial row
+  grid[0] = seedToRow(seed, width);
+  
+  // Evolve
+  for (let y = 1; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const left = grid[y-1][(x - 1 + width) % width];
+      const center = grid[y-1][x];
+      const right = grid[y-1][(x + 1) % width];
+      grid[y][x] = rule30(left, center, right);
+    }
+  }
+  
+  return grid;
+}</code></pre>
+
+      <br>
+
+      <p>When bounded within a glyph-sized container, cellular automata produce forms that read as symbols—structured, non-random, yet unfamiliar. Different rules produce different visual families. Different seeds produce different instances within a family.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>2D Encoding: From Sequence to Simultaneity</strong></h2>
+
+      <br>
+
+      <p>The fundamental shift in two-dimensional information encoding is from <strong>sequential parsing</strong> to <strong>simultaneous perception</strong>.</p>
+
+      <br>
+
+      <table>
+        <tr><th>Property</th><th>1D (Linear Text)</th><th>2D (Spatial Glyphs)</th></tr>
+        <tr><td>Processing</td><td>Sequential, left-to-right</td><td>Holistic, gestalt perception</td></tr>
+        <tr><td>Time</td><td>Unfolds over reading duration</td><td>Entire meaning available instantly</td></tr>
+        <tr><td>Relationships</td><td>Adjacency (before/after)</td><td>Proximity, symmetry, containment</td></tr>
+        <tr><td>Density</td><td>Limited by line length</td><td>Potentially higher per symbol</td></tr>
+        <tr><td>Ambiguity</td><td>Resolved by context (later words)</td><td>Resolved by spatial relationships</td></tr>
+      </table>
+
+      <br>
+
+      <p>Human vision processes images holistically before analytically. The gestalt principles—proximity, similarity, continuity, closure—describe how the visual system groups elements into perceived wholes. A 2D writing system leverages this: meaning emerges from pattern recognition rather than sequential decoding.</p>
+
+      <br>
+
+      <p>The Arrival logograms exemplify this. A heptapod symbol is not "read" from any starting point. It is perceived as a complete thought, with modifying elements positioned spatially relative to a core meaning.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Generative Approaches to Emergent Glyphs</strong></h2>
+
+      <br>
+
+      <p>Several algorithmic families can generate forms suitable for a 2D writing system. Each produces distinct visual qualities.</p>
+
+      <br>
+
+      <h3>1. Cellular Automata</h3>
+
+      <br>
+
+      <p>As demonstrated above, elementary CA generate complex patterns deterministically. The visual aesthetic is digital, crystalline—grids and edges. Wolfram's research catalogued 256 elementary rules; each produces a distinct visual signature.</p>
+
+      <br>
+
+      <pre><code>// Generate glyph from CA with semantic seeding
+function caGlyph(seed, rule = 30, size = 32) {
+  const grid = generateCA(size, size, seed);
+  
+  // Convert to SVG path
+  let path = '';
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      if (grid[y][x] === 1) {
+        path += \`M\${x} \${y} h1 v1 h-1 Z \`;
+      }
+    }
+  }
+  
+  return \`<path d="\${path}" fill="currentColor"/>\`;
+}</code></pre>
+
+      <br>
+
+      <h3>2. L-Systems (Lindenmayer Systems)</h3>
+
+      <br>
+
+      <p>L-systems encode recursive growth—rules that rewrite strings, interpreted as drawing instructions. Originally modelling plant morphology, they produce organic, branching forms with fractal self-similarity.</p>
+
+      <br>
+
+      <pre><code>// L-System with turtle graphics interpretation
+const lsystemRules = {
+  'F': 'FF+[+F-F-F]-[-F+F+F]',  // Tree-like branching
+};
+
+function evolve(axiom, rules, iterations) {
+  let result = axiom;
+  for (let i = 0; i < iterations; i++) {
+    result = result.split('').map(c => rules[c] || c).join('');
+  }
+  return result;
+}
+
+function interpret(instructions, angle = 25) {
+  const stack = [];
+  let x = 0, y = 0, theta = -90;
+  let path = \`M \${x} \${y}\`;
+  
+  for (const char of instructions) {
+    switch (char) {
+      case 'F':
+        x += Math.cos(theta * Math.PI / 180) * 5;
+        y += Math.sin(theta * Math.PI / 180) * 5;
+        path += \` L \${x} \${y}\`;
+        break;
+      case '+': theta += angle; break;
+      case '-': theta -= angle; break;
+      case '[': stack.push({ x, y, theta }); break;
+      case ']':
+        const state = stack.pop();
+        x = state.x; y = state.y; theta = state.theta;
+        path += \` M \${x} \${y}\`;
+        break;
+    }
+  }
+  
+  return path;
+}
+
+// Generate: interpret(evolve('F', lsystemRules, 3), 25)</code></pre>
+
+      <br>
+
+      <p>L-systems offer precise control over complexity through iteration depth. Low iterations produce simple geometric forms; higher iterations yield intricate, glyph-like structures.</p>
+
+      <br>
+
+      <h3>3. Reaction-Diffusion</h3>
+
+      <br>
+
+      <p>Gray-Scott and Turing patterns simulate chemical diffusion, producing organic spots, stripes, and labyrinthine forms. The aesthetic is biological—coral, lichen, fingerprints.</p>
+
+      <br>
+
+      <pre><code>// Gray-Scott Reaction-Diffusion (simplified)
+// Requires iterative simulation—expensive but distinctive
+
+const config = {
+  feed: 0.055,    // Feed rate
+  kill: 0.062,    // Kill rate
+  dA: 1.0,        // Diffusion rate A
+  dB: 0.5,        // Diffusion rate B
+};
+
+function stepSimulation(gridA, gridB, config) {
+  const { feed, kill, dA, dB } = config;
+  const newA = [], newB = [];
+  
+  for (let y = 0; y < height; y++) {
+    newA[y] = []; newB[y] = [];
+    for (let x = 0; x < width; x++) {
+      const a = gridA[y][x];
+      const b = gridB[y][x];
+      const lapA = laplacian(gridA, x, y);
+      const lapB = laplacian(gridB, x, y);
+      const reaction = a * b * b;
+      
+      newA[y][x] = a + (dA * lapA - reaction + feed * (1 - a));
+      newB[y][x] = b + (dB * lapB + reaction - (kill + feed) * b);
+    }
+  }
+  
+  return [newA, newB];
+}</code></pre>
+
+      <br>
+
+      <p>Reaction-diffusion is computationally expensive. For web deployment, pre-computed frames or WebGL shaders are necessary.</p>
+
+      <br>
+
+      <h3>4. Wolfram-Inspired Hybrid Systems</h3>
+
+      <br>
+
+      <p>Following Christopher Wolfram's approach to the Arrival logograms, a hybrid system combines multiple generative methods:</p>
+
+      <br>
+
+      <pre><code>// Hybrid glyph generator inspired by Wolfram's logogram analysis
+function generateHybridGlyph(seed) {
+  // 1. Core structure: L-system skeleton
+  const skeleton = interpret(evolve('F', treeRules, 2), 60);
+  
+  // 2. Texture: CA-based fill pattern
+  const texture = generateCA(16, 16, seed);
+  
+  // 3. Boundary: Circular containment (like Arrival logograms)
+  const radius = 50;
+  const boundary = \`M \${radius} 0 A \${radius} \${radius} 0 1 1 \${radius} 0.01 Z\`;
+  
+  // 4. Composite: Mask skeleton with texture, contain within boundary
+  return {
+    skeleton,
+    texture: textureToPattern(texture),
+    boundary,
+    composite: clipPathComposite(skeleton, texture, boundary)
+  };
+}</code></pre>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Semantic Encoding in 2D Space</strong></h2>
+
+      <br>
+
+      <p>The question of meaning: can emergent glyphs encode actual information, or are they purely decorative?</p>
+
+      <br>
+
+      <p>Wolfram's observation about the "computational universe" suggests a middle path. Glyphs need not be human-readable to be information-bearing. If generation is deterministic—same seed produces same glyph—then the glyph <strong>is</strong> the information, encoded visually.</p>
+
+      <br>
+
+      <h3>Encoding Strategies</h3>
+
+      <br>
+
+      <ul>
+        <li><strong>Route-based seeding:</strong> Each page's URL seeds generation. The /about page always produces the same glyph; /projects produces another. The glyph becomes the page's visual signature.</li>
+      </ul>
+
+      <br>
+
+      <pre><code>// Deterministic route-to-glyph mapping
+function glyphForRoute(pathname) {
+  const hash = cyrb53(pathname);  // Fast, deterministic hash
+  const seed = hash % 100000;
+  const rule = 30 + (hash % 90);  // Rules 30-119
+  
+  return caGlyph(seed, rule, 32);
+}
+
+// cyrb53: fast string hash
+function cyrb53(str, seed = 0) {
+  let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+  h2 = Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}</code></pre>
+
+      <br>
+
+      <ul>
+        <li><strong>Content hashing:</strong> Hash the page's title or primary content. Content changes produce glyph changes—a visual diff.</li>
+        <li><strong>Temporal encoding:</strong> Incorporate publication timestamps. Blog posts from the same month share visual characteristics while remaining distinct.</li>
+        <li><strong>Categorical encoding:</strong> Different generative rules for different content types. L-systems for organic/creative content; CA for technical/structured content.</li>
+      </ul>
+
+      <br>
+
+      <p>The result: visitors cannot "read" the glyphs, but consistent rules ensure internal logic. Patterns emerge across pages. The writing system is alien but not arbitrary.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Application Across a Visual System</strong></h2>
+
+      <br>
+
+      <p>Where might emergent glyphs appear within a website's visual identity?</p>
+
+      <br>
+
+      <table>
+        <tr><th>Location</th><th>Behaviour</th><th>Encoding</th></tr>
+        <tr><td>Page headers</td><td>Static, route-seeded</td><td>Unique identity per page</td></tr>
+        <tr><td>Section dividers</td><td>Interpolate between adjacent glyphs</td><td>Transitional meaning</td></tr>
+        <tr><td>Loading states</td><td>Animate generation process</td><td>Meaning emerging in real-time</td></tr>
+        <tr><td>Background</td><td>Tiled CA patterns, slowly evolving</td><td>Ambient complexity</td></tr>
+        <tr><td>Navigation</td><td>Glyphs as route indicators</td><td>Functional wayfinding</td></tr>
+        <tr><td>Error states</td><td>Fragmented or corrupted glyphs</td><td>Semantic breakdown</td></tr>
+        <tr><td>Favicon</td><td>Simplified site glyph</td><td>Brand mark</td></tr>
+      </table>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Performance and Implementation</strong></h2>
+
+      <br>
+
+      <p>Generative systems risk blocking the main thread. Mitigation strategies:</p>
+
+      <br>
+
+      <ul>
+        <li><strong>Build-time generation:</strong> Pre-compute glyphs for known routes during static site generation. Store as SVG in a manifest.</li>
+        <li><strong>Web Workers:</strong> Offload runtime generation to background threads.</li>
+        <li><strong>WebGL:</strong> GPU-accelerate complex patterns (reaction-diffusion, high-iteration CA).</li>
+        <li><strong>Memoization:</strong> Cache generated glyphs by seed. Same input = same output, no recomputation.</li>
+        <li><strong>Progressive rendering:</strong> Display low-complexity glyph immediately; refine asynchronously.</li>
+      </ul>
+
+      <br>
+
+      <pre><code>// Build-time glyph generation (Next.js example)
+// scripts/generate-glyphs.ts
+
+import { writeFileSync } from 'fs';
+import { getAllRoutes } from '../lib/routes';
+import { glyphForRoute } from '../lib/glyph-generator';
+
+const routes = getAllRoutes();
+const manifest = {};
+
+for (const route of routes) {
+  manifest[route] = glyphForRoute(route);
+}
+
+writeFileSync(
+  './public/glyphs/manifest.json',
+  JSON.stringify(manifest, null, 2)
+);
+
+// Runtime: import manifest, lookup by route
+// No generation cost at runtime for known routes</code></pre>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>The Tension: Mystery vs. Accessibility</strong></h2>
+
+      <br>
+
+      <p>Glyphs that "mean something" but cannot be read present design tensions:</p>
+
+      <br>
+
+      <ul>
+        <li><strong>Screen readers:</strong> Glyphs should be aria-hidden unless replacing functional elements. Meaning exists visually, not semantically.</li>
+        <li><strong>Cognitive load:</strong> Too many glyphs, or glyphs in critical paths, may confuse rather than intrigue.</li>
+        <li><strong>Motion:</strong> Evolving glyphs must respect prefers-reduced-motion.</li>
+      </ul>
+
+      <br>
+
+      <p>The goal is <strong>ambient mystery</strong>—glyphs exist in peripheral vision, reward attention, but do not gate navigation or comprehension.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Open Questions</strong></h2>
+
+      <br>
+
+      <p>Several design questions remain unresolved:</p>
+
+      <br>
+
+      <ul>
+        <li><strong>Visual family:</strong> Should all glyphs share a generator (same algorithm, different seeds) or vary by context?</li>
+        <li><strong>Temporal evolution:</strong> Should glyphs be immutable, or subtly shift across visits, seasons, or content updates?</li>
+        <li><strong>User participation:</strong> Could visitors generate their own glyphs—input that produces a personal symbol?</li>
+        <li><strong>Decipherability:</strong> Should dedicated visitors be able to decode the system? An easter egg key?</li>
+        <li><strong>Cross-reference:</strong> If two pages share semantic content, should their glyphs share visual elements?</li>
+      </ul>
+
+      <br>
+
+      <p>These questions echo Wolfram's observation about interestingness being context-dependent. What makes a glyph system compelling depends on the site's purpose and audience.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h2><strong>Conclusion: Writing Systems as Emergence</strong></h2>
+
+      <br>
+
+      <p>Human writing evolved to transcribe speech—a solution to a specific problem in a specific context. The computational universe contains countless alternative solutions: writing systems that encode meaning spatially, holistically, or through emergent structural relationships.</p>
+
+      <br>
+
+      <p>Wolfram's work—both Stephen's theoretical framework and Christopher's applied code for <em>Arrival</em>—demonstrates that alien writing is not mysticism but computation. Given rules, a generative system produces symbols with internal logic. Whether that logic is human-readable is a separate question from whether it is meaningful.</p>
+
+      <br>
+
+      <p>For a website built around emergence and complex systems, an emergent writing system is not decoration. It is demonstration: structure arising from simple rules, meaning encoded in two dimensions, the computational universe made visible.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <h3>Technical Stack (Proposed)</h3>
+
+      <br>
+
+      <ul>
+        <li><strong>Generator:</strong> TypeScript library, framework-agnostic</li>
+        <li><strong>Algorithms:</strong> Cellular automata (Wolfram rules), L-systems, hybrid approaches</li>
+        <li><strong>Rendering:</strong> SVG for static glyphs, Canvas/WebGL for animation</li>
+        <li><strong>Build-time:</strong> Pre-generate via build script, output manifest</li>
+        <li><strong>Runtime:</strong> Web Worker + memoization for dynamic routes</li>
+      </ul>
+
+      <br>
+
+      <h3>References</h3>
+
+      <br>
+
+      <ul>
+        <li>Wolfram, S. (2016). <a href="https://www.space.com/34783-stephen-wolfram-arrival-interview.html" target="_blank" rel="noopener noreferrer">"Arrival, AI and Alien Math: Q&A with Stephen Wolfram"</a>. Space.com.</li>
+        <li>Wolfram, C. (2016). <a href="https://www.wolfram.com/wolfram-u/courses/image-signal-processing/the-code-behind-arrival/" target="_blank" rel="noopener noreferrer">"The Code Behind Arrival"</a>. Wolfram U.</li>
+        <li>Wolfram, S. (2002). <em>A New Kind of Science</em>. Wolfram Media.</li>
+      </ul>
+    `
+  },
+  {
     slug: "vector-database-financial-services-rag-challenges",
     title: "Building a Vector Database for Financial Services: RAG System Challenges",
     excerpt: "Implementing semantic search for enterprise financial platforms reveals domain-specific challenges in chunking, retrieval accuracy, and knowledge curation.",
