@@ -74,9 +74,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-white leading-tight"
-            >
-              {post.title}
-            </motion.h1>
+              dangerouslySetInnerHTML={{ __html: post.title }}
+            />
 
             {/* Meta Info */}
             <motion.div
