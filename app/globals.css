@@ -315,3 +315,24 @@
   );
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.45), 0 0 14px rgba(22, 163, 74, 0.4);
 }
+
+/* KaTeX math equation styling */
+.katex {
+  font-size: 1.1em;
+}
+
+.katex-display {
+  margin: 1.5em 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Ensure math equations work in dark mode */
+.dark .katex {
+  color: rgb(229, 231, 235);
+}
+
+.dark .katex .base {
+  color: rgb(229, 231, 235);
+}

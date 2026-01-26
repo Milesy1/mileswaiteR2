@@ -1,10 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, use, useRef } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ShareButton } from '@/components/ShareButton';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 import { blogPosts } from '../../../data/blog-posts';
 
@@ -17,6 +19,7 @@ interface BlogPostPageProps {
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [post, setPost] = useState<any>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   
   // Unwrap the params Promise using React.use()
   const resolvedParams = use(params);
@@ -26,6 +29,33 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     const foundPost = blogPosts.find(p => p.slug === resolvedParams.slug);
     setPost(foundPost);
   }, [resolvedParams.slug]);
+
+  // Process content to render math equations
+  const processedContent = post ? (() => {
+    let content = post.content;
+    
+    // Replace block math \[ \]
+    content = content.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
+      try {
+        return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+      } catch (e) {
+        console.error('KaTeX block math error:', e);
+        return match;
+      }
+    });
+    
+    // Replace inline math \( \)
+    content = content.replace(/\\\(([\s\S]*?)\\\)/g, (match, formula) => {
+      try {
+        return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+      } catch (e) {
+        console.error('KaTeX inline math error:', e);
+        return match;
+      }
+    });
+    
+    return content;
+  })() : '';
 
   if (!post) {
     return (
@@ -127,11 +157,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       <section className="pb-20 lg:pb-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div
+            ref={contentRef}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-neutral-600 dark:text-neutral-300 text-base sm:text-lg leading-relaxed prose prose-neutral dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: processedContent }}
           />
         </div>
       </section>
