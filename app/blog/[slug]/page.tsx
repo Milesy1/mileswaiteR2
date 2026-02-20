@@ -18,17 +18,18 @@ interface BlogPostPageProps {
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [post, setPost] = useState<any>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   
-  // Unwrap the params Promise using React.use()
   const resolvedParams = use(params);
+  const post = blogPosts.find(p => p.slug === resolvedParams.slug);
 
   useEffect(() => {
     setIsLoaded(true);
-    const foundPost = blogPosts.find(p => p.slug === resolvedParams.slug);
-    setPost(foundPost);
-  }, [resolvedParams.slug]);
+  }, []);
+
+  if (!post) {
+    notFound();
+  }
 
   // Process content to render math equations
   const processedContent = post ? (() => {

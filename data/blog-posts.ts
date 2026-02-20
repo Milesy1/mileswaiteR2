@@ -1,6 +1,113 @@
 
 export const blogPosts = [
   {
+    slug: "software-emergent-properties",
+    title: "Software as a System with Emergent Properties",
+    excerpt: "Software systems exhibit emergent properties: behaviours that arise from the interaction of components rather than from the components themselves. This article examines how emergence manifests in distributed systems, ML, performance, security, and platforms.",
+    date: "February 2026",
+    readTime: "8 min read",
+    tags: ["Software Engineering", "Systems Theory", "Emergence", "Distributed Systems", "Complexity"],
+    content: `
+      <h1>Software as a System with Emergent Properties</h1>
+
+      <br>
+
+      <h2>Abstract</h2>
+
+      <p>Software systems exhibit emergent properties: behaviours and outcomes that arise from the interaction of components rather than from the components themselves. This article examines how emergence manifests in distributed systems, machine learning, performance, security, and socio-technical platforms, and what it implies for testing, observability, and architecture. The treatment is descriptive and objective; no normative claim is made beyond the value of recognising emergence when building and operating systems.</p>
+
+      <br>
+
+      <h2>Introduction</h2>
+
+      <p>In systems theory, <em>emergence</em> occurs when a complex system displays properties or behaviours that its parts do not possess in isolation. Those properties arise from the <em>interactions</em> between the parts, not from the parts alone. Software is a strong candidate for this description. Individual instructions are deterministic: given the same inputs and state, the same output follows. Yet the systems built from those instructions often behave in non-linear, hard-to-predict ways. The following sections outline where and how emergence appears in software, and why the distinction matters for engineering practice.</p>
+
+      <br>
+
+      <h2>1. Distributed Systems and Concurrency</h2>
+
+      <p>The most familiar technical example is concurrency and distribution.</p>
+
+      <p><strong>Components.</strong> Individual servers, microservices, or threads each execute deterministic logic: locks, timeouts, retries.</p>
+
+      <p><strong>Emergence.</strong> System-wide deadlock, race conditions, and consensus failures. No single thread is written to "deadlock the system." A deadlock emerges when many threads contend for resources under particular timing and locking policies. Similarly, in a microservices architecture, a small latency increase in one service can cause timeouts in a dependent service; retries then amplify load on a third service. A cascade failure can take down the whole system. The resilience of each service in isolation does not imply resilience of the composed system. One cannot derive this behaviour by reading any one component's code; it arises from the interaction of many components under load.</p>
+
+      <br>
+
+      <h2>2. Artificial Intelligence and Machine Learning</h2>
+
+      <p>Modern AI is often cited as a clear case of software emergence.</p>
+
+      <p><strong>Components.</strong> Artificial neurons, weights, and activation functions; optimisation and learning rules.</p>
+
+      <p><strong>Emergence.</strong> High-level capabilities such as pattern recognition or reasoning are not hand-coded. A neural network is not programmed to "recognise a cat"; it is given structure and a learning rule. The ability to classify images emerges from the interaction of very many parameters updated over time. Large language models exhibit behaviours—confident but false statements, or the ability to solve certain logic puzzles—that were not explicitly programmed. Those behaviours emerge from scale and data, not from discrete instructions in the codebase. Whether one calls this "true" reasoning or "pattern completion" is a separate question; the point here is that the observable behaviour is emergent relative to the low-level operations.</p>
+
+      <br>
+
+      <h2>3. Performance and Scalability</h2>
+
+      <p>Performance is rarely a linear function of load or component count.</p>
+
+      <p><strong>Components.</strong> Database queries, API calls, network packets, caches, garbage collectors.</p>
+
+      <p><strong>Emergence.</strong> A query may take a few milliseconds in isolation. Under load, lock contention, cache eviction, and GC pauses interact so that the same query can take seconds. "Thundering herd" behaviour—many clients waking and hammering a resource at once—emerges from the combination of timeouts, retries, and shared resources. Such behaviour is not visible from reading the code; it appears only under specific load and environmental conditions. Latency distributions (e.g. long tails) are often emergent properties of the whole system rather than of any single component.</p>
+
+      <br>
+
+      <h2>4. Security Vulnerabilities</h2>
+
+      <p>Security is frequently an emergent property of how components are wired together.</p>
+
+      <p><strong>Components.</strong> Libraries, APIs, authentication and authorisation modules, data flows.</p>
+
+      <p><strong>Emergence.</strong> A component may be correct in isolation; another may be correct in isolation. When one passes unsanitised data to the other in a particular context, a vulnerability (e.g. SQL injection or XSS) can emerge. The vulnerability is a property of the <em>integration</em>, not of either component alone. Supply-chain risk is another example: the security posture of a product depends on the trust and integrity of the entire dependency graph, not only the application code. One does not "program" a supply-chain attack; it emerges from the structure of the ecosystem and the behaviour of its participants.</p>
+
+      <br>
+
+      <h2>5. Socio-Technical Systems and Platforms</h2>
+
+      <p>When software mediates between many humans and algorithms, emergence takes on social and economic forms.</p>
+
+      <p><strong>Components.</strong> Users, recommendation or matching algorithms, content, incentives.</p>
+
+      <p><strong>Emergence.</strong> Platform code does not literally contain "revolution" or "misinformation campaign." Those outcomes emerge from how algorithms, human behaviour, and network structure interact. In financial markets, high-frequency trading systems composed of many independent strategies can produce "flash crashes." No single strategy need be written to crash the market; the crash is an emergent outcome of their collective behaviour under certain conditions. The same architectural pattern—many agents reacting to shared signals—can yield either stability or instability depending on parameters and context.</p>
+
+      <br>
+
+      <h2>Implications for Engineering</h2>
+
+      <p>Recognising that software systems exhibit emergent properties has practical consequences.</p>
+
+      <p><strong>Testing.</strong> Unit tests verify components in isolation. They do not verify system-wide behaviour. Emergent failures (deadlocks, cascades, latency spikes) often require integration tests, load tests, and chaos engineering—deliberately stressing or breaking parts of the system to see what emerges. One cannot exhaustively test for emergence; one can only probe and observe.</p>
+
+      <p><strong>Observability.</strong> If not all system states can be predicted from the code, then the system must be observable at runtime. Logging, tracing, and metrics are not merely conveniences; they are how one inspects emergent state after the fact. The goal is to make emergent behaviour <em>visible</em> so that it can be diagnosed and, where necessary, contained or redesigned.</p>
+
+      <p><strong>Architecture.</strong> Tight coupling tends to propagate emergent failures across boundaries. Loose coupling and isolation (e.g. bulkheads, failure domains) can contain damage and make emergent negative behaviours easier to reason about. This does not eliminate emergence; it shapes where and how it manifests.</p>
+
+      <br>
+
+      <h2>Determinism and Complexity</h2>
+
+      <p>A useful distinction is between <em>determinism</em> at the level of code and <em>complexity</em> at the level of the system.</p>
+
+      <p>At the instruction level, software is deterministic: same program, same inputs, same state yield the same output. At the system level, once concurrency, distribution, hardware variance, and human users are included, the system often meets the criteria for <em>complexity</em> in the sense used in complexity science: non-linear, sensitive to initial conditions, and capable of novel, system-level behaviour. The most surprising bugs and capabilities are frequently emergent—they arise from the interaction of many simple rules at scale, not from a single local error.</p>
+
+      <br>
+
+      <h2>Conclusion</h2>
+
+      <p>Software can be treated as a dynamic system whose components follow local, deterministic rules. Many of the behaviours that matter most—reliability under load, security in integration, the capabilities of large models, the dynamics of platforms—are emergent. They are not fully deducible from the code alone. Acknowledging this does not resolve how to build better systems, but it does clarify why unit testing and code review are insufficient, why observability and resilience design matter, and why one should expect the unexpected when software is deployed at scale.</p>
+
+      <br>
+
+      <hr>
+
+      <br>
+
+      <p><em><strong>Author note.</strong> This article is descriptive. It does not argue that emergence is good or bad; it argues that software exhibits it, and that the fact is relevant for engineering practice.</em></p>
+    `,
+  },
+  {
     slug: "cross-entropy-prompt-engineering-rag",
     title: "Shannon's Entropy: Using Cross Entropy to Measure Prompt Consistency in Production RAG Systems",
     excerpt: "Applying information-theoretic measures to evaluate prompt consistency in production RAG systems without requiring ground truth labels.",
