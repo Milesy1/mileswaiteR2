@@ -31,8 +31,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  // Process content to render math equations
-  const processedContent = post ? (() => {
+  // Process content to render math equations (post is defined here)
+  const processedContent = (() => {
     let content = post.content;
     
     // Replace block math \[ \]
@@ -56,18 +56,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     });
     
     return content;
-  })() : '';
-
-  if (!post) {
-    return (
-      <div className="pt-16 lg:pt-20 p-8">
-        <h1>Debug: Post not found</h1>
-        <p>Looking for slug: {resolvedParams.slug}</p>
-        <p>Available posts: {blogPosts.length}</p>
-        <p>Post found: {post ? 'Yes' : 'No'}</p>
-      </div>
-    );
-  }
+  })();
 
   return (
     <motion.div 
