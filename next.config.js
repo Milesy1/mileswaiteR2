@@ -6,14 +6,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    // If you see __webpack_modules__[moduleId] is not a function, set this to [] and rebuild
     optimizePackageImports: ['framer-motion', '@react-three/fiber', 'three'],
-  },
-  // Ensure webpack chunk loading order (can help with __webpack_modules__ runtime errors)
-  webpack: (config, { isServer }) => {
-    config.optimization = config.optimization || {};
-    config.optimization.moduleIds = 'deterministic';
-    return config;
   },
   // Performance optimizations
   compress: true,
